@@ -2,18 +2,13 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 const Layout = ({ children }) => {
   return (
-    <div>
+    <div className="wrapper">
       {/* Navbar */}
       <nav className="main-header navbar navbar-expand navbar-indigo navbar-dark text-white">
         <ul className="navbar-nav">
-          <li className="nav-item">
-            <a
-              className="nav-link"
-              data-widget="pushmenu"
-              href="/"
-              role="button"
-            >
-              <i className="fas fa-bars" />
+          <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+              <i class="fas fa-bars"></i>
             </a>
           </li>
           <li className="nav-item d-none d-sm-inline-block">
@@ -24,14 +19,13 @@ const Layout = ({ children }) => {
         </ul>
         <ul className="navbar-nav ml-auto">
           <li className="nav-item">
-            <a
+            <span
               className="nav-link"
               data-widget="navbar-search"
-              href="/"
               role="button"
             >
               <i className="fas fa-search" />
-            </a>
+            </span>
             <div className="navbar-search-block">
               <form className="form-inline">
                 <div className="input-group input-group-sm">
@@ -61,7 +55,7 @@ const Layout = ({ children }) => {
             <a
               className="nav-link"
               data-widget="fullscreen"
-              href="/"
+              href="#"
               role="button"
             >
               <i className="fas fa-expand-arrows-alt" />
@@ -70,7 +64,7 @@ const Layout = ({ children }) => {
           <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
-              href="/"
+              href="#"
               id="navbarDropdown"
               role="button"
               data-toggle="dropdown"
@@ -125,12 +119,12 @@ const Layout = ({ children }) => {
               </li>
               <li className="nav-item mb-2">
                 <NavLink
-                  to="/admin/users"
+                  to="/admin/customers"
                   className="nav-link "
                   activeClassName="active"
                 >
                   <i className="nav-icon mr-3 fas fa-users" />
-                  <p>Users</p>
+                  <p>Customers</p>
                 </NavLink>
               </li>
               <li className="nav-item mb-2">
@@ -199,24 +193,22 @@ const Layout = ({ children }) => {
       </aside>
       {/* Content */}
       <div className="content-wrapper">
-        {/* <div className="content-header"></div> */}
-        <section className="content py-5 px-4">
+        <section className="content py-5 px-2">
           <div className="container-fluid">{children}</div>
         </section>
       </div>
       {/* Footer */}
-    <footer className="main-footer bg-navy">
-    <strong>
-        Copyright © 2014-2021
-        <a href="/">Rise-n-Shine</a>.
-    </strong>
-    All rights reserved.
-    <div className="float-right d-none d-sm-inline-block">
-        <b>Version</b> 3.2.0
+      <footer className="main-footer bg-navy">
+        <strong>
+          Copyright © 2014-2021
+          <a href="/">Rise-n-Shine</a>.
+        </strong>
+        All rights reserved.
+        <div className="float-right d-none d-sm-inline-block">
+          <b>Version</b> 3.2.0
+        </div>
+      </footer>
     </div>
-</footer>
-    </div>
-    
   );
 };
 

@@ -1,7 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./layout/Layout";
 import Dashboard from "./Dashboard";
+import CustomerIndex from "./customers/CustomerIndex";
+import CustomerCreate from "./customers/CustomerCreate";
 // import "./css/adminlte.min.css";
 // import "./all.min.css";
 // import "./js/adminlte.min.js";
@@ -9,17 +11,19 @@ import Dashboard from "./Dashboard";
 // import "jquery.min.js";
 
 const Admin = () => {
+  const [fullLoading, setFullLoading] = useState(false);
   useEffect(() => {
+    setFullLoading(true);
     //   adminlte.min.css
     const adminltemincss = document.createElement("link");
     adminltemincss.href = "/adminlte/css/adminlte.min.css";
     adminltemincss.rel = "stylesheet";
     document.head.appendChild(adminltemincss);
     // all.min.css
-    const allmincss = document.createElement("link");
-    allmincss.href = "/adminlte/css/all.min.css";
-    allmincss.rel = "stylesheet";
-    document.head.appendChild(allmincss);
+    // const allmincss = document.createElement("link");
+    // allmincss.href = "/adminlte/css/all.min.css";
+    // allmincss.rel = "stylesheet";
+    // document.head.appendChild(allmincss);
     // jquery.min.js
     const jqueryminjs = document.createElement("script");
     jqueryminjs.src = "/adminlte/js/jquery.min.js";
@@ -40,15 +44,22 @@ const Admin = () => {
       "layout-fixed",
       "layout-navbar-fixed"
     );
+    setFullLoading(false);
   }, []);
 
   return (
     <>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-        </Routes>
-      </Layout>
+      {fullLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/customers" element={<CustomerIndex />} />
+            <Route path="/customers/create" element={<CustomerCreate />} />
+          </Routes>
+        </Layout>
+      )}
     </>
   );
 };
