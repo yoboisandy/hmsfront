@@ -4,6 +4,8 @@ import Layout from "./layout/Layout";
 import Dashboard from "./Dashboard";
 import CustomerIndex from "./customers/CustomerIndex";
 import CustomerCreate from "./customers/CustomerCreate";
+import RoomIndex from "./rooms/RoomIndex";
+import RoomCreate from "./rooms/RoomCreate";
 // import "./css/adminlte.min.css";
 // import "./all.min.css";
 // import "./js/adminlte.min.js";
@@ -57,6 +59,8 @@ const Admin = () => {
             <Route path="/" element={<Dashboard />} />
             <Route path="/customers" element={<CustomerIndex />} />
             <Route path="/customers/create" element={<CustomerCreate />} />
+            <Route path="/rooms" element={<RoomIndex />} />
+            <Route path="/rooms" element={<RoomCreate />} />
           </Routes>
         </Layout>
       )}
