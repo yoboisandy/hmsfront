@@ -75,10 +75,10 @@ const RoomIndex = () => {
                         <td>{room.roomtype.type_name}</td>
                         
                         <td className="d-flex justify-content-center">
-                          <Link to="/" className="btn-sm bg-success mr-1">
+                          <Link to={`/admin/rooms/${room.id}`} className="btn-sm bg-success mr-1">
                             <i className="fa fa-eye"> </i>
                           </Link>
-                          <Link to="/rooms/edit" className="btn-sm bg-teal mr-1">
+                          <Link to={`/admin/rooms/edit/${room.id}`} className="btn-sm bg-teal mr-1">
                             <i className=" fas fa-edit"> </i>
                           </Link>
                           <Link to="/" className="btn-sm bg-danger mr-1">
