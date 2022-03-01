@@ -78,7 +78,7 @@ const RoomIndex = () => {
                           <Link to="/" className="btn-sm bg-success mr-1">
                             <i className="fa fa-eye"> </i>
                           </Link>
-                          <Link to="/rooms" className="btn-sm bg-teal mr-1">
+                          <Link to="/rooms/edit" className="btn-sm bg-teal mr-1">
                             <i className=" fas fa-edit"> </i>
                           </Link>
                           <Link to="/" className="btn-sm bg-danger mr-1">

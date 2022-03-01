@@ -6,9 +6,14 @@ const Layout = ({ children }) => {
       {/* Navbar */}
       <nav className="main-header navbar navbar-expand navbar-indigo navbar-dark text-white">
         <ul className="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" data-widget="pushmenu" href="#" role="button">
-              <i class="fas fa-bars"></i>
+          <li className="nav-item">
+            <a
+              className="nav-link"
+              data-widget="pushmenu"
+              href="#"
+              role="button"
+            >
+              <i className="fas fa-bars"></i>
             </a>
           </li>
           <li className="nav-item d-none d-sm-inline-block">
@@ -61,9 +66,9 @@ const Layout = ({ children }) => {
               <i className="fas fa-expand-arrows-alt" />
             </a>
           </li>
-          <li class="nav-item dropdown">
+          <li className="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle"
+              className="nav-link dropdown-toggle"
               href="#"
               id="navbarDropdown"
               role="button"
@@ -74,13 +79,13 @@ const Layout = ({ children }) => {
               {/* {user.name} */}
               sandeep
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="/">
-                <i class="nav-icon mr-2 fas fa-user-alt"></i>
+            <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a className="dropdown-item" href="/">
+                <i className="nav-icon mr-2 fas fa-user-alt"></i>
                 Profile
               </a>
-              <a class="dropdown-item" href="/">
-                <i class="fas fa-power-off mr-2"></i>
+              <a className="dropdown-item" href="/">
+                <i className="fas fa-power-off mr-2"></i>
                 Logout
               </a>
             </div>
