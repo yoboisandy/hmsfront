@@ -1,11 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import axios from "axios";
 const CustomerIndex = () => {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(false);
-  useEffect(async () => {
+
+  const fetchCustomers = async () => {
     setLoading(true);
     await axios
       .get("http://localhost:8000/api/customers")
@@ -17,7 +19,43 @@ const CustomerIndex = () => {
         console.log(err.response.data.msg);
       });
     setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchCustomers();
   }, []);
+
+  const handleDelete = async (id) => {
+    const isConfirmed = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((res) => {
+      return res.isConfirmed;
+    });
+
+    if (isConfirmed) {
+      await axios
+        .delete(`http://localhost:8000/api/customers/${id}`)
+        .then((res) => {
+          Swal.fire({
+            icon: "success",
+            text: res.data.message,
+          });
+          fetchCustomers();
+        })
+        .catch((err) => {
+          Swal.fire({
+            text: err.response.data.message,
+            icon: "error",
+          });
+        });
+    }
+  };
 
   return (
     <div>
@@ -74,15 +112,24 @@ const CustomerIndex = () => {
                         <td>{customer.address}</td>
                         <td>{customer.citizenship_number}</td>
                         <td className="d-flex justify-content-center">
-                          <Link to="/" className="btn-sm bg-success mr-1">
+                          <Link
+                            to={`/admin/customers/${customer.id}`}
+                            className="btn-sm bg-success mr-1"
+                          >
                             <i className="fa fa-eye"> </i>
                           </Link>
-                          <Link to="/" className="btn-sm bg-teal mr-1">
+                          <Link
+                            to={`/admin/customers/edit/${customer.id}`}
+                            className="btn-sm bg-teal mr-1"
+                          >
                             <i className=" fas fa-edit"> </i>
                           </Link>
-                          <Link to="/" className="btn-sm bg-danger mr-1">
+                          <span
+                            onClick={() => handleDelete(customer.id)}
+                            className="btn-sm bg-danger mr-1"
+                          >
                             <i className="fas fa-trash-alt"> </i>
-                          </Link>
+                          </span>
                         </td>
                       </tr>
                     );
