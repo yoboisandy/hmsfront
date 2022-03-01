@@ -134,7 +134,7 @@ const Layout = ({ children }) => {
               </li>
               <li className="nav-item mb-2">
                 <NavLink
-                  to="/admin/categories"
+                  to="/admin/employees"
                   className="nav-link "
                   activeClassName="active"
                 >
@@ -142,16 +142,7 @@ const Layout = ({ children }) => {
                   <p>Employees</p>
                 </NavLink>
               </li>
-              <li className="nav-item mb-2">
-                <NavLink
-                  to="/admin/employees"
-                  className="nav-link "
-                  activeClassName="active"
-                >
-                  <i className="nav-icon mr-3 fas fa-list" />
-                  <p>Employees</p>
-                </NavLink>
-              </li>
+
               <li className="nav-item mb-2">
                 <NavLink
                   to="/admin/guests"
