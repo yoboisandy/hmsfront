@@ -6,6 +6,8 @@ import CustomerIndex from "./customers/CustomerIndex";
 import CustomerCreate from "./customers/CustomerCreate";
 import CustomerEdit from "./customers/CustomerEdit";
 import CustomerShow from "./customers/CustomerShow";
+import EmployeeCreate from "./employees/EmployeeCreate";
+import EmployeeIndex from "./employees/EmployeeIndex";
 // import "./css/adminlte.min.css";
 // import "./all.min.css";
 // import "./js/adminlte.min.js";
@@ -68,6 +70,12 @@ const Admin = () => {
               element={<CustomerEdit />}
             />
             <Route exact path="/customers/:id" element={<CustomerShow />} />
+            <Route
+              exact
+              path="/employees/create"
+              element={<EmployeeCreate />}
+            />
+            <Route exact path="/employees" element={<EmployeeIndex />} />
           </Routes>
         </Layout>
       )}
