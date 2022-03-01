@@ -27,6 +27,12 @@ const CustomerShow = () => {
           <div className="card-title text-lg">Customer Detail</div>
 
           <div className="card-tools">
+            <Link
+              to={`/admin/customers/edit/${id}`}
+              className="btn-sm bg-teal mr-1"
+            >
+              <i className=" fas fa-edit mr-1"></i>Edit
+            </Link>
             <Link to="/admin/customers" className="btn-sm bg-indigo">
               <i className="fa fa-arrow-left mr-1" aria-hidden="true"></i> Go
               back
@@ -49,29 +55,29 @@ const CustomerShow = () => {
               ) : (
                 <>
                   <tr>
-                    <td>ID</td>
+                    <th>ID</th>
                     <td>{customerData.id}</td>
                   </tr>
                   <tr>
-                    <td>Name</td>
+                    <th>Name</th>
                     <td>
                       {customerData.firstname + " " + customerData.lastname}
                     </td>
                   </tr>
                   <tr>
-                    <td>Email</td>
+                    <th>Email</th>
                     <td>{customerData.email}</td>
                   </tr>
                   <tr>
-                    <td>Phone</td>
+                    <th>Phone</th>
                     <td>{customerData.phone}</td>
                   </tr>
                   <tr>
-                    <td>Address</td>
+                    <th>Address</th>
                     <td>{customerData.address}</td>
                   </tr>
                   <tr>
-                    <td>Citizenship Number</td>
+                    <th>Citizenship Number</th>
                     <td>{customerData.citizenship_number}</td>
                   </tr>
                 </>
