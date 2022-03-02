@@ -12,6 +12,11 @@ import RoomEdit from "./rooms/RoomEdit";
 import RoomShow from "./rooms/RoomShow";
 import EmployeeCreate from "./employees/EmployeeCreate";
 import EmployeeIndex from "./employees/EmployeeIndex";
+
+import ShiftIndex from "./shifts/ShiftIndex";
+import ShiftCreate from "./shifts/ShiftCreate";
+import ShiftEdit from "./shifts/ShiftEdit";
+import ShiftShow from "./shifts/ShiftShow";
 // import "./css/adminlte.min.css";
 // import "./all.min.css";
 // import "./js/adminlte.min.js";
@@ -87,6 +92,11 @@ const Admin = () => {
               element={<EmployeeCreate />}
             />
             <Route exact path="/employees" element={<EmployeeIndex />} />
+
+            <Route path="/shifts" element={<ShiftIndex />} />
+            <Route path="/shifts/create" element={<ShiftCreate />} />
+            <Route exact path="/shifts/edit/:id" element={<ShiftEdit />} />
+            <Route exact path="/shifts/:id" element={<ShiftShow />} />
           </Routes>
         </Layout>
       )}
