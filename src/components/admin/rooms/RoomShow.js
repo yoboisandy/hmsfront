@@ -54,10 +54,7 @@ const RoomShow = () => {
                 </tr>
               ) : (
                 <>
-                  <tr>
-                    <th>ID</th>
-                    <td>{roomData.id}</td>
-                  </tr>
+                  
                   <tr>
                     <th>Room Number</th>
                     <td>
