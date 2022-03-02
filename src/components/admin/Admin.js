@@ -10,6 +10,8 @@ import RoomIndex from "./rooms/RoomIndex";
 import RoomCreate from "./rooms/RoomCreate";
 import RoomEdit from "./rooms/RoomEdit";
 import RoomShow from "./rooms/RoomShow";
+import EmployeeCreate from "./employees/EmployeeCreate";
+import EmployeeIndex from "./employees/EmployeeIndex";
 // import "./css/adminlte.min.css";
 // import "./all.min.css";
 // import "./js/adminlte.min.js";
@@ -76,9 +78,15 @@ const Admin = () => {
             <Route exact path="/customers/:id" element={<CustomerShow />} />
 
             <Route path="/rooms" element={<RoomIndex />} />
-            <Route path="/rooms" element={<RoomCreate />} />
+            <Route path="/rooms/create" element={<RoomCreate />} />
             <Route exact path="/rooms/edit/:id" element={<RoomEdit />} />
             <Route exact path="/rooms/:id" element={<RoomShow />} />
+            <Route
+              exact
+              path="/employees/create"
+              element={<EmployeeCreate />}
+            />
+            <Route exact path="/employees" element={<EmployeeIndex />} />
           </Routes>
         </Layout>
       )}

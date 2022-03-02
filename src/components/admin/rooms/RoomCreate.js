@@ -1,22 +1,56 @@
-import axios from "axios";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const RoomCreate = () => {
   const [validationErr, setValidationErr] = useState({});
   const navigate = useNavigate();
-  const [roomData, setRoomData] = useState({});
+  const [roomData, setroomData] = useState({});
   const [loading, setLoading] = useState(false);
+  const [rooms, setRooms] = useState([]);
+  const [roomtypes, setRoomTypes] = useState([]);
+  const [floors, setFloors] = useState([]);
+
   const handleInputChange = (e) => {
-    setRoomData({ ...roomData, [e.target.name]: e.target.value });
+    setroomData({ ...roomData, [e.target.name]: e.target.value });
     console.log(roomData);
   };
+
+  const getFloors = async () => {
+    await axios.get("http://localhost:8000/api/floors").then((res) => {
+      setFloors(res.data);
+    });
+  };
+  const getRoomTypes = async () => {
+    await axios.get("http://localhost:8000/api/roomtypes").then((res) => {
+      setRoomTypes(res.data);
+    });
+  };
+  
+
+  useEffect(() => {
+    getFloors();
+    getRoomTypes();
+  }, []);
+
+  
+
   const saveRoom = async (e) => {
     e.preventDefault();
+
     setLoading(true);
+    const fd = new FormData();
+    fd.append("room_no", roomData.room_no);
+    fd.append("floor_id", roomData.floor_id);
+    fd.append("capacity", roomData.capacity);
+    fd.append("price", roomData.price);
+    fd.append("description", roomData.description);
+    fd.append("roomtype_id", roomData.roomtype_id);
+    
     await axios
-      .post("http://localhost:8000/api/rooms", roomData)
+      .post("http://localhost:8000/api/rooms", fd)
       .then((res) => {
         Swal.fire({
           position: "center",
@@ -49,23 +83,58 @@ const RoomCreate = () => {
             </div>
             <div className="card-body ">
               <form onSubmit={saveRoom} method="post">
-                <div className="form-group">
-                  <label htmlFor="firstname">Room Number</label>
+              <div className="form-group">
+                  <label htmlFor="room_no">Room Number</label>
                   <input
                     onChange={handleInputChange}
-                    value={customerData.name}
-                    name="firstname"
+                    value={roomData.room_no}
+                    name="room_no"
                     type="text"
                     className={`form-control ${
-                      validationErr.firstname ? "is-invalid" : ""
+                      validationErr.room_no ? "is-invalid" : ""
                     }`}
-                    id="firstname"
-                    placeholder="Enter First Name"
+                    id="room_no"
+                    placeholder="Enter Room Number"
                   />
-                  {validationErr.firstname ? (
+                  {validationErr.room_no ? (
                     <>
                       <span className="text-danger form-text">
-                        {validationErr.firstname}
+                        {validationErr.room_no}
+                      </span>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              <div className="form-group">
+                  <label htmlFor="floor_id">Floor Number</label>
+                  <select
+                    className={`form-control ${
+                      validationErr.floor_id ? "is-invalid" : ""
+                    }`}
+                    onChange={handleInputChange}
+                    value={roomData.floor_id}
+                    name="floor_id"
+                    id="floor_id"
+                  >
+                    <option disabled selected>
+                      Select Floor Number
+                    </option>
+                    {floors.map((floor) => {
+                      return (
+                        <option
+                          selected={roomData.floor_id == floor.id}
+                          value={floor.id}
+                        >
+                          {floor.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  {validationErr.floor_id ? (
+                    <>
+                      <span className="text-danger form-text">
+                        {validationErr.floor_id}
                       </span>
                     </>
                   ) : (
@@ -73,22 +142,22 @@ const RoomCreate = () => {
                   )}
                 </div>
                 <div className="form-group">
-                  <label htmlFor="lastname">Last Name</label>
+                  <label htmlFor="capacity">Capacity</label>
                   <input
                     onChange={handleInputChange}
-                    value={customerData.lastname}
-                    name="lastname"
+                    value={roomData.capacity}
+                    name="capacity"
                     type="text"
                     className={`form-control ${
-                      validationErr.lastname ? "is-invalid" : ""
+                      validationErr.capacity ? "is-invalid" : ""
                     }`}
-                    id="lastname"
-                    placeholder="Enter Name"
+                    id="capacity"
+                    placeholder="Enter Room Capacity"
                   />
-                  {validationErr.lastname ? (
+                  {validationErr.capacity ? (
                     <>
                       <span className="text-danger form-text">
-                        {validationErr.lastname}
+                        {validationErr.capacity}
                       </span>
                     </>
                   ) : (
@@ -96,22 +165,22 @@ const RoomCreate = () => {
                   )}
                 </div>
                 <div className="form-group">
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="price">Price</label>
                   <input
                     onChange={handleInputChange}
-                    value={customerData.email}
-                    name="email"
+                    value={roomData.price}
+                    name="price"
                     type="text"
                     className={`form-control ${
-                      validationErr.email ? "is-invalid" : ""
+                      validationErr.price ? "is-invalid" : ""
                     }`}
-                    id="email"
-                    placeholder="Enter Name"
+                    id="price"
+                    placeholder="Enter Room Price"
                   />
-                  {validationErr.email ? (
+                  {validationErr.price ? (
                     <>
                       <span className="text-danger form-text">
-                        {validationErr.email}
+                        {validationErr.price}
                       </span>
                     </>
                   ) : (
@@ -119,100 +188,67 @@ const RoomCreate = () => {
                   )}
                 </div>
                 <div className="form-group">
-                  <label htmlFor="address">Address</label>
+                  <label htmlFor="description">Description</label>
                   <input
                     onChange={handleInputChange}
-                    value={customerData.address}
-                    name="address"
+                    value={roomData.description}
+                    name="description"
                     type="text"
                     className={`form-control ${
-                      validationErr.address ? "is-invalid" : ""
+                      validationErr.description ? "is-invalid" : ""
                     }`}
-                    id="address"
-                    placeholder="Enter Address"
+                    id="description"
+                    placeholder="Enter Description Number"
                   />
-                  {validationErr.address ? (
+                  {validationErr.description ? (
                     <>
                       <span className="text-danger form-text">
-                        {validationErr.address}
+                        {validationErr.description}
                       </span>
                     </>
                   ) : (
                     ""
                   )}
-                </div>
-                <div className="form-group">
-                  <label htmlFor="phone">Phone</label>
-                  <input
-                    onChange={handleInputChange}
-                    value={customerData.phone}
-                    name="phone"
-                    type="text"
+               </div>
+                 <div className="form-group">
+                  <label htmlFor="roomtype_id">Room Type</label>
+                  <select
                     className={`form-control ${
-                      validationErr.phone ? "is-invalid" : ""
+                      validationErr.roomtype_id ? "is-invalid" : ""
                     }`}
-                    id="phone"
-                    placeholder="Enter Phone Number"
-                  />
-                  {validationErr.phone ? (
-                    <>
-                      <span className="text-danger form-text">
-                        {validationErr.phone}
-                      </span>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div className="form-group">
-                  <label htmlFor="citizenship_number">Citizenship Number</label>
-                  <input
                     onChange={handleInputChange}
-                    value={customerData.citizenship_number}
-                    name="citizenship_number"
-                    type="text"
-                    className={`form-control ${
-                      validationErr.citizenship_number ? "is-invalid" : ""
-                    }`}
-                    id="citizenship_number"
-                    placeholder="Enter Citizenship Number"
-                  />
-                  {validationErr.citizenship_number ? (
+                    value={roomData.roomtype_id}
+                    name="roomtype_id"
+                    id="roomtype_id"
+                  >
+                    <option disabled selected>
+                      Select Room Type
+                    </option>
+                    {roomtypes.map((roomtype) => {
+                      return (
+                        <option
+                          selected={roomData.roomtype_id == roomtype.id}
+                          value={roomtype.id}
+                        >
+                          {roomtype.type_name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  {validationErr.rooomtype_id ? (
                     <>
                       <span className="text-danger form-text">
-                        {validationErr.citizenship_number}
+                        {validationErr.roomtype_id}
                       </span>
                     </>
                   ) : (
                     ""
                   )}
-                </div>
-                <div className="form-group">
-                  <label htmlFor="password">Password</label>
-                  <input
-                    onChange={handleInputChange}
-                    value={customerData.password}
-                    name="password"
-                    type="password"
-                    className={`form-control ${
-                      validationErr.password ? "is-invalid" : ""
-                    }`}
-                    id="password"
-                    placeholder="Enter Password"
-                  />
-                  {validationErr.password ? (
-                    <>
-                      <span className="text-danger form-text">
-                        {validationErr.password}
-                      </span>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </div>
+                </div> 
+                
                 <div className="form-group my-2">
                   <button
-                    onClick={saveCustomer}
+                    onClick={saveRoom}
                     type="submit"
                     className="btn bg-indigo"
                   >
