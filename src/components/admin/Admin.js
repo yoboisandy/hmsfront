@@ -17,6 +17,16 @@ import ShiftIndex from "./shifts/ShiftIndex";
 import ShiftCreate from "./shifts/ShiftCreate";
 import ShiftEdit from "./shifts/ShiftEdit";
 import ShiftShow from "./shifts/ShiftShow";
+
+import RoleIndex from "./roles/RoleIndex";
+import RoleCreate from "./roles/RoleCreate";
+import RoleEdit from "./roles/RoleEdit";
+import RoleShow from "./roles/RoleShow";
+
+import DepartmentIndex from "./departments/DepartmentIndex";
+import DepartmentCreate from "./departments/DepartmentCreate";
+import DepartmentEdit from "./departments/DepartmentEdit";
+import DepartmentShow from "./departments/DepartmentShow";
 // import "./css/adminlte.min.css";
 // import "./all.min.css";
 // import "./js/adminlte.min.js";
@@ -96,7 +106,17 @@ const Admin = () => {
             <Route path="/shifts" element={<ShiftIndex />} />
             <Route path="/shifts/create" element={<ShiftCreate />} />
             <Route exact path="/shifts/edit/:id" element={<ShiftEdit />} />
-            <Route exact path="/shifts/:id" element={<ShiftShow />} />
+            <Route exact path="/shifts/:id" element={<ShiftShow />} />\
+
+            <Route path="/roles" element={<RoleIndex />} />
+            <Route path="/roles/create" element={<RoleCreate />} />
+            <Route exact path="/roles/edit/:id" element={<RoleEdit />} />
+            <Route exact path="/roles/:id" element={<RoleShow />} />
+
+            <Route path="/departments" element={<DepartmentIndex />} />
+            <Route path="/departments/create" element={<DepartmentCreate />} />
+            <Route exact path="/departments/edit/:id" element={<DepartmentEdit />} />
+            <Route exact path="/departments/:id" element={<DepartmentShow />} />
           </Routes>
         </Layout>
       )}

@@ -4,16 +4,16 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 import axios from "axios";
-const ShiftIndex = () => {
-  const [shifts, setShifts] = useState([]);
+const DepartmentIndex = () => {
+  const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchShifts = async () => {
+  const fetchDepartments = async () => {
     setLoading(true);
     await axios
-      .get("http://localhost:8000/api/shifts")
+      .get("http://localhost:8000/api/departments")
       .then((res) => {
-        setShifts(res.data);
+        setDepartments(res.data);
         console.log(res.data);
       })
       .catch((err) => {
@@ -23,7 +23,7 @@ const ShiftIndex = () => {
   };
 
   useEffect(() => {
-    fetchShifts();
+    fetchDepartments();
   }, []);
 
   const handleDelete = async (id) => {
@@ -41,13 +41,13 @@ const ShiftIndex = () => {
 
     if (isConfirmed) {
       await axios
-        .delete(`http://localhost:8000/api/shifts/${id}`)
+        .delete(`http://localhost:8000/api/departments/${id}`)
         .then((res) => {
           Swal.fire({
             icon: "success",
             text: res.data.message,
           });
-          fetchShifts();
+          fetchDepartments();
         })
         .catch((err) => {
           Swal.fire({
@@ -64,9 +64,9 @@ const ShiftIndex = () => {
         <div className="col-12">
           <div className="card">
             <div className="card-header">
-              <div className="card-title text-lg">Shifts</div>
+              <div className="card-title text-lg">Departments</div>
               <div className="card-tools">
-                <Link to="/admin/shifts/create" className="btn-sm bg-indigo">
+                <Link to="/admin/departments/create" className="btn-sm bg-indigo">
                   <i className="fas fa-plus-circle mr-1"></i> Add New
                 </Link>
               </div>
@@ -97,26 +97,26 @@ const ShiftIndex = () => {
                   ) : (
                     ""
                   )}
-                  {shifts.map((shift, index) => {
+                  {departments.map((department, index) => {
                     return (
                       <tr>
                         <td>{index + 1}</td>
-                        <td>{shift.name}</td>
+                        <td>{department.name}</td>
                         <td className="d-flex justify-content-center">
                           <Link
-                            to={`/admin/shifts/${shift.id}`}
+                            to={`/admin/departments/${department.id}`}
                             className="btn-sm bg-success mr-1"
                           >
                             <i className="fa fa-eye"> </i>
                           </Link>
                           <Link
-                            to={`/admin/shifts/edit/${shift.id}`}
+                            to={`/admin/departments/edit/${department.id}`}
                             className="btn-sm bg-teal mr-1"
                           >
                             <i className=" fas fa-edit"> </i>
                           </Link>
                           <span
-                            onClick={() => handleDelete(shift.id)}
+                            onClick={() => handleDelete(department.id)}
                             className="btn-sm bg-danger mr-1"
                           >
                             <i className="fas fa-trash-alt"> </i>
@@ -135,7 +135,7 @@ const ShiftIndex = () => {
   );
 };
 
-export default ShiftIndex;
+export default DepartmentIndex;
 
 
 

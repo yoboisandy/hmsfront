@@ -4,30 +4,30 @@ import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
 
-const ShiftCreate = () => {
+const RoleCreate = () => {
   const [validationErr, setValidationErr] = useState({});
   const navigate = useNavigate();
-  const [shiftData, setshiftData] = useState({});
+  const [roleData, setroleData] = useState({});
   const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
-    setshiftData({ ...shiftData, [e.target.name]: e.target.value });
-    console.log(shiftData);
+    setroleData({ ...roleData, [e.target.name]: e.target.value });
+    console.log(roleData);
   };
 
   
 
   
 
-  const saveShift = async (e) => {
+  const saveRole = async (e) => {
     e.preventDefault();
 
     setLoading(true);
     const fd = new FormData();
-    fd.append("name", shiftData.name);
+    fd.append("name", roleData.name);
     
     await axios
-      .post("http://localhost:8000/api/shifts", fd)
+      .post("http://localhost:8000/api/roles", fd)
       .then((res) => {
         Swal.fire({
           position: "center",
@@ -36,7 +36,7 @@ const ShiftCreate = () => {
           showConfirmButton: false,
           timer: 2000,
         });
-        navigate("/admin/shifts");
+        navigate("/admin/roles");
       })
       .catch((err) => {
         setValidationErr(err.response.data.errors);
@@ -50,28 +50,28 @@ const ShiftCreate = () => {
         <div className="col-12">
           <div className="card">
             <div className="card-header">
-              <div className="card-title text-lg">Add Shift</div>
+              <div className="card-title text-lg">Add Role</div>
               <div className="card-tools">
-                <Link to="/admin/shifts" className="btn-sm bg-indigo">
+                <Link to="/admin/roles" className="btn-sm bg-indigo">
                   <i className="fa fa-arrow-left mr-1" aria-hidden="true"></i>{" "}
                   Go back
                 </Link>
               </div>
             </div>
             <div className="card-body ">
-              <form onSubmit={saveShift} method="post">
+              <form onSubmit={saveRole} method="post">
               <div className="form-group">
-                  <label htmlFor="name">Shift Name</label>
+                  <label htmlFor="name">Role Name</label>
                   <input
                     onChange={handleInputChange}
-                    value={shiftData.name}
+                    value={roleData.name}
                     name="name"
                     type="text"
                     className={`form-control ${
                       validationErr.name ? "is-invalid" : ""
                     }`}
                     id="name"
-                    placeholder="Enter Shift Name"
+                    placeholder="Enter Role Name"
                   />
                   {validationErr.name ? (
                     <>
@@ -87,7 +87,7 @@ const ShiftCreate = () => {
                 
                 <div className="form-group my-2">
                   <button
-                    onClick={saveShift}
+                    onClick={saveRole}
                     type="submit"
                     className="btn bg-indigo"
                   >
@@ -114,4 +114,4 @@ const ShiftCreate = () => {
   );
 };
 
-export default ShiftCreate;
+export default RoleCreate;

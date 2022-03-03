@@ -4,25 +4,25 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-const ShiftEdit = () => {
-  const [shiftData, setShiftData] = useState({});
+const DepartmentEdit = () => {
+  const [departmentData, setDepartmentData] = useState({});
   const [loading, setLoading] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
   const [validationErr, setValidationErr] = useState({});
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
-    setShiftData({ ...shiftData, [e.target.name]: e.target.value });
-    console.log(shiftData);
+    setDepartmentData({ ...departmentData, [e.target.name]: e.target.value });
+    console.log(departmentData);
   };
 
   let { id } = useParams();
 
-  const updateShift = async (e) => {
+  const updateDepartment = async (e) => {
     e.preventDefault();
     setBtnLoading(true);
     await axios
-      .put(`http://localhost:8000/api/shifts/${id}`, shiftData)
+      .put(`http://localhost:8000/api/departments/${id}`, departmentData)
       .then((res) => {
         Swal.fire({
           position: "center",
@@ -31,7 +31,7 @@ const ShiftEdit = () => {
           showConfirmButton: false,
           timer: 2000,
         });
-        navigate("/admin/shifts");
+        navigate("/admin/departments");
       })
       .catch((err) => {
         setValidationErr(err.response.data.errors);
@@ -39,19 +39,19 @@ const ShiftEdit = () => {
     setBtnLoading(false);
   };
 
-  const fetchShift = async () => {
+  const fetchDepartment = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/shifts/${id}`).then((res) => {
-      setShiftData({
+    await axios.get(`http://localhost:8000/api/departments/${id}`).then((res) => {
+      setDepartmentData({
         name: res.data.name,
       });
     });
     setLoading(false);
-    console.log(shiftData);
+    console.log(departmentData);
   };
 
   useEffect(() => {
-    fetchShift();
+    fetchDepartment();
   }, []);
   return (
     <div>
@@ -59,9 +59,9 @@ const ShiftEdit = () => {
         <div className="col-12">
           <div className="card">
             <div className="card-header">
-              <div className="card-title text-lg">Update Shift</div>
+              <div className="card-title text-lg">Update Department</div>
               <div className="card-tools">
-                <Link to="/admin/shifts" className="btn-sm bg-indigo">
+                <Link to="/admin/departments" className="btn-sm bg-indigo">
                   <i className="fa fa-arrow-left mr-1" aria-hidden="true"></i>{" "}
                   Go back
                 </Link>
@@ -75,20 +75,20 @@ const ShiftEdit = () => {
                   </div>
                 </div>
               ) : (
-                <form onSubmit={updateShift} method="post">
+                <form onSubmit={updateDepartment} method="post">
                   
                   <div className="form-group">
                     <label htmlFor="name">Name</label>
                     <input
                       onChange={handleInputChange}
-                      value={shiftData.name}
+                      value={departmentData.name}
                       name="name"
                       type="text"
                       className={`form-control ${
                         validationErr.name ? "is-invalid" : ""
                       }`}
                       id="name"
-                      placeholder="Enter Shift Name"
+                      placeholder="Enter Department Name"
                     />
                     {validationErr.name ? (
                       <>
@@ -103,7 +103,7 @@ const ShiftEdit = () => {
                   
                   <div className="form-group my-2">
                     <button
-                      onClick={updateShift}
+                      onClick={updateDepartment}
                       type="submit"
                       className="btn bg-indigo"
                     >
@@ -131,4 +131,4 @@ const ShiftEdit = () => {
   );
 };
 
-export default ShiftEdit;
+export default DepartmentEdit;
