@@ -391,6 +391,7 @@ const EmployeeCreate = () => {
                     </option>
                     {departments.map((department) => {
                       return (
+                        
                         <option
                           selected={employeeData.department_id == department.id}
                           value={department.id}
