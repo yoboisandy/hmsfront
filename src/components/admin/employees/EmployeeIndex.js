@@ -31,7 +31,7 @@ const EmployeeIndex = () => {
           </div>
         </div>
         <div className="card-body p-0">
-          <table className="table table-bordered table-hoverable">
+          <table className="table table-hover table-bordered ">
             <thead>
               <tr>
                 <th>SN</th>
