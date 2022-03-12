@@ -83,8 +83,8 @@ const DepartmentCreate = () => {
                     ""
                   )}
                 </div>
-               
-                
+
+                           
                 <div className="form-group my-2">
                   <button
                     onClick={saveDepartment}
