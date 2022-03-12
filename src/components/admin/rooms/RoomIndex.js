@@ -50,10 +50,17 @@ const RoomIndex = () => {
           fetchRooms();
         })
         .catch((err) => {
-          Swal.fire({
-            text: err.response.data.message,
-            icon: "error",
-          });
+          if (err.response.status === 500) {
+            Swal.fire({
+              text: "Status " + err.response.status + ": Something went wrong!",
+              icon: "error",
+            });
+          } else {
+            Swal.fire({
+              text: "Status " + err.response.status + ": Something went wrong!",
+              icon: "error",
+            });
+          }
         });
     }
   };
@@ -76,13 +83,13 @@ const RoomIndex = () => {
                 <thead className="bg-indigo">
                   <tr className="text-center">
                     <th>SN</th>
+                    {/* <th>Image</th> */}
                     <th>Room Number</th>
                     <th>Floor Name</th>
                     <th>Capacity</th>
                     <th>Price</th>
-                    <th>Description</th>
-                    <th>Citizenship No.</th>
-                    <th>Toom Type</th>
+                    <th>Type</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -106,11 +113,13 @@ const RoomIndex = () => {
                     return (
                       <tr>
                         <td>{index + 1}</td>
+                        {/* <td>
+                          <img src={room.roomtype.image} alt="" />
+                        </td> */}
                         <td>{room.room_no}</td>
                         <td>{room.floor.name}</td>
                         <td>{room.capacity} Person</td>
-                        <td>{room.price}</td>
-                        <td>{room.description}</td>
+                        <td>Rs. {room.price}</td>
                         <td>{room.roomtype.type_name}</td>
                         <td className="d-flex justify-content-center">
                           <Link
@@ -146,9 +155,3 @@ const RoomIndex = () => {
 };
 
 export default RoomIndex;
-
-
-
-
-
-

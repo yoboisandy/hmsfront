@@ -1,59 +1,23 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import Swal from "sweetalert2";
+
 import axios from "axios";
-import Select from "react-select";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
-const DepartmentCreate = () => {
+const FloorCreate = () => {
   const [validationErr, setValidationErr] = useState({});
+  const [floorData, setFloorData] = useState({});
+  const [btnLoading, setBtnLoading] = useState(false);
   const navigate = useNavigate();
-  const [departmentData, setdepartmentData] = useState({
-    name: "",
-    roles: [],
-  });
-  const [loading, setLoading] = useState(false);
-  const [roles, setRoles] = useState([]);
-  const [selectedRoles, setSelectedRoles] = useState([]);
-
   const handleInputChange = (e) => {
-    setdepartmentData({ name: e.target.value });
-    console.log(departmentData);
+    setFloorData({ ...floorData, [e.target.name]: e.target.value });
   };
-
-  const getRoles = async () => {
-    await axios.get("http://localhost:8000/api/roles").then((res) => {
-      setRoles(res.data);
-    });
-  };
-  const rolesOptions = [];
-  roles.map((role) => {
-    rolesOptions.push({ label: role.name, value: role.id });
-  });
-
-  // console.log(rolesOptions);
-
-  const handleRoleChange = (e, act) => {
-    console.log(e);
-    setSelectedRoles(e);
-  };
-
-  useEffect(() => {
-    getRoles();
-  }, []);
-
-  const saveDepartment = async (e) => {
+  const saveFloor = async (e) => {
     e.preventDefault();
-    setLoading(true);
-
-    let values = selectedRoles.map((val) => val.value);
-    console.log(values);
-
+    setBtnLoading(true);
     await axios
-      .post("http://localhost:8000/api/departments", {
-        name: departmentData.name,
-        roles: values,
-      })
+      .post(`http://localhost:8000/api/floors`, floorData)
       .then((res) => {
         Swal.fire({
           position: "center",
@@ -62,42 +26,41 @@ const DepartmentCreate = () => {
           showConfirmButton: false,
           timer: 2000,
         });
-        navigate("/admin/departments");
+        navigate("/admin/floors");
       })
       .catch((err) => {
         setValidationErr(err.response.data.errors);
       });
-    setLoading(false);
+    setBtnLoading(false);
   };
-
   return (
     <div>
       <div className="row">
         <div className="col-12">
           <div className="card">
             <div className="card-header">
-              <div className="card-title text-lg">Add Department</div>
+              <div className="card-title text-lg">Add Customer</div>
               <div className="card-tools">
-                <Link to="/admin/departments" className="btn-sm bg-indigo">
+                <Link to="/admin/customers" className="btn-sm bg-indigo">
                   <i className="fa fa-arrow-left mr-1" aria-hidden="true"></i>{" "}
                   Go back
                 </Link>
               </div>
             </div>
             <div className="card-body ">
-              <form onSubmit={saveDepartment} method="post">
+              <form onSubmit={saveFloor} method="post">
                 <div className="form-group">
-                  <label htmlFor="name">Department Name</label>
+                  <label htmlFor="name">Name</label>
                   <input
                     onChange={handleInputChange}
-                    value={departmentData.name}
+                    value={floorData.name}
                     name="name"
                     type="text"
                     className={`form-control ${
                       validationErr.name ? "is-invalid" : ""
                     }`}
                     id="name"
-                    placeholder="Enter Department Name"
+                    placeholder="Enter  Name"
                   />
                   {validationErr.name ? (
                     <>
@@ -110,34 +73,58 @@ const DepartmentCreate = () => {
                   )}
                 </div>
                 <div className="form-group">
-                  <label htmlFor="roles">Roles</label>
-                  <Select
-                    isMulti
-                    onChange={handleRoleChange}
-                    value={selectedRoles}
-                    options={rolesOptions}
-                    name="roles"
-                    className={`${validationErr.roles ? "is-invalid" : ""}`}
-                    id="roles"
+                  <label htmlFor="floor_number">Floor Number</label>
+                  <input
+                    onChange={handleInputChange}
+                    value={floorData.floor_number}
+                    name="floor_number"
+                    type="text"
+                    className={`form-control ${
+                      validationErr.floor_number ? "is-invalid" : ""
+                    }`}
+                    id="floor_number"
+                    placeholder="Enter Floor Number"
                   />
-                  {validationErr.roles ? (
+                  {validationErr.floor_number ? (
                     <>
                       <span className="text-danger form-text">
-                        {validationErr.roles}
+                        {validationErr.floor_number}
                       </span>
                     </>
                   ) : (
                     ""
                   )}
                 </div>
-
+                <div className="form-group">
+                  <label htmlFor="description">Floor Description</label>
+                  <textarea
+                    onChange={handleInputChange}
+                    value={floorData.description}
+                    name="description"
+                    type="text"
+                    className={`form-control ${
+                      validationErr.description ? "is-invalid" : ""
+                    }`}
+                    id="description"
+                    placeholder="Enter Details About The Floor"
+                  ></textarea>
+                  {validationErr.description ? (
+                    <>
+                      <span className="text-danger form-text">
+                        {validationErr.description}
+                      </span>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </div>
                 <div className="form-group my-2">
                   <button
-                    onClick={saveDepartment}
+                    onClick={saveFloor}
                     type="submit"
                     className="btn bg-indigo"
                   >
-                    {loading ? (
+                    {btnLoading ? (
                       <>
                         <span
                           className="spinner-border spinner-border-sm mr-2"
@@ -160,4 +147,4 @@ const DepartmentCreate = () => {
   );
 };
 
-export default DepartmentCreate;
+export default FloorCreate;

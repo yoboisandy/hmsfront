@@ -27,11 +27,12 @@ import DepartmentIndex from "./departments/DepartmentIndex";
 import DepartmentCreate from "./departments/DepartmentCreate";
 import DepartmentEdit from "./departments/DepartmentEdit";
 import DepartmentShow from "./departments/DepartmentShow";
-
-import HallIndex from "./halls/HallIndex";
-import HallCreate from "./halls/HallCreate";
-import HallEdit from "./halls/HallEdit";
-import HallShow from "./halls/HallShow";
+import EmployeeEdit from "./employees/EmployeeEdit";
+import EmployeeShow from "./employees/EmployeeShow";
+import FloorIndex from "./floors/FloorIndex";
+import FloorCreate from "./floors/FloorCreate";
+import FloorShow from "./floors/FloorShow";
+import FloorEdit from "./floors/FloorEdit";
 // import "./css/adminlte.min.css";
 // import "./all.min.css";
 // import "./js/adminlte.min.js";
@@ -86,47 +87,64 @@ const Admin = () => {
         <Layout>
           <Routes>
             <Route path="/" element={<Dashboard />} />
+
+            {/* Customers */}
             <Route path="/customers" element={<CustomerIndex />} />
             <Route path="/customers/create" element={<CustomerCreate />} />
-            
             <Route
               exact
               path="/customers/edit/:id"
               element={<CustomerEdit />}
             />
-          
             <Route exact path="/customers/:id" element={<CustomerShow />} />
 
+            {/* rooms */}
             <Route path="/rooms" element={<RoomIndex />} />
             <Route path="/rooms/create" element={<RoomCreate />} />
             <Route exact path="/rooms/edit/:id" element={<RoomEdit />} />
             <Route exact path="/rooms/:id" element={<RoomShow />} />
+
+            {/* employees */}
             <Route
               exact
               path="/employees/create"
               element={<EmployeeCreate />}
             />
             <Route exact path="/employees" element={<EmployeeIndex />} />
+            <Route
+              exact
+              path="/employees/edit/:id"
+              element={<EmployeeEdit />}
+            />
+            <Route exact path="/employees/:id" element={<EmployeeShow />} />
 
+            {/* shifts */}
             <Route path="/shifts" element={<ShiftIndex />} />
             <Route path="/shifts/create" element={<ShiftCreate />} />
             <Route exact path="/shifts/edit/:id" element={<ShiftEdit />} />
-            <Route exact path="/shifts/:id" element={<ShiftShow />} />\
+            <Route exact path="/shifts/:id" element={<ShiftShow />} />
 
+            {/* roles */}
             <Route path="/roles" element={<RoleIndex />} />
             <Route path="/roles/create" element={<RoleCreate />} />
             <Route exact path="/roles/edit/:id" element={<RoleEdit />} />
             <Route exact path="/roles/:id" element={<RoleShow />} />
 
+            {/* department */}
             <Route path="/departments" element={<DepartmentIndex />} />
             <Route path="/departments/create" element={<DepartmentCreate />} />
-            <Route exact path="/departments/edit/:id" element={<DepartmentEdit />} />
+            <Route
+              exact
+              path="/departments/edit/:id"
+              element={<DepartmentEdit />}
+            />
             <Route exact path="/departments/:id" element={<DepartmentShow />} />
 
-            <Route path="/halls" element={<HallIndex />} />
-            <Route path="/halls/create" element={<HallCreate />} />
-            <Route exact path="/halls/edit/:id" element={<HallEdit />} />
-            <Route exact path="/halls/:id" element={<HallShow />} />
+            {/* floors */}
+            <Route path="/floors" element={<FloorIndex />} />
+            <Route path="/floors/create" element={<FloorCreate />} />
+            <Route path="/floors/:id" element={<FloorShow />} />
+            <Route path="/floors/edit/:id" element={<FloorEdit />} />
           </Routes>
         </Layout>
       )}

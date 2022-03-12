@@ -5,7 +5,9 @@ import Swal from "sweetalert2";
 import axios from "axios";
 
 const RoleCreate = () => {
-  const [validationErr, setValidationErr] = useState({});
+  const [validationErr, setValidationErr] = useState({
+    name: "",
+  });
   const navigate = useNavigate();
   const [roleData, setroleData] = useState({});
   const [loading, setLoading] = useState(false);
@@ -15,19 +17,15 @@ const RoleCreate = () => {
     console.log(roleData);
   };
 
-  
-
-  
-
   const saveRole = async (e) => {
     e.preventDefault();
 
     setLoading(true);
-    const fd = new FormData();
-    fd.append("name", roleData.name);
-    
+    // const fd = new FormData();
+    // fd.append("name", roleData.name);
+
     await axios
-      .post("http://localhost:8000/api/roles", fd)
+      .post("http://localhost:8000/api/roles", roleData)
       .then((res) => {
         Swal.fire({
           position: "center",
@@ -60,7 +58,7 @@ const RoleCreate = () => {
             </div>
             <div className="card-body ">
               <form onSubmit={saveRole} method="post">
-              <div className="form-group">
+                <div className="form-group">
                   <label htmlFor="name">Role Name</label>
                   <input
                     onChange={handleInputChange}
@@ -83,8 +81,7 @@ const RoleCreate = () => {
                     ""
                   )}
                 </div>
-               
-                
+
                 <div className="form-group my-2">
                   <button
                     onClick={saveRole}

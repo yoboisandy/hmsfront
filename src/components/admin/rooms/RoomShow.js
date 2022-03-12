@@ -4,7 +4,9 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
 const RoomShow = () => {
-  const [roomData, setRoomData] = useState({});
+  const [roomData, setRoomData] = useState({
+    roomtype: {},
+  });
   const [loading, setLoading] = useState(false);
   let { id } = useParams();
 
@@ -54,12 +56,9 @@ const RoomShow = () => {
                 </tr>
               ) : (
                 <>
-                  
                   <tr>
                     <th>Room Number</th>
-                    <td>
-                      {roomData.room_no}
-                    </td>
+                    <td>{roomData.room_no}</td>
                   </tr>
                   <tr>
                     <th>Floor Number</th>
@@ -71,7 +70,7 @@ const RoomShow = () => {
                   </tr>
                   <tr>
                     <th>Price</th>
-                    <td>{roomData.price}</td>
+                    <td>Rs. {roomData.price}</td>
                   </tr>
                   <tr>
                     <th>Description</th>
@@ -79,7 +78,7 @@ const RoomShow = () => {
                   </tr>
                   <tr>
                     <th>Room Type</th>
-                    <td>{roomData.roomtype_id}</td>
+                    <td>{roomData.roomtype.type_name}</td>
                   </tr>
                 </>
               )}
