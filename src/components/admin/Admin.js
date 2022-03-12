@@ -27,6 +27,11 @@ import DepartmentIndex from "./departments/DepartmentIndex";
 import DepartmentCreate from "./departments/DepartmentCreate";
 import DepartmentEdit from "./departments/DepartmentEdit";
 import DepartmentShow from "./departments/DepartmentShow";
+
+import HallIndex from "./halls/HallIndex";
+import HallCreate from "./halls/HallCreate";
+import HallEdit from "./halls/HallEdit";
+import HallShow from "./halls/HallShow";
 // import "./css/adminlte.min.css";
 // import "./all.min.css";
 // import "./js/adminlte.min.js";
@@ -117,6 +122,11 @@ const Admin = () => {
             <Route path="/departments/create" element={<DepartmentCreate />} />
             <Route exact path="/departments/edit/:id" element={<DepartmentEdit />} />
             <Route exact path="/departments/:id" element={<DepartmentShow />} />
+
+            <Route path="/halls" element={<HallIndex />} />
+            <Route path="/halls/create" element={<HallCreate />} />
+            <Route exact path="/halls/edit/:id" element={<HallEdit />} />
+            <Route exact path="/halls/:id" element={<HallShow />} />
           </Routes>
         </Layout>
       )}
