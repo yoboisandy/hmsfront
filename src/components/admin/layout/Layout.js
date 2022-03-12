@@ -193,6 +193,16 @@ const Layout = ({ children }) => {
                   <p>Departments</p>
                 </NavLink>
               </li>
+              <li className="nav-item mb-2">
+                <NavLink
+                  to="/admin/floors"
+                  className="nav-link "
+                  activeClassName="active"
+                >
+                  <i className="nav-icon mr-3 fas fa-building" />
+                  <p>Floors</p>
+                </NavLink>
+              </li>
             </ul>
           </nav>
         </div>

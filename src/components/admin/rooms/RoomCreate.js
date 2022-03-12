@@ -28,14 +28,11 @@ const RoomCreate = () => {
       setRoomTypes(res.data);
     });
   };
-  
 
   useEffect(() => {
     getFloors();
     getRoomTypes();
   }, []);
-
-  
 
   const saveRoom = async (e) => {
     e.preventDefault();
@@ -48,7 +45,7 @@ const RoomCreate = () => {
     fd.append("price", roomData.price);
     fd.append("description", roomData.description);
     fd.append("roomtype_id", roomData.roomtype_id);
-    
+
     await axios
       .post("http://localhost:8000/api/rooms", fd)
       .then((res) => {
@@ -83,7 +80,7 @@ const RoomCreate = () => {
             </div>
             <div className="card-body ">
               <form onSubmit={saveRoom} method="post">
-              <div className="form-group">
+                <div className="form-group">
                   <label htmlFor="room_no">Room Number</label>
                   <input
                     onChange={handleInputChange}
@@ -106,7 +103,7 @@ const RoomCreate = () => {
                     ""
                   )}
                 </div>
-              <div className="form-group">
+                <div className="form-group">
                   <label htmlFor="floor_id">Floor Number</label>
                   <select
                     className={`form-control ${
@@ -189,7 +186,7 @@ const RoomCreate = () => {
                 </div>
                 <div className="form-group">
                   <label htmlFor="description">Description</label>
-                  <input
+                  <textarea
                     onChange={handleInputChange}
                     value={roomData.description}
                     name="description"
@@ -199,7 +196,7 @@ const RoomCreate = () => {
                     }`}
                     id="description"
                     placeholder="Enter Description Number"
-                  />
+                  ></textarea>
                   {validationErr.description ? (
                     <>
                       <span className="text-danger form-text">
@@ -209,8 +206,8 @@ const RoomCreate = () => {
                   ) : (
                     ""
                   )}
-               </div>
-                 <div className="form-group">
+                </div>
+                <div className="form-group">
                   <label htmlFor="roomtype_id">Room Type</label>
                   <select
                     className={`form-control ${
@@ -244,8 +241,8 @@ const RoomCreate = () => {
                   ) : (
                     ""
                   )}
-                </div> 
-                
+                </div>
+
                 <div className="form-group my-2">
                   <button
                     onClick={saveRoom}

@@ -4,23 +4,26 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
 const DepartmentShow = () => {
-  const [departmentData, setDepartmentData] = useState({});
+  const [departmentData, setDepartmentData] = useState({
+    roles: [],
+  });
   const [loading, setLoading] = useState(false);
   let { id } = useParams();
 
   const fetchDepartment = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/departments/${id}`).then((res) => {
-      setDepartmentData(res.data);
-    });
+    await axios
+      .get(`http://localhost:8000/api/departments/${id}`)
+      .then((res) => {
+        setDepartmentData(res.data);
+        console.log(departmentData);
+      });
     setLoading(false);
-    console.log(departmentData);
   };
 
   useEffect(() => {
     fetchDepartment();
   }, []);
-  
 
   return (
     <div>
@@ -56,18 +59,22 @@ const DepartmentShow = () => {
                 </tr>
               ) : (
                 <>
-                  
                   <tr>
                     <th>SN</th>
-                    <td>
-                      {departmentData.id}
-                    </td>
+                    <td>{departmentData.id}</td>
                   </tr>
                   <tr>
                     <th>Name</th>
                     <td>{departmentData.name}</td>
                   </tr>
-                  
+                  <tr>
+                    <th>Roles</th>
+                    <tr>
+                      {departmentData.roles.map((role) => {
+                        return <td>{role.name}</td>;
+                      })}
+                    </tr>
+                  </tr>
                 </>
               )}
             </tbody>

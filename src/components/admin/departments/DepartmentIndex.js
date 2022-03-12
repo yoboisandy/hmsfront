@@ -50,10 +50,17 @@ const DepartmentIndex = () => {
           fetchDepartments();
         })
         .catch((err) => {
-          Swal.fire({
-            text: err.response.data.message,
-            icon: "error",
-          });
+          if (err.response.status === 500) {
+            Swal.fire({
+              text: "Status " + err.response.status + ": Something went wrong!",
+              icon: "error",
+            });
+          } else {
+            Swal.fire({
+              text: "Status " + err.response.status + ": Something went wrong!",
+              icon: "error",
+            });
+          }
         });
     }
   };
@@ -66,7 +73,10 @@ const DepartmentIndex = () => {
             <div className="card-header">
               <div className="card-title text-lg">Departments</div>
               <div className="card-tools">
-                <Link to="/admin/departments/create" className="btn-sm bg-indigo">
+                <Link
+                  to="/admin/departments/create"
+                  className="btn-sm bg-indigo"
+                >
                   <i className="fas fa-plus-circle mr-1"></i> Add New
                 </Link>
               </div>
@@ -136,9 +146,3 @@ const DepartmentIndex = () => {
 };
 
 export default DepartmentIndex;
-
-
-
-
-
-
