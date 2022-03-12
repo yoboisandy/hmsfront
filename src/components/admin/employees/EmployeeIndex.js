@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 
 const EmployeeIndex = () => {
@@ -13,6 +14,45 @@ const EmployeeIndex = () => {
       setEmployees(res.data);
     });
     setLoading(false);
+  };
+
+  const handleDelete = async (id) => {
+    const isConfirmed = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((res) => {
+      return res.isConfirmed;
+    });
+
+    if (isConfirmed) {
+      await axios
+        .delete(`http://localhost:8000/api/employees/${id}`)
+        .then((res) => {
+          Swal.fire({
+            icon: "success",
+            text: res.data.message,
+          });
+          fetchEmployees();
+        })
+        .catch((err) => {
+          if (err.response.status === 500) {
+            Swal.fire({
+              text: "Status " + err.response.status + ": Something went wrong!",
+              icon: "error",
+            });
+          } else {
+            Swal.fire({
+              text: "Status " + err.response.status + ": Something went wrong!",
+              icon: "error",
+            });
+          }
+        });
+    }
   };
 
   useEffect(() => {
@@ -32,7 +72,7 @@ const EmployeeIndex = () => {
         </div>
         <div className="card-body p-0">
           <table className="table table-hover table-bordered ">
-            <thead>
+            <thead className="bg-indigo">
               <tr>
                 <th>SN</th>
                 <th>ID</th>
@@ -85,19 +125,19 @@ const EmployeeIndex = () => {
                     <td>{employee.shift.name}</td>
                     <td>
                       <Link
-                        to={`/admin/customers/`}
+                        to={`/admin/employees/${employee.id}`}
                         className="btn-sm bg-success mr-1"
                       >
                         <i className="fa fa-eye"> </i>
                       </Link>
                       <Link
-                        to={`/admin/customers/edit`}
+                        to={`/admin/employees/edit/${employee.id}`}
                         className="btn-sm bg-teal mr-1"
                       >
                         <i className=" fas fa-edit"> </i>
                       </Link>
                       <span
-                        // onClick={() => handleDelete(customer.id)}
+                        onClick={() => handleDelete(employee.id)}
                         className="btn-sm bg-danger mr-1"
                       >
                         <i className="fas fa-trash-alt"> </i>

@@ -7,12 +7,28 @@ import axios from "axios";
 const EmployeeCreate = () => {
   const [validationErr, setValidationErr] = useState({});
   const navigate = useNavigate();
-  const [employeeData, setemployeeData] = useState({});
+  const [employeeData, setemployeeData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+    dob: "",
+    phone: "",
+    department_id: "",
+    role_id: "",
+    designation: "",
+    address: "",
+    citizenship_number: "",
+    pan_number: "",
+    joining_date: "",
+    salary: "",
+    shift_id: "",
+  });
   const [loading, setLoading] = useState(false);
   const [departments, setDepartments] = useState([]);
   const [shifts, setShifts] = useState([]);
   const [roles, setRoles] = useState([]);
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
 
   const handleInputChange = (e) => {
     setemployeeData({ ...employeeData, [e.target.name]: e.target.value });
@@ -47,7 +63,6 @@ const EmployeeCreate = () => {
 
   const saveEmployee = async (e) => {
     e.preventDefault();
-
     setLoading(true);
     const fd = new FormData();
     fd.append("firstname", employeeData.firstname);
@@ -266,7 +281,6 @@ const EmployeeCreate = () => {
                   <label htmlFor="image">Photo</label>
                   <input
                     onChange={(e) => handleImageChange(e.target.files)}
-                    value={employeeData.image}
                     name="image"
                     type="file"
                     className={`form-control ${
@@ -386,12 +400,11 @@ const EmployeeCreate = () => {
                     name="department_id"
                     id="department_id"
                   >
-                    <option disabled selected>
+                    <option disabled value="">
                       Select Department
                     </option>
                     {departments.map((department) => {
                       return (
-                        
                         <option
                           selected={employeeData.department_id == department.id}
                           value={department.id}
@@ -422,7 +435,7 @@ const EmployeeCreate = () => {
                     name="shift_id"
                     id="shift_id"
                   >
-                    <option disabled selected>
+                    <option disabled value="">
                       Select Shift
                     </option>
                     {shifts.map((shift) => {
@@ -457,7 +470,7 @@ const EmployeeCreate = () => {
                     name="role_id"
                     id="role_id"
                   >
-                    <option disabled selected>
+                    <option disabled value={""}>
                       Select Role
                     </option>
                     {roles.map((role) => {

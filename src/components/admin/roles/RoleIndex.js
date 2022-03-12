@@ -50,10 +50,17 @@ const RoleIndex = () => {
           fetchRoles();
         })
         .catch((err) => {
-          Swal.fire({
-            text: err.response.data.message,
-            icon: "error",
-          });
+          if (err.response.status === 500) {
+            Swal.fire({
+              text: "Status " + err.response.status + ": Something went wrong!",
+              icon: "error",
+            });
+          } else {
+            Swal.fire({
+              text: "Status " + err.response.status + ": Something went wrong!",
+              icon: "error",
+            });
+          }
         });
     }
   };
@@ -136,9 +143,3 @@ const RoleIndex = () => {
 };
 
 export default RoleIndex;
-
-
-
-
-
-
