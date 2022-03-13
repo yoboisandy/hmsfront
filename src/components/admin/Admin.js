@@ -33,6 +33,10 @@ import FloorIndex from "./floors/FloorIndex";
 import FloorCreate from "./floors/FloorCreate";
 import FloorShow from "./floors/FloorShow";
 import FloorEdit from "./floors/FloorEdit";
+import HallIndex from "./halls/HallIndex";
+import HallCreate from "./halls/HallCreate";
+import HallShow from "./halls/HallShow";
+import HallEdit from "./halls/HallEdit";
 // import "./css/adminlte.min.css";
 // import "./all.min.css";
 // import "./js/adminlte.min.js";
@@ -145,6 +149,12 @@ const Admin = () => {
             <Route path="/floors/create" element={<FloorCreate />} />
             <Route path="/floors/:id" element={<FloorShow />} />
             <Route path="/floors/edit/:id" element={<FloorEdit />} />
+
+            {/* halls */}
+            <Route path="/halls" element={<HallIndex />} />
+            <Route path="/halls/create" element={<HallCreate />} />
+            <Route path="/halls/:id" element={<HallShow />} />
+            <Route path="/halls/edit/:id" element={<HallEdit />} />
           </Routes>
         </Layout>
       )}
