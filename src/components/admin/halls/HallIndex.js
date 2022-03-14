@@ -65,7 +65,7 @@ const HallIndex = () => {
             <div className="card-header">
               <div className="card-title text-lg">Halls</div>
               <div className="card-tools">
-                <Link to="/admin/departments/create" className="btn-sm bg-indigo">
+                <Link to="/admin/halls/create" className="btn-sm bg-indigo">
                   <i className="fas fa-plus-circle mr-1"></i> Add New
                 </Link>
               </div>
@@ -151,9 +151,3 @@ const HallIndex = () => {
 };
 
 export default HallIndex;
-
-
-
-
-
-

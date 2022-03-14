@@ -2,46 +2,26 @@ import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./layout/Layout";
 import Dashboard from "./Dashboard";
-import CustomerIndex from "./customers/CustomerIndex";
-import CustomerCreate from "./customers/CustomerCreate";
-import CustomerEdit from "./customers/CustomerEdit";
-import CustomerShow from "./customers/CustomerShow";
-import RoomIndex from "./rooms/RoomIndex";
-import RoomCreate from "./rooms/RoomCreate";
-import RoomEdit from "./rooms/RoomEdit";
-import RoomShow from "./rooms/RoomShow";
-import EmployeeCreate from "./employees/EmployeeCreate";
-import EmployeeIndex from "./employees/EmployeeIndex";
-
-import ShiftIndex from "./shifts/ShiftIndex";
-import ShiftCreate from "./shifts/ShiftCreate";
-import ShiftEdit from "./shifts/ShiftEdit";
-import ShiftShow from "./shifts/ShiftShow";
-
-import RoleIndex from "./roles/RoleIndex";
-import RoleCreate from "./roles/RoleCreate";
-import RoleEdit from "./roles/RoleEdit";
-import RoleShow from "./roles/RoleShow";
-
-import DepartmentIndex from "./departments/DepartmentIndex";
-import DepartmentCreate from "./departments/DepartmentCreate";
-import DepartmentEdit from "./departments/DepartmentEdit";
-import DepartmentShow from "./departments/DepartmentShow";
-import EmployeeEdit from "./employees/EmployeeEdit";
-import EmployeeShow from "./employees/EmployeeShow";
-import FloorIndex from "./floors/FloorIndex";
-import FloorCreate from "./floors/FloorCreate";
-import FloorShow from "./floors/FloorShow";
-import FloorEdit from "./floors/FloorEdit";
-import HallIndex from "./halls/HallIndex";
-import HallCreate from "./halls/HallCreate";
-import HallShow from "./halls/HallShow";
-import HallEdit from "./halls/HallEdit";
-// import "./css/adminlte.min.css";
+import CustomerApp from "./customers/CustomerApp";
+import DepartmentApp from "./departments/DepartmentApp";
+import EmployeeApp from "./employees/EmployeeApp";
+import FloorApp from "./floors/FloorApp";
+import HallApp from "./halls/HallApp";
+import RoleApp from "./roles/RoleApp";
+import RoomApp from "./rooms/RoomApp";
+import ShiftApp from "./shifts/ShiftApp";
+// import "../../../node_modules/admin-lte/plugins/bootstrap/js/bootstrap.bundle";
+// import "../../../node_modules/admin-lte/dist/css/adminlte.min.css";
+// import "../../../public/adminlte/css/adminlte.min.css";
 // import "./all.min.css";
 // import "./js/adminlte.min.js";
 // import "./bootstrap.bundle.min.js";
 // import "jquery.min.js";
+// import "./adminlte/css/adminlte.min.css";
+
+// import "./adminlte/js/jquery.min.js";
+// import "./adminlte/js/bootstrap.bundle.min.js";
+// import "./adminlte/js/adminlte.min.js";
 
 const Admin = () => {
   const [fullLoading, setFullLoading] = useState(false);
@@ -53,10 +33,10 @@ const Admin = () => {
     adminltemincss.rel = "stylesheet";
     document.head.appendChild(adminltemincss);
     // all.min.css
-    // const allmincss = document.createElement("link");
-    // allmincss.href = "/adminlte/css/all.min.css";
-    // allmincss.rel = "stylesheet";
-    // document.head.appendChild(allmincss);
+    const allmincss = document.createElement("link");
+    allmincss.href = "/adminlte/css/all.min.css";
+    allmincss.rel = "stylesheet";
+    document.head.appendChild(allmincss);
     // jquery.min.js
     const jqueryminjs = document.createElement("script");
     jqueryminjs.async = true;
@@ -85,79 +65,36 @@ const Admin = () => {
 
   return (
     <>
-      {fullLoading ? (
-        <div>Loading...</div>
-      ) : (
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
+      {fullLoading && <div>Loading...</div>}
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
 
-            {/* Customers */}
-            <Route path="/customers" element={<CustomerIndex />} />
-            <Route path="/customers/create" element={<CustomerCreate />} />
-            <Route
-              exact
-              path="/customers/edit/:id"
-              element={<CustomerEdit />}
-            />
-            <Route exact path="/customers/:id" element={<CustomerShow />} />
+          {/* Customers */}
+          <Route path="/customers/*" element={<CustomerApp />} />
 
-            {/* rooms */}
-            <Route path="/rooms" element={<RoomIndex />} />
-            <Route path="/rooms/create" element={<RoomCreate />} />
-            <Route exact path="/rooms/edit/:id" element={<RoomEdit />} />
-            <Route exact path="/rooms/:id" element={<RoomShow />} />
+          {/* rooms */}
+          <Route path="/rooms/*" element={<RoomApp />} />
 
-            {/* employees */}
-            <Route
-              exact
-              path="/employees/create"
-              element={<EmployeeCreate />}
-            />
-            <Route exact path="/employees" element={<EmployeeIndex />} />
-            <Route
-              exact
-              path="/employees/edit/:id"
-              element={<EmployeeEdit />}
-            />
-            <Route exact path="/employees/:id" element={<EmployeeShow />} />
+          {/* employees */}
+          <Route exact path="/employees/*" element={<EmployeeApp />} />
 
-            {/* shifts */}
-            <Route path="/shifts" element={<ShiftIndex />} />
-            <Route path="/shifts/create" element={<ShiftCreate />} />
-            <Route exact path="/shifts/edit/:id" element={<ShiftEdit />} />
-            <Route exact path="/shifts/:id" element={<ShiftShow />} />
+          {/* shifts */}
+          <Route path="/shifts/*" element={<ShiftApp />} />
 
-            {/* roles */}
-            <Route path="/roles" element={<RoleIndex />} />
-            <Route path="/roles/create" element={<RoleCreate />} />
-            <Route exact path="/roles/edit/:id" element={<RoleEdit />} />
-            <Route exact path="/roles/:id" element={<RoleShow />} />
+          {/* roles */}
+          <Route path="/roles/*" element={<RoleApp />} />
 
-            {/* department */}
-            <Route path="/departments" element={<DepartmentIndex />} />
-            <Route path="/departments/create" element={<DepartmentCreate />} />
-            <Route
-              exact
-              path="/departments/edit/:id"
-              element={<DepartmentEdit />}
-            />
-            <Route exact path="/departments/:id" element={<DepartmentShow />} />
+          {/* department */}
+          <Route path="/departments/*" element={<DepartmentApp />} />
 
-            {/* floors */}
-            <Route path="/floors" element={<FloorIndex />} />
-            <Route path="/floors/create" element={<FloorCreate />} />
-            <Route path="/floors/:id" element={<FloorShow />} />
-            <Route path="/floors/edit/:id" element={<FloorEdit />} />
+          {/* floors */}
+          <Route path="/floors/*" element={<FloorApp />} />
 
-            {/* halls */}
-            <Route path="/halls" element={<HallIndex />} />
-            <Route path="/halls/create" element={<HallCreate />} />
-            <Route path="/halls/:id" element={<HallShow />} />
-            <Route path="/halls/edit/:id" element={<HallEdit />} />
-          </Routes>
-        </Layout>
-      )}
+          {/* Halls */}
+          <Route path="/halls/*" element={<HallApp />} />
+        </Routes>
+      </Layout>
     </>
   );
 };
