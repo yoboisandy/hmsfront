@@ -1,5 +1,7 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
+// import canView from "../permissions";
+
 const Layout = ({ children }) => {
   return (
     <div className="wrapper">
@@ -94,14 +96,14 @@ const Layout = ({ children }) => {
       </nav>
       {/* SideBar */}
       <aside className="main-sidebar sidebar-light-indigo elevation-4">
-        <Link to="/admin" className="brand-link">
+        <Link to="/" className="brand-link">
           <img
-            src="/logo.png"
+            src="/logo1.png"
             alt="AdminLTE Logo"
-            className="brand-image img-circle "
-            style={{ opacity: ".8" }}
+            className="brand-image "
+            style={{ opacity: ".8", width: "170px" }}
           />
-          <span className="brand-text font-weight-light">Rise-n-Shine</span>
+          {/* <span className="brand-text font-weight-light">Rise-n-Shine</span> */}
         </Link>
         <div className="sidebar">
           <nav className="mt-2">
@@ -122,6 +124,18 @@ const Layout = ({ children }) => {
                   <p>Dashboard</p>
                 </NavLink>
               </li>
+              {/* {canView("customers") && (
+                <li className="nav-item mb-2">
+                  <NavLink
+                    to="/admin/customers"
+                    className="nav-link "
+                    activeClassName="active"
+                  >
+                    <i className="nav-icon mr-3 fas fa-users" />
+                    <p>Customers</p>
+                  </NavLink>
+                </li>
+              )} */}
               <li className="nav-item mb-2">
                 <NavLink
                   to="/admin/customers"
@@ -166,7 +180,7 @@ const Layout = ({ children }) => {
               <li className="nav-item mb-2">
                 <NavLink
                   to="/admin/shifts"
-                  className="nav-link "
+                  className="nav-link"
                   activeClassName="active"
                 >
                   <i className="nav-icon mr-3 fas fa-sun" />
