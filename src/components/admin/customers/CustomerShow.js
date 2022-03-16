@@ -1,7 +1,8 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
+import canView from "../permissions";
 
 const CustomerShow = () => {
   const [customerData, setCustomerData] = useState({});
@@ -20,6 +21,12 @@ const CustomerShow = () => {
   useEffect(() => {
     fetchCustomer();
   }, []);
+
+  // useEffect(() => {
+  //     if(user.role && !canView(user, "customers")) {
+
+  //     }
+  // }, [user]);
   return (
     <div>
       <div className="card">
