@@ -16,7 +16,6 @@ const DepartmentEdit = () => {
 
   const handleInputChange = (e) => {
     setDepartmentData({ ...departmentData, [e.target.name]: e.target.value });
-    console.log(departmentData);
   };
 
   const getRoles = async () => {
@@ -30,7 +29,7 @@ const DepartmentEdit = () => {
   });
 
   const handleRoleChange = (e) => {
-    console.log(e);
+    // console.log(e);
     setSelectedRoles(e);
   };
 
@@ -68,7 +67,7 @@ const DepartmentEdit = () => {
         setSelectedRoles(res.data.roles);
       });
     setLoading(false);
-    console.log(departmentData);
+    // console.log(departmentData);
     console.log(selectedRoles);
   };
 
