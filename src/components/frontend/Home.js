@@ -1,5 +1,4 @@
 import React from "react";
-import RoomCard from "./components/RoomCard";
 const Home = () => {
   return (
     <div>
@@ -14,10 +13,10 @@ const Home = () => {
             >
               Away from monotonous life
             </h6>
-            <h2 className="font-bold text-6xl my-4 tracking-wider text-center">
+            <h2 className="font-bold text-5xl md:text-6xl my-4 tracking-wider text-center">
               Relax Your Mind
             </h2>
-            <p className="text-center px-80">
+            <p className="text-center px-12 md:px-64">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iste
               optio consectetur consequuntur perspiciatis nulla provident soluta
             </p>
@@ -42,27 +41,6 @@ const Home = () => {
         </div>
       </div>
       {/* Accomodation */}
-      <div className="my-28">
-        <div>
-          <h2 className="text-4xl font-semibold text-center pb-3 w-1/4 mx-auto border-b-2 border-indigo-300">
-            Accomodations
-          </h2>
-        </div>
-        <div>
-          <section className="text-gray-600 body-font">
-            <div className="container px-5 py-24 mx-auto">
-              <div className="flex flex-wrap -m-4">
-                <RoomCard />
-                <RoomCard />
-                <RoomCard />
-                <RoomCard />
-                <RoomCard />
-                <RoomCard />
-              </div>
-            </div>
-          </section>
-        </div>
-      </div>
     </div>
   );
 };

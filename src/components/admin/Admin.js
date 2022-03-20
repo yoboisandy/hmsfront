@@ -10,6 +10,7 @@ import HallApp from "./halls/HallApp";
 import RoleApp from "./roles/RoleApp";
 import RoomApp from "./rooms/RoomApp";
 import ShiftApp from "./shifts/ShiftApp";
+import RoomTypeApp from "./roomtypes/RoomTypeApp";
 // import "./css/adminlte.min.css";
 
 const Admin = () => {
@@ -79,6 +80,9 @@ const Admin = () => {
 
           {/* Halls */}
           <Route path="/halls/*" element={<HallApp />} />
+
+          {/* Room Types */}
+          <Route path="/roomtypes/*" element={<RoomTypeApp />} />
         </Routes>
       </Layout>
     </>
