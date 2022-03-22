@@ -8,12 +8,19 @@ const CustomerShow = () => {
   const [customerData, setCustomerData] = useState({});
   const [loading, setLoading] = useState(false);
   let { id } = useParams();
+  const token = localStorage.getItem("token");
 
   const fetchCustomer = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/customers/${id}`).then((res) => {
-      setCustomerData(res.data);
-    });
+    await axios
+      .get(`http://localhost:8000/api/customers/${id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setCustomerData(res.data);
+      });
     setLoading(false);
     console.log(customerData);
   };

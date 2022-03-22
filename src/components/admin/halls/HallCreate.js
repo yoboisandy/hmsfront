@@ -9,13 +9,14 @@ const HallCreate = () => {
   const [validationErr, setValidationErr] = useState({});
   const navigate = useNavigate();
   const [hallData, sethallData] = useState({
-    amenities:[],
+    amenities: [],
   });
   const [loading, setLoading] = useState(false);
   const [halls, setHalls] = useState();
   const [floors, setFloors] = useState([]);
   const [amenities, setAmenities] = useState([]);
   const [selectedAmenities, setSelectedAmenities] = useState([]);
+  const token = localStorage.getItem("token");
 
   const handleInputChange = (e) => {
     sethallData({ ...hallData, [e.target.name]: e.target.value });
@@ -23,14 +24,26 @@ const HallCreate = () => {
   };
 
   const getFloors = async () => {
-    await axios.get("http://localhost:8000/api/floors").then((res) => {
-      setFloors(res.data);
-    });
+    await axios
+      .get("http://localhost:8000/api/floors", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setFloors(res.data);
+      });
   };
   const getAmenities = async () => {
-    await axios.get("http://localhost:8000/api/amenities").then((res) => {
-      setAmenities(res.data);
-    });
+    await axios
+      .get("http://localhost:8000/api/amenities", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setAmenities(res.data);
+      });
   };
   const handleRoleChange = (e, act) => {
     console.log(e);
@@ -40,12 +53,10 @@ const HallCreate = () => {
   amenities.map((amenity) => {
     amenitiesOptions.push({ label: amenity.name, value: amenity.id });
   });
-  
 
   useEffect(() => {
     getFloors();
     getAmenities();
-    
   }, []);
 
   const saveHall = async (e) => {
@@ -65,7 +76,15 @@ const HallCreate = () => {
     fd.append("high_price", hallData.high_price);
 
     await axios
-      .post("http://localhost:8000/api/halls", fd)
+      .post(
+        "http://localhost:8000/api/halls",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        },
+        fd
+      )
       .then((res) => {
         Swal.fire({
           position: "center",
@@ -327,8 +346,7 @@ const HallCreate = () => {
                     ""
                   )}
                 </div>
-                
-                
+
                 <div className="form-group my-2">
                   <button
                     onClick={saveHall}

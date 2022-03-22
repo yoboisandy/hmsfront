@@ -6,26 +6,40 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
 
 const DepartmentEdit = () => {
-  const [departmentData, setDepartmentData] = useState({});
+  const [departmentData, setDepartmentData] = useState({
+    roles: [],
+  });
   const [loading, setLoading] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
   const [validationErr, setValidationErr] = useState({});
   const navigate = useNavigate();
   const [roles, setRoles] = useState([]);
   const [selectedRoles, setSelectedRoles] = useState([]);
+  const token = localStorage.getItem("token");
 
   const handleInputChange = (e) => {
     setDepartmentData({ ...departmentData, [e.target.name]: e.target.value });
   };
 
   const getRoles = async () => {
-    await axios.get("http://localhost:8000/api/roles").then((res) => {
-      setRoles(res.data);
-    });
+    await axios
+      .get("http://localhost:8000/api/roles", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setRoles(res.data);
+      });
   };
   const rolesOptions = [];
   roles.map((role) => {
     rolesOptions.push({ label: role.name, value: role.id });
+  });
+
+  let selectedRolesOption = [];
+  selectedRoles.map((role) => {
+    selectedRolesOption.push({ label: role.name, value: role.id });
   });
 
   const handleRoleChange = (e) => {
@@ -39,7 +53,15 @@ const DepartmentEdit = () => {
     e.preventDefault();
     setBtnLoading(true);
     await axios
-      .put(`http://localhost:8000/api/departments/${id}`, departmentData)
+      .put(
+        `http://localhost:8000/api/departments/${id}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        },
+        departmentData
+      )
       .then((res) => {
         Swal.fire({
           position: "center",
@@ -59,7 +81,11 @@ const DepartmentEdit = () => {
   const fetchDepartment = async () => {
     setLoading(true);
     await axios
-      .get(`http://localhost:8000/api/departments/${id}`)
+      .get(`http://localhost:8000/api/departments/${id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((res) => {
         setDepartmentData({
           name: res.data.name,
@@ -68,12 +94,12 @@ const DepartmentEdit = () => {
       });
     setLoading(false);
     // console.log(departmentData);
-    console.log(selectedRoles);
   };
 
   useEffect(() => {
     fetchDepartment();
     getRoles();
+    console.log(selectedRolesOption);
   }, []);
   return (
     <div>
@@ -127,7 +153,7 @@ const DepartmentEdit = () => {
                     <Select
                       isMulti
                       onChange={handleRoleChange}
-                      value={selectedRoles}
+                      defaultValue={selectedRolesOption}
                       options={rolesOptions}
                       name="roles"
                       className={` ${validationErr.roles ? "is-invalid" : ""}`}

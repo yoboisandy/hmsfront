@@ -9,12 +9,19 @@ const RoomShow = () => {
   });
   const [loading, setLoading] = useState(false);
   let { id } = useParams();
+  const token = localStorage.getItem("token");
 
   const fetchRoom = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/rooms/${id}`).then((res) => {
-      setRoomData(res.data);
-    });
+    await axios
+      .get(`http://localhost:8000/api/rooms/${id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setRoomData(res.data);
+      });
     setLoading(false);
     console.log(roomData);
   };

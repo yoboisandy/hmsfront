@@ -10,6 +10,7 @@ const RoleEdit = () => {
   const [btnLoading, setBtnLoading] = useState(false);
   const [validationErr, setValidationErr] = useState({});
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   const handleInputChange = (e) => {
     setRoleData({ ...roleData, [e.target.name]: e.target.value });
@@ -22,7 +23,15 @@ const RoleEdit = () => {
     e.preventDefault();
     setBtnLoading(true);
     await axios
-      .put(`http://localhost:8000/api/roles/${id}`, roleData)
+      .put(
+        `http://localhost:8000/api/roles/${id}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        },
+        roleData
+      )
       .then((res) => {
         Swal.fire({
           position: "center",
@@ -41,11 +50,17 @@ const RoleEdit = () => {
 
   const fetchRole = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/roles/${id}`).then((res) => {
-      setRoleData({
-        name: res.data.name,
+    await axios
+      .get(`http://localhost:8000/api/roles/${id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setRoleData({
+          name: res.data.name,
+        });
       });
-    });
     setLoading(false);
     console.log(roleData);
   };
@@ -76,7 +91,6 @@ const RoleEdit = () => {
                 </div>
               ) : (
                 <form onSubmit={updateRole} method="post">
-                  
                   <div className="form-group">
                     <label htmlFor="name">Name</label>
                     <input
@@ -100,7 +114,7 @@ const RoleEdit = () => {
                       ""
                     )}
                   </div>
-                  
+
                   <div className="form-group my-2">
                     <button
                       onClick={updateRole}

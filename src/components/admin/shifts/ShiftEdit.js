@@ -10,6 +10,7 @@ const ShiftEdit = () => {
   const [btnLoading, setBtnLoading] = useState(false);
   const [validationErr, setValidationErr] = useState({});
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   const handleInputChange = (e) => {
     setShiftData({ ...shiftData, [e.target.name]: e.target.value });
@@ -22,7 +23,15 @@ const ShiftEdit = () => {
     e.preventDefault();
     setBtnLoading(true);
     await axios
-      .put(`http://localhost:8000/api/shifts/${id}`, shiftData)
+      .put(
+        `http://localhost:8000/api/shifts/${id}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        },
+        shiftData
+      )
       .then((res) => {
         Swal.fire({
           position: "center",
@@ -41,11 +50,17 @@ const ShiftEdit = () => {
 
   const fetchShift = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/shifts/${id}`).then((res) => {
-      setShiftData({
-        name: res.data.name,
+    await axios
+      .get(`http://localhost:8000/api/shifts/${id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setShiftData({
+          name: res.data.name,
+        });
       });
-    });
     setLoading(false);
     console.log(shiftData);
   };
@@ -76,7 +91,6 @@ const ShiftEdit = () => {
                 </div>
               ) : (
                 <form onSubmit={updateShift} method="post">
-                  
                   <div className="form-group">
                     <label htmlFor="name">Name</label>
                     <input
@@ -100,7 +114,7 @@ const ShiftEdit = () => {
                       ""
                     )}
                   </div>
-                  
+
                   <div className="form-group my-2">
                     <button
                       onClick={updateShift}

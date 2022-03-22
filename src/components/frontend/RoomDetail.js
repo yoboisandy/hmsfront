@@ -9,10 +9,18 @@ const RoomDetail = () => {
   const [roomDetail, setRoomDetail] = useState({
     amenities: [],
   });
+  const token = localStorage.getItem("token");
+
   const fetchRoomDetails = async () => {
-    await axios.get(`http://localhost:8000/api/roomtypes/${id}`).then((res) => {
-      setRoomDetail(res.data);
-    });
+    await axios
+      .get(`http://localhost:8000/api/roomtypes/${id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setRoomDetail(res.data);
+      });
   };
 
   useEffect(() => {

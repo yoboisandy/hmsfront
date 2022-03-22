@@ -7,10 +7,16 @@ import axios from "axios";
 const HallIndex = () => {
   const [halls, setHalls] = useState([]);
   const [loading, setLoading] = useState([]);
+  const token = localStorage.getItem("token");
+
   const fetchHalls = async () => {
     setLoading(true);
     await axios
-      .get("http://localhost:8000/api/halls")
+      .get("http://localhost:8000/api/halls", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((res) => {
         setHalls(res.data);
         console.log(res.data);
@@ -40,7 +46,11 @@ const HallIndex = () => {
 
     if (isConfirmed) {
       await axios
-        .delete(`http://localhost:8000/api/halls/${id}`)
+        .delete(`http://localhost:8000/api/halls/${id}`, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        })
         .then((res) => {
           Swal.fire({
             icon: "success",
@@ -76,12 +86,9 @@ const HallIndex = () => {
                   <tr className="text-center">
                     <th>SN</th>
                     <th>Name</th>
-                    <th>Description</th>
                     <th>Base Occupancy</th>
                     <th>High Occupancy</th>
-                    <th>Amenity</th>
                     <th>Floor</th>
-                    <th>Image</th>
                     <th>Base Price</th>
                     <th>High Price</th>
                     <th>Actions</th>
@@ -109,12 +116,10 @@ const HallIndex = () => {
                       <tr>
                         <td>{index + 1}</td>
                         <td>{hall.name}</td>
-                        <td>{hall.description}</td>
                         <td>{hall.base_occupancy}</td>
                         <td>{hall.high_occupancy}</td>
-                        <td>{hall.amenity.name}</td>
+                        {/* <td>{hall.amenity.name}</td> */}
                         <td>{hall.floor.name}</td>
-                        <td>{hall.image}</td>
                         <td>{hall.base_price}</td>
                         <td>{hall.high_price}</td>
                         <td className="d-flex justify-content-center">

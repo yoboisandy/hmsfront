@@ -7,12 +7,19 @@ const ShiftShow = () => {
   const [shiftData, setShiftData] = useState({});
   const [loading, setLoading] = useState(false);
   let { id } = useParams();
+  const token = localStorage.getItem("token");
 
   const fetchShift = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/shifts/${id}`).then((res) => {
-      setShiftData(res.data);
-    });
+    await axios
+      .get(`http://localhost:8000/api/shifts/${id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setShiftData(res.data);
+      });
     setLoading(false);
     console.log(shiftData);
   };
@@ -20,7 +27,6 @@ const ShiftShow = () => {
   useEffect(() => {
     fetchShift();
   }, []);
-  
 
   return (
     <div>
@@ -56,18 +62,14 @@ const ShiftShow = () => {
                 </tr>
               ) : (
                 <>
-                  
                   <tr>
                     <th>SN</th>
-                    <td>
-                      {shiftData.id}
-                    </td>
+                    <td>{shiftData.id}</td>
                   </tr>
                   <tr>
                     <th>Name</th>
                     <td>{shiftData.name}</td>
                   </tr>
-                  
                 </>
               )}
             </tbody>

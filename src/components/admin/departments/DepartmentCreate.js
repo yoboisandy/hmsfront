@@ -15,6 +15,7 @@ const DepartmentCreate = () => {
   const [loading, setLoading] = useState(false);
   const [roles, setRoles] = useState([]);
   const [selectedRoles, setSelectedRoles] = useState([]);
+  const token = localStorage.getItem("token");
 
   const handleInputChange = (e) => {
     setdepartmentData({ name: e.target.value });
@@ -22,9 +23,15 @@ const DepartmentCreate = () => {
   };
 
   const getRoles = async () => {
-    await axios.get("http://localhost:8000/api/roles").then((res) => {
-      setRoles(res.data);
-    });
+    await axios
+      .get("http://localhost:8000/api/roles", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setRoles(res.data);
+      });
   };
   const rolesOptions = [];
   roles.map((role) => {
@@ -50,10 +57,18 @@ const DepartmentCreate = () => {
     console.log(values);
 
     await axios
-      .post("http://localhost:8000/api/departments", {
-        name: departmentData.name,
-        roles: values,
-      })
+      .post(
+        "http://localhost:8000/api/departments",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        },
+        {
+          name: departmentData.name,
+          roles: values,
+        }
+      )
       .then((res) => {
         Swal.fire({
           position: "center",

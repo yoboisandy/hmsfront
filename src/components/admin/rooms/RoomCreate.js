@@ -12,6 +12,7 @@ const RoomCreate = () => {
   const [rooms, setRooms] = useState([]);
   const [roomtypes, setRoomTypes] = useState([]);
   const [floors, setFloors] = useState([]);
+  const token = localStorage.getItem("token");
 
   const handleInputChange = (e) => {
     setroomData({ ...roomData, [e.target.name]: e.target.value });
@@ -19,14 +20,26 @@ const RoomCreate = () => {
   };
 
   const getFloors = async () => {
-    await axios.get("http://localhost:8000/api/floors").then((res) => {
-      setFloors(res.data);
-    });
+    await axios
+      .get("http://localhost:8000/api/floors", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setFloors(res.data);
+      });
   };
   const getRoomTypes = async () => {
-    await axios.get("http://localhost:8000/api/roomtypes").then((res) => {
-      setRoomTypes(res.data);
-    });
+    await axios
+      .get("http://localhost:8000/api/roomtypes", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setRoomTypes(res.data);
+      });
   };
 
   useEffect(() => {
@@ -47,7 +60,15 @@ const RoomCreate = () => {
     fd.append("roomtype_id", roomData.roomtype_id);
 
     await axios
-      .post("http://localhost:8000/api/rooms", fd)
+      .post(
+        "http://localhost:8000/api/rooms",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        },
+        fd
+      )
       .then((res) => {
         Swal.fire({
           position: "center",

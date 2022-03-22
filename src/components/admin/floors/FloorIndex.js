@@ -7,12 +7,20 @@ import Swal from "sweetalert2";
 const FloorIndex = () => {
   const [floors, setFloors] = useState([]);
   const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem("token");
+
   const getFloors = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/floors`).then((res) => {
-      setFloors(res.data);
-      console.log(floors);
-    });
+    await axios
+      .get(`http://localhost:8000/api/floors`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setFloors(res.data);
+        console.log(floors);
+      });
     setLoading(false);
   };
 
@@ -31,7 +39,11 @@ const FloorIndex = () => {
 
     if (isConfirmed) {
       await axios
-        .delete(`http://localhost:8000/api/floors/${id}`)
+        .delete(`http://localhost:8000/api/floors/${id}`, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        })
         .then((res) => {
           Swal.fire({
             icon: "success",

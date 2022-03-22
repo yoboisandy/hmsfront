@@ -25,11 +25,18 @@ const RoomTypeCreate = () => {
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
   const [chk, setChk] = useState(0);
+  const token = localStorage.getItem("token");
 
   const getAmenities = async () => {
-    axios.get(`http://localhost:8000/api/amenities`).then((res) => {
-      setAmenities(res.data);
-    });
+    axios
+      .get(`http://localhost:8000/api/amenities`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setAmenities(res.data);
+      });
   };
 
   const amenitiesOptions = [];
@@ -82,7 +89,15 @@ const RoomTypeCreate = () => {
     console.log(fd.get("amenities"));
 
     await axios
-      .post("http://localhost:8000/api/roomtypes", fd)
+      .post(
+        "http://localhost:8000/api/roomtypes",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        },
+        fd
+      )
       .then((res) => {
         Swal.fire({
           position: "center",

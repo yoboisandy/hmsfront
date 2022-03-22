@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import UserContext from "../../../contexts/UserContext";
 
 const Layout = ({ children }) => {
+  const [user, fetchUser] = useContext(UserContext);
+  useEffect(() => {
+    fetchUser();
+  }, [user]);
+
+  console.log(user);
   return (
     <div>
       <header className="text-gray-600 body-font shadow-md sticky top-0 bg-white z-30">
@@ -122,21 +129,24 @@ const Layout = ({ children }) => {
               </svg>
             </button>
           </nav>
-
-          <button className="inline-flex items-center bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-700 rounded text-white text-base md:ml-3 mt-4 md:mt-0">
-            Book Now
-            <svg
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              className="w-4 h-4 ml-1"
-              viewBox="0 0 24 24"
+          {!user.role && (
+            <a
+              href="/login"
+              className="inline-flex items-center bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-700 rounded text-white text-base md:ml-3 mt-4 md:mt-0"
             >
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </button>
+              Log In
+              <i className="ml-2 fas fa-sign-in-alt"></i>
+            </a>
+          )}
+          {user.role && (
+            <a
+              href="/logout"
+              className="inline-flex items-center bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-700 rounded text-white text-base md:ml-3 mt-4 md:mt-0"
+            >
+              Log Out
+              <i className="ml-2 fas fa-power-off"></i>
+            </a>
+          )}
         </div>
       </header>
       <div className="">{children}</div>

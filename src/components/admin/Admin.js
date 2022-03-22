@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Layout from "./layout/Layout";
 import Dashboard from "./Dashboard";
 import CustomerApp from "./customers/CustomerApp";
@@ -11,6 +11,7 @@ import RoleApp from "./roles/RoleApp";
 import RoomApp from "./rooms/RoomApp";
 import ShiftApp from "./shifts/ShiftApp";
 import RoomTypeApp from "./roomtypes/RoomTypeApp";
+import UserContext from "../../contexts/UserContext";
 // import "./css/adminlte.min.css";
 
 const Admin = () => {
@@ -43,12 +44,18 @@ const Admin = () => {
     "layout-navbar-fixed"
   );
 
+  const [user, fetchUser] = useContext(UserContext);
+  const navigate = useNavigate();
   const [fullLoading, setFullLoading] = useState(false);
   useEffect(() => {
-    setFullLoading(true);
-
-    setFullLoading(false);
+    fetchUser();
   }, []);
+
+  useEffect(() => {
+    if (user.role && user.role !== "Admin") {
+      navigate("/");
+    }
+  });
 
   return (
     <>

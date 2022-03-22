@@ -7,12 +7,19 @@ const RoleShow = () => {
   const [roleData, setRoleData] = useState({});
   const [loading, setLoading] = useState(false);
   let { id } = useParams();
+  const token = localStorage.getItem("token");
 
   const fetchRole = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/roles/${id}`).then((res) => {
-      setRoleData(res.data);
-    });
+    await axios
+      .get(`http://localhost:8000/api/roles/${id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setRoleData(res.data);
+      });
     setLoading(false);
     console.log(roleData);
   };
@@ -20,7 +27,6 @@ const RoleShow = () => {
   useEffect(() => {
     fetchRole();
   }, []);
-  
 
   return (
     <div>
@@ -56,18 +62,14 @@ const RoleShow = () => {
                 </tr>
               ) : (
                 <>
-                  
                   <tr>
                     <th>SN</th>
-                    <td>
-                      {roleData.id}
-                    </td>
+                    <td>{roleData.id}</td>
                   </tr>
                   <tr>
                     <th>Name</th>
                     <td>{roleData.name}</td>
                   </tr>
-                  
                 </>
               )}
             </tbody>

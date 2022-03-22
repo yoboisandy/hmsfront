@@ -10,6 +10,7 @@ import Register from "./auth/Register";
 import Contact from "./Contact";
 import RoomDetail from "./RoomDetail";
 import ScrollToTop from "react-scroll-to-top";
+import Logout from "./auth/Logout";
 const Frontend = () => {
   useEffect(() => {}, []);
 
@@ -26,8 +27,9 @@ const Frontend = () => {
           <Route path="/rooms" element={<Rooms />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/rooms/:id" element={<RoomDetail />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/logout" element={<Logout />} />
         </Routes>
       </Layout>
     </div>
