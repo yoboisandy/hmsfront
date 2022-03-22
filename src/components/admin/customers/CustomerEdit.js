@@ -10,6 +10,7 @@ const CustomerEdit = () => {
   const [btnLoading, setBtnLoading] = useState(false);
   const [validationErr, setValidationErr] = useState({});
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   const handleInputChange = (e) => {
     setCustomerData({ ...customerData, [e.target.name]: e.target.value });
@@ -22,7 +23,15 @@ const CustomerEdit = () => {
     e.preventDefault();
     setBtnLoading(true);
     await axios
-      .put(`http://localhost:8000/api/customers/${id}`, customerData)
+      .put(
+        `http://localhost:8000/api/customers/${id}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        },
+        customerData
+      )
       .then((res) => {
         Swal.fire({
           position: "center",
@@ -41,16 +50,22 @@ const CustomerEdit = () => {
 
   const fetchCustomer = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/customers/${id}`).then((res) => {
-      setCustomerData({
-        firstname: res.data.firstname,
-        lastname: res.data.lastname,
-        email: res.data.email,
-        phone: res.data.phone,
-        address: res.data.address,
-        citizenship_number: res.data.citizenship_number,
+    await axios
+      .get(`http://localhost:8000/api/customers/${id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setCustomerData({
+          firstname: res.data.firstname,
+          lastname: res.data.lastname,
+          email: res.data.email,
+          phone: res.data.phone,
+          address: res.data.address,
+          citizenship_number: res.data.citizenship_number,
+        });
       });
-    });
     setLoading(false);
     console.log(customerData);
   };

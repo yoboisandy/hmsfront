@@ -6,11 +6,16 @@ import axios from "axios";
 const CustomerIndex = () => {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem("token");
 
   const fetchCustomers = async () => {
     setLoading(true);
     await axios
-      .get("http://localhost:8000/api/customers")
+      .get("http://localhost:8000/api/customers", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((res) => {
         setCustomers(res.data);
         console.log(res.data);
@@ -40,7 +45,11 @@ const CustomerIndex = () => {
 
     if (isConfirmed) {
       await axios
-        .delete(`http://localhost:8000/api/customers/${id}`)
+        .delete(`http://localhost:8000/api/customers/${id}`, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        })
         .then((res) => {
           Swal.fire({
             icon: "success",

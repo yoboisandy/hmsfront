@@ -11,6 +11,7 @@ const FloorEdit = () => {
   const [btnLoading, setBtnLoading] = useState(false);
   const [validationErr, setValidationErr] = useState({});
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   const handleInputChange = (e) => {
     setfloorData({ ...floorData, [e.target.name]: e.target.value });
@@ -18,9 +19,15 @@ const FloorEdit = () => {
   };
 
   const getFloor = async () => {
-    await axios.get(`http://localhost:8000/api/floors/${id}`).then((res) => {
-      setfloorData(res.data);
-    });
+    await axios
+      .get(`http://localhost:8000/api/floors/${id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setfloorData(res.data);
+      });
   };
 
   let { id } = useParams();
@@ -29,7 +36,15 @@ const FloorEdit = () => {
     e.preventDefault();
     setBtnLoading(true);
     await axios
-      .put(`http://localhost:8000/api/floors/${id}`, floorData)
+      .put(
+        `http://localhost:8000/api/floors/${id}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        },
+        floorData
+      )
       .then((res) => {
         Swal.fire({
           position: "center",

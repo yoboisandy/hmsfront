@@ -9,11 +9,16 @@ const DepartmentShow = () => {
   });
   const [loading, setLoading] = useState(false);
   let { id } = useParams();
+  const token = localStorage.getItem("token");
 
   const fetchDepartment = async () => {
     setLoading(true);
     await axios
-      .get(`http://localhost:8000/api/departments/${id}`)
+      .get(`http://localhost:8000/api/departments/${id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((res) => {
         setDepartmentData(res.data);
         console.log(departmentData);

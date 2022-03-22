@@ -11,6 +11,7 @@ const RoleCreate = () => {
   const navigate = useNavigate();
   const [roleData, setroleData] = useState({});
   const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem("token");
 
   const handleInputChange = (e) => {
     setroleData({ ...roleData, [e.target.name]: e.target.value });
@@ -25,7 +26,15 @@ const RoleCreate = () => {
     // fd.append("name", roleData.name);
 
     await axios
-      .post("http://localhost:8000/api/roles", roleData)
+      .post(
+        "http://localhost:8000/api/roles",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        },
+        roleData
+      )
       .then((res) => {
         Swal.fire({
           position: "center",

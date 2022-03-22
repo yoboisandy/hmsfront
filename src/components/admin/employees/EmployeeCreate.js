@@ -29,6 +29,7 @@ const EmployeeCreate = () => {
   const [shifts, setShifts] = useState([]);
   const [roles, setRoles] = useState([]);
   const [image, setImage] = useState(null);
+  const token = localStorage.getItem("token");
 
   const handleInputChange = (e) => {
     setemployeeData({ ...employeeData, [e.target.name]: e.target.value });
@@ -36,19 +37,37 @@ const EmployeeCreate = () => {
   };
 
   const getDepartments = async () => {
-    await axios.get("http://localhost:8000/api/departments").then((res) => {
-      setDepartments(res.data);
-    });
+    await axios
+      .get("http://localhost:8000/api/departments", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setDepartments(res.data);
+      });
   };
   const getShifts = async () => {
-    await axios.get("http://localhost:8000/api/shifts").then((res) => {
-      setShifts(res.data);
-    });
+    await axios
+      .get("http://localhost:8000/api/shifts", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setShifts(res.data);
+      });
   };
   const getRoles = async () => {
-    await axios.get("http://localhost:8000/api/roles").then((res) => {
-      setRoles(res.data);
-    });
+    await axios
+      .get("http://localhost:8000/api/roles", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setRoles(res.data);
+      });
   };
 
   useEffect(() => {
@@ -83,7 +102,15 @@ const EmployeeCreate = () => {
     fd.append("joining_date", employeeData.joining_date);
     fd.append("image", image);
     await axios
-      .post("http://localhost:8000/api/employees", fd)
+      .post(
+        "http://localhost:8000/api/employees",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        },
+        fd
+      )
       .then((res) => {
         Swal.fire({
           position: "center",

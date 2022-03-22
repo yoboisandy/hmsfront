@@ -6,12 +6,20 @@ const EmployeeShow = () => {
   let { id } = useParams();
   const [employee, setEmployee] = useState({});
   const [loading, setLoading] = useState(true);
+  const token = localStorage.getItem("token");
+
   const fetchEmployee = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/employees/${id}`).then((res) => {
-      setEmployee(res.data);
-      console.log(employee);
-    });
+    await axios
+      .get(`http://localhost:8000/api/employees/${id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setEmployee(res.data);
+        console.log(employee);
+      });
     setLoading(false);
   };
 

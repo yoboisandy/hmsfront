@@ -7,11 +7,16 @@ import axios from "axios";
 const DepartmentIndex = () => {
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem("token");
 
   const fetchDepartments = async () => {
     setLoading(true);
     await axios
-      .get("http://localhost:8000/api/departments")
+      .get("http://localhost:8000/api/departments", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((res) => {
         setDepartments(res.data);
         console.log(res.data);
@@ -41,7 +46,11 @@ const DepartmentIndex = () => {
 
     if (isConfirmed) {
       await axios
-        .delete(`http://localhost:8000/api/departments/${id}`)
+        .delete(`http://localhost:8000/api/departments/${id}`, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        })
         .then((res) => {
           Swal.fire({
             icon: "success",

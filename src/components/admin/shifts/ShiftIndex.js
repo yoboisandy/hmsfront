@@ -7,11 +7,16 @@ import axios from "axios";
 const ShiftIndex = () => {
   const [shifts, setShifts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem("token");
 
   const fetchShifts = async () => {
     setLoading(true);
     await axios
-      .get("http://localhost:8000/api/shifts")
+      .get("http://localhost:8000/api/shifts", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((res) => {
         setShifts(res.data);
         console.log(res.data);
@@ -41,7 +46,11 @@ const ShiftIndex = () => {
 
     if (isConfirmed) {
       await axios
-        .delete(`http://localhost:8000/api/shifts/${id}`)
+        .delete(`http://localhost:8000/api/shifts/${id}`, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        })
         .then((res) => {
           Swal.fire({
             icon: "success",

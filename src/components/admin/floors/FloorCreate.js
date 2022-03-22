@@ -10,6 +10,8 @@ const FloorCreate = () => {
   const [floorData, setFloorData] = useState({});
   const [btnLoading, setBtnLoading] = useState(false);
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
   const handleInputChange = (e) => {
     setFloorData({ ...floorData, [e.target.name]: e.target.value });
   };
@@ -17,7 +19,15 @@ const FloorCreate = () => {
     e.preventDefault();
     setBtnLoading(true);
     await axios
-      .post(`http://localhost:8000/api/floors`, floorData)
+      .post(
+        `http://localhost:8000/api/floors`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        },
+        floorData
+      )
       .then((res) => {
         Swal.fire({
           position: "center",

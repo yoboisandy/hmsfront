@@ -4,11 +4,18 @@ import { useState, useEffect } from "react";
 const Dashboard = () => {
   const [counts, setCounts] = useState({});
   const [loading, setloading] = useState(false);
+  const token = localStorage.getItem("token");
   const count = async () => {
     setloading(true);
-    await axios.get(`http://localhost:8000/api/count`).then((res) => {
-      setCounts(res.data);
-    });
+    await axios
+      .get(`http://localhost:8000/api/count`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setCounts(res.data);
+      });
     setloading(false);
   };
 

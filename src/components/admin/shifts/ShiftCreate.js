@@ -9,15 +9,12 @@ const ShiftCreate = () => {
   const navigate = useNavigate();
   const [shiftData, setshiftData] = useState({});
   const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem("token");
 
   const handleInputChange = (e) => {
     setshiftData({ ...shiftData, [e.target.name]: e.target.value });
     console.log(shiftData);
   };
-
-  
-
-  
 
   const saveShift = async (e) => {
     e.preventDefault();
@@ -25,9 +22,17 @@ const ShiftCreate = () => {
     setLoading(true);
     const fd = new FormData();
     fd.append("name", shiftData.name);
-    
+
     await axios
-      .post("http://localhost:8000/api/shifts", fd)
+      .post(
+        "http://localhost:8000/api/shifts",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        },
+        fd
+      )
       .then((res) => {
         Swal.fire({
           position: "center",
@@ -60,7 +65,7 @@ const ShiftCreate = () => {
             </div>
             <div className="card-body ">
               <form onSubmit={saveShift} method="post">
-              <div className="form-group">
+                <div className="form-group">
                   <label htmlFor="name">Shift Name</label>
                   <input
                     onChange={handleInputChange}
@@ -83,8 +88,7 @@ const ShiftCreate = () => {
                     ""
                   )}
                 </div>
-               
-                
+
                 <div className="form-group my-2">
                   <button
                     onClick={saveShift}

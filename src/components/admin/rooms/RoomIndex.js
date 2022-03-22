@@ -7,11 +7,16 @@ import axios from "axios";
 const RoomIndex = () => {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem("token");
 
   const fetchRooms = async () => {
     setLoading(true);
     await axios
-      .get("http://localhost:8000/api/rooms")
+      .get("http://localhost:8000/api/rooms", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((res) => {
         setRooms(res.data);
         console.log(res.data);
@@ -41,7 +46,11 @@ const RoomIndex = () => {
 
     if (isConfirmed) {
       await axios
-        .delete(`http://localhost:8000/api/rooms/${id}`)
+        .delete(`http://localhost:8000/api/rooms/${id}`, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        })
         .then((res) => {
           Swal.fire({
             icon: "success",

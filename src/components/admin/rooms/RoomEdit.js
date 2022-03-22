@@ -10,6 +10,7 @@ const RoomEdit = () => {
   const [btnLoading, setBtnLoading] = useState(false);
   const [validationErr, setValidationErr] = useState({});
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   const handleInputChange = (e) => {
     setRoomData({ ...roomData, [e.target.name]: e.target.value });
@@ -22,7 +23,15 @@ const RoomEdit = () => {
     e.preventDefault();
     setBtnLoading(true);
     await axios
-      .put(`http://localhost:8000/api/rooms/${id}`, roomData)
+      .put(
+        `http://localhost:8000/api/rooms/${id}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        },
+        roomData
+      )
       .then((res) => {
         Swal.fire({
           position: "center",
@@ -41,16 +50,22 @@ const RoomEdit = () => {
 
   const fetchRoom = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/rooms/${id}`).then((res) => {
-      setRoomData({
-        room_no: res.data.room_no,
-        floor_id: res.data.floor_id,
-        capacity: res.data.capacity,
-        price: res.data.price,
-        description: res.data.description,
-        roomtype_id: res.data.roomtype_id,
+    await axios
+      .get(`http://localhost:8000/api/rooms/${id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setRoomData({
+          room_no: res.data.room_no,
+          floor_id: res.data.floor_id,
+          capacity: res.data.capacity,
+          price: res.data.price,
+          description: res.data.description,
+          roomtype_id: res.data.roomtype_id,
+        });
       });
-    });
     setLoading(false);
     console.log(roomData);
   };
@@ -197,9 +212,7 @@ const RoomEdit = () => {
                     )}
                   </div>
                   <div className="form-group">
-                    <label htmlFor="citizenship_number">
-                      Room Type
-                    </label>
+                    <label htmlFor="citizenship_number">Room Type</label>
                     <input
                       onChange={handleInputChange}
                       value={roomData.roomtype_id}

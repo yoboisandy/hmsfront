@@ -7,11 +7,16 @@ import axios from "axios";
 const RoleIndex = () => {
   const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem("token");
 
   const fetchRoles = async () => {
     setLoading(true);
     await axios
-      .get("http://localhost:8000/api/roles")
+      .get("http://localhost:8000/api/roles", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((res) => {
         setRoles(res.data);
         console.log(res.data);
@@ -41,7 +46,11 @@ const RoleIndex = () => {
 
     if (isConfirmed) {
       await axios
-        .delete(`http://localhost:8000/api/roles/${id}`)
+        .delete(`http://localhost:8000/api/roles/${id}`, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        })
         .then((res) => {
           Swal.fire({
             icon: "success",

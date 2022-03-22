@@ -6,9 +6,11 @@ import Spinner from "./components/Spinner";
 const Rooms = () => {
   const [roomTypes, setRoomTypes] = useState([]);
   const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem("token");
+
   const fetchRoomType = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/roomtypes`).then((res) => {
+    await axios.get(`http://localhost:8000/api/viewroomtypes`).then((res) => {
       setRoomTypes(res.data);
     });
     setLoading(false);

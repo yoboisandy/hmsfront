@@ -5,12 +5,19 @@ import { Link, useParams } from "react-router-dom";
 const FloorShow = () => {
   const [floor, setFloor] = useState({});
   let { id } = useParams();
+  const token = localStorage.getItem("token");
 
   const getFloors = async () => {
-    await axios.get(`http://localhost:8000/api/floors/${id}`).then((res) => {
-      setFloor(res.data);
-      console.log(floor);
-    });
+    await axios
+      .get(`http://localhost:8000/api/floors/${id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setFloor(res.data);
+        console.log(floor);
+      });
   };
 
   useEffect(() => {

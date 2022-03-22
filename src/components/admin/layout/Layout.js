@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
+import UserContext from "../../../contexts/UserContext";
 // import canView from "../permissions";
 
 const Layout = ({ children }) => {
+  const [user] = useContext(UserContext);
   return (
     <div className="wrapper">
       {/* Navbar */}
@@ -19,8 +21,8 @@ const Layout = ({ children }) => {
             </a>
           </li>
           <li className="nav-item d-none d-sm-inline-block">
-            <Link to="/admin" className="nav-link">
-              Home
+            <Link to="/" className="nav-link">
+              Back To Site
             </Link>
           </li>
         </ul>
@@ -68,6 +70,7 @@ const Layout = ({ children }) => {
               <i className="fas fa-expand-arrows-alt" />
             </a>
           </li>
+
           <li className="nav-item dropdown">
             <a
               className="nav-link dropdown-toggle"
@@ -78,15 +81,14 @@ const Layout = ({ children }) => {
               aria-haspopup="true"
               aria-expanded="false"
             >
-              {/* {user.name} */}
-              sandeep
+              {user && user.name}
             </a>
             <div className="dropdown-menu" aria-labelledby="navbarDropdown">
               <a className="dropdown-item" href="/">
                 <i className="nav-icon mr-2 fas fa-user-alt"></i>
                 Profile
               </a>
-              <a className="dropdown-item" href="/">
+              <a className="dropdown-item" href="/logout">
                 <i className="fas fa-power-off mr-2"></i>
                 Logout
               </a>
@@ -115,8 +117,7 @@ const Layout = ({ children }) => {
             >
               <li className="nav-item my-2">
                 <NavLink
-                  to="/admin/dashboard"
-                  exact="true"
+                  to="/admin/"
                   className="nav-link"
                   activeClassName="active"
                 >

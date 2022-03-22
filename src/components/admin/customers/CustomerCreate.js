@@ -8,6 +8,7 @@ const CustomerCreate = () => {
   const navigate = useNavigate();
   const [customerData, setCustomerData] = useState({});
   const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem("token");
   const handleInputChange = (e) => {
     setCustomerData({ ...customerData, [e.target.name]: e.target.value });
     console.log(customerData);
@@ -16,7 +17,11 @@ const CustomerCreate = () => {
     e.preventDefault();
     setLoading(true);
     await axios
-      .post("http://localhost:8000/api/customers", customerData)
+      .post("http://localhost:8000/api/customers", customerData, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((res) => {
         Swal.fire({
           position: "center",
