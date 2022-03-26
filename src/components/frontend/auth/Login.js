@@ -1,9 +1,13 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import FullLoadingContext from "../../../contexts/FullLoadingContext";
+import UserContext from "../../../contexts/UserContext";
 
 const Login = () => {
   const [loginDetails, setLoginDetails] = useState({});
+  const [user, fetchUser, setUser] = useContext(UserContext);
+  const [fullLoading, setFullLoading] = useContext(FullLoadingContext);
   const [error, setError] = useState("");
   const [loggedUser, setloggedUser] = useState({});
   const [loading, setLoading] = useState(false);
@@ -16,12 +20,14 @@ const Login = () => {
 
   const login = (e) => {
     e.preventDefault();
+    setFullLoading(true);
     setError("");
     axios
       .post("http://localhost:8000/api/login", loginDetails)
       .then((res) => {
         localStorage.setItem("token", res.data.access_token);
         setloggedUser(res.data.user);
+        setUser(res.data.user);
         if (res.data.user.role === "Admin") {
           navigate("/admin");
         } else {
@@ -32,9 +38,11 @@ const Login = () => {
         console.log(err);
         setError("Invalid Email or Password");
       });
+    setFullLoading(false);
   };
 
   useEffect(() => {
+    setFullLoading(true);
     if (localStorage.getItem("token")) {
       axios
         .get("http://localhost:8000/api/user", {
@@ -55,6 +63,7 @@ const Login = () => {
     } else {
       setLoading(false);
     }
+    setFullLoading(false);
   }, []);
 
   return (

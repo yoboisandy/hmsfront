@@ -1,33 +1,34 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import IndividualRoomDetail from "./components/IndividualRoomDetail";
+import IndividualHallDetail from "./components/IndiividualHallDetail";
+
 // import Datepicker from "@themesberg/tailwind-datepicker/Datepicker";
 // import DateRangePicker from "@themesberg/tailwind-datepicker/DateRangePicker";
-const RoomDetail = () => {
+const HallDetail = () => {
   let { id } = useParams();
-  const [roomDetail, setRoomDetail] = useState({
+  const [hallDetail, setHallDetail] = useState({
     amenities: [],
   });
   const token = localStorage.getItem("token");
 
-  const fetchRoomDetails = async () => {
+  const fetchHallDetails = async () => {
     await axios
-      .get(`http://localhost:8000/api/type/${id}`, {
+      .get(`http://localhost:8000/api/hall/${id}`, {
         headers: {
           Authorization: "Bearer " + token,
         },
       })
       .then((res) => {
-        setRoomDetail(res.data);
+        setHallDetail(res.data);
       });
   };
 
   useEffect(() => {
-    fetchRoomDetails();
+    fetchHallDetails();
   }, []);
 
-  return <IndividualRoomDetail {...roomDetail} />;
+  return <IndividualHallDetail {...hallDetail} />;
 };
 
-export default RoomDetail;
+export default HallDetail;

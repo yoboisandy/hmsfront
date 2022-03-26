@@ -12,6 +12,7 @@ import RoomApp from "./rooms/RoomApp";
 import ShiftApp from "./shifts/ShiftApp";
 import RoomTypeApp from "./roomtypes/RoomTypeApp";
 import UserContext from "../../contexts/UserContext";
+import FullSpinner from "../frontend/components/FullSpinner";
 // import "./css/adminlte.min.css";
 
 const Admin = () => {
@@ -19,6 +20,7 @@ const Admin = () => {
   const adminltecss = document.createElement("link");
   adminltecss.rel = "stylesheet";
   adminltecss.href = "/adminlte/css/adminlte.min.css";
+  adminltecss.id = "adminltecss";
   document.head.appendChild(adminltecss);
   // jquery.min.js
   const jqueryminjs = document.createElement("script");
@@ -47,19 +49,23 @@ const Admin = () => {
   const [user, fetchUser] = useContext(UserContext);
   const navigate = useNavigate();
   const [fullLoading, setFullLoading] = useState(false);
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   useEffect(() => {
+    setFullLoading(true);
+
+    if (user.role === "") {
+      navigate("/");
+    }
     if (user.role && user.role !== "Admin") {
       navigate("/");
     }
-  });
+
+    setFullLoading(true);
+  }, [user]);
 
   return (
     <>
-      {fullLoading && <div>Loading...</div>}
+      {fullLoading && <FullSpinner />}
       <Layout>
         <Routes>
           <Route path="/" element={<Dashboard />} />
