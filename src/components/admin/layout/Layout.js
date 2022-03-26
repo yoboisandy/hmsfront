@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
+import FullLoadingContext from "../../../contexts/FullLoadingContext";
 import UserContext from "../../../contexts/UserContext";
 // import canView from "../permissions";
 
@@ -21,9 +22,9 @@ const Layout = ({ children }) => {
             </a>
           </li>
           <li className="nav-item d-none d-sm-inline-block">
-            <Link to="/" className="nav-link">
+            <a href="/" className="nav-link">
               Back To Site
-            </Link>
+            </a>
           </li>
         </ul>
         <ul className="navbar-nav ml-auto">

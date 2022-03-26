@@ -1,6 +1,12 @@
 import React from "react";
 
-const IndividualDetail = ({ image, type_name, description, amenities }) => {
+const IndividualRoomDetail = ({
+  image,
+  type_name,
+  description,
+  amenities,
+  price,
+}) => {
   return (
     <div>
       <div className="mx-16 my-16">
@@ -55,7 +61,7 @@ const IndividualDetail = ({ image, type_name, description, amenities }) => {
           </div>
           <div className="md:w-4/12 md:mt-0 mt-4">
             <div className="bg-indigo-500 p-3 font-bold text-white">
-              Rs.2400 /per person/night
+              {type_name}
             </div>
             <div className="border-2 pb-4 border-indigo-400 px-3">
               <form>
@@ -192,4 +198,4 @@ const IndividualDetail = ({ image, type_name, description, amenities }) => {
   );
 };
 
-export default IndividualDetail;
+export default IndividualRoomDetail;

@@ -1,12 +1,19 @@
-import React, { useContext, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { button, useNavigate } from "react-router-dom";
+import FullLoadingContext from "../../../contexts/FullLoadingContext";
 import UserContext from "../../../contexts/UserContext";
 
 const Layout = ({ children }) => {
-  const [user, fetchUser] = useContext(UserContext);
-  useEffect(() => {
-    fetchUser();
-  }, [user]);
+  const navigate = useNavigate();
+  const [user] = useContext(UserContext);
+  const [fullLoading, setFullLoading] = useContext(FullLoadingContext);
+
+  function goTo(url, e) {
+    setFullLoading(true);
+    window.scrollTo(window.top);
+    navigate(url);
+    setFullLoading(false);
+  }
 
   console.log(user);
   return (
@@ -18,134 +25,59 @@ const Layout = ({ children }) => {
             {/* <span className="ml-3 text-xl">Tailblocks</span> */}
           </a>
           <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center gap-4">
-            <NavLink
-              to="/"
-              className="mr-5 hover:text-gray-900 font-semibold pb-0.5 border-b-2 border-transparent transition-all duration-300 hover:border-indigo-600"
+            <button
+              onClick={() => goTo("/")}
+              className="mr-5 hover:text-gray-900 font-semibold pb-0.5 border-b-2 border-transparent transition-all duration-300 hover:border-indigo-600 cursor-pointer"
             >
               Home
-            </NavLink>
-            <NavLink
-              to="/rooms"
-              className="mr-5 hover:text-gray-900 font-semibold pb-0.5 border-b-2 border-transparent transition-all duration-300 hover:border-indigo-600"
+            </button>
+            <button
+              onClick={() => goTo("/rooms")}
+              className="mr-5 hover:text-gray-900 font-semibold pb-0.5 border-b-2 border-transparent transition-all duration-300 hover:border-indigo-600 cursor-pointer"
             >
               Rooms
-            </NavLink>
-            <NavLink
-              to="/halls"
-              className="mr-5 hover:text-gray-900 font-semibold pb-0.5 border-b-2 border-transparent transition-all duration-300 hover:border-indigo-600"
+            </button>
+            <button
+              onClick={() => goTo("/halls")}
+              className="mr-5 hover:text-gray-900 font-semibold pb-0.5 border-b-2 border-transparent transition-all duration-300 hover:border-indigo-600 cursor-pointer"
             >
               Halls
-            </NavLink>
-            <NavLink
-              to="/about"
-              className="mr-5 hover:text-gray-900 font-semibold pb-0.5 border-b-2 border-transparent transition-all duration-300 hover:border-indigo-600"
-            >
-              About
-            </NavLink>
-            <NavLink
-              to="/contact"
-              className="md:mr-5 hover:text-gray-900 font-semibold pb-0.5 border-b-2 border-transparent transition-all duration-300 hover:border-indigo-600"
+            </button>
+
+            <button
+              onClick={() => goTo("/contact")}
+              className="md:mr-5 hover:text-gray-900 font-semibold pb-0.5 border-b-2 border-transparent transition-all duration-300 hover:border-indigo-600 cursor-pointer"
             >
               Contact Us
-            </NavLink>
-            <div
-              class="hidden z-50 my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-              id="dropdown"
-            >
-              <div class="py-3 px-4">
-                <span class="block text-sm text-gray-900 dark:text-white">
-                  Bonnie Green
-                </span>
-                <span class="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">
-                  name@flowbite.com
-                </span>
-              </div>
-              <ul class="py-1" aria-labelledby="dropdown">
-                <li>
-                  <a
-                    href="#"
-                    class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                  >
-                    Dashboard
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                  >
-                    Settings
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                  >
-                    Earnings
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                  >
-                    Sign out
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <button
-              data-collapse-toggle="mobile-menu-2"
-              type="button"
-              class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-              aria-controls="mobile-menu-2"
-              aria-expanded="false"
-            >
-              <span class="sr-only">Open main menu</span>
-              <svg
-                class="w-6 h-6"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-              <svg
-                class="hidden w-6 h-6"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
             </button>
+            {user.role === "Admin" && (
+              <button
+                onClick={() => goTo("/admin/")}
+                className="md:mr-5 hover:text-gray-900 font-semibold pb-0.5 border-b-2 border-transparent transition-all duration-300 hover:border-indigo-600 cursor-pointer"
+              >
+                Admin
+              </button>
+            )}
           </nav>
           {!user.role && (
-            <a
-              href="/login"
+            <button
+              onClick={() => goTo("/login")}
               className="inline-flex items-center bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-700 rounded text-white text-base md:ml-3 mt-4 md:mt-0"
             >
               Log In
               <i className="ml-2 fas fa-sign-in-alt"></i>
-            </a>
+            </button>
           )}
           {user.role && (
-            <a
-              href="/logout"
-              className="inline-flex items-center bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-700 rounded text-white text-base md:ml-3 mt-4 md:mt-0"
-            >
-              Log Out
-              <i className="ml-2 fas fa-power-off"></i>
-            </a>
+            <>
+              <button
+                onClick={() => goTo("/logout")}
+                className="inline-flex items-center bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-700 rounded text-white text-base md:ml-3 mt-4 md:mt-0"
+              >
+                Log Out
+                <i className="ml-2 fas fa-power-off"></i>
+              </button>
+            </>
           )}
         </div>
       </header>

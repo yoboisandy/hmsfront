@@ -1,26 +1,29 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import HallCard from "./components/HallCard";
 import RoomCard from "./components/RoomCard";
 import Spinner from "./components/Spinner";
 
-const Rooms = () => {
+const Halls = () => {
   const [loading, setLoading] = useState(false);
-  const [roomTypes, setRoomTypes] = useState([
+  const [halls, setHalls] = useState([
     {
       amenities: [],
     },
   ]);
+
   const token = localStorage.getItem("token");
 
-  const fetchRoomType = async () => {
+  const fetchHallType = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/viewroomtypes`).then((res) => {
-      setRoomTypes(res.data);
+    await axios.get(`http://localhost:8000/api/viewhalls`).then((res) => {
+      setHalls(res.data);
+      console.log(halls);
     });
     setLoading(false);
   };
   useEffect(() => {
-    fetchRoomType();
+    fetchHallType();
   }, []);
 
   return (
@@ -30,7 +33,7 @@ const Rooms = () => {
           <div className="text-white ">
             {/* <div className="border-l-4 border-indigo-500 w-6/12 mx-auto"></div> */}
             <h2 className="text-6xl font-semibold tracking-wider border-l-8 border-indigo-500 pl-3 text-center flex items-center">
-              <span>Rooms</span>
+              <span>Halls</span>
             </h2>
           </div>
         </div>
@@ -64,8 +67,8 @@ const Rooms = () => {
                   id="roomtype"
                 >
                   <option value={"all"}>All</option>
-                  {roomTypes.map((data) => {
-                    return <option value={data.id}>{data.type_name}</option>;
+                  {halls.map((data) => {
+                    return <option value={data.id}>{data.name}</option>;
                   })}
                 </select>
               </div>
@@ -82,20 +85,21 @@ const Rooms = () => {
         </div>
       </div>
       <div className="my-8">
-        <h2 className="lg:text-4xl text-3xl font-semibold  pb-3 w-1/3 lg:w-1/4 text-center mx-auto border-b-2 border-indigo-300">
-          Our Rooms
-        </h2>
+        <div>
+          <h2 className="lg:text-4xl text-3xl font-semibold  pb-3 w-1/3 lg:w-1/4 text-center mx-auto border-b-2 border-indigo-300">
+            Our Halls
+          </h2>
+        </div>
         <div>
           <section className="text-gray-600 body-font">
-            <div className=" w-full px-5 py-12 flex justify-center">
-              {loading && <Spinner />}
-              {!loading && (
-                <div className="flex flex-wrap -m-4">
-                  {roomTypes.map((el, index) => {
-                    return <RoomCard key={index} {...el} index={index} />;
+            <div className="container px-5 py-12 mx-auto">
+              <div className="flex flex-wrap -m-4">
+                {loading && <Spinner />}
+                {!loading &&
+                  halls.map((el, index) => {
+                    return <HallCard key={index} {...el} index={index} />;
                   })}
-                </div>
-              )}
+              </div>
             </div>
           </section>
         </div>
@@ -104,4 +108,4 @@ const Rooms = () => {
   );
 };
 
-export default Rooms;
+export default Halls;
