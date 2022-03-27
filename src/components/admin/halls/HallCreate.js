@@ -9,10 +9,17 @@ const HallCreate = () => {
   const [validationErr, setValidationErr] = useState({});
   const navigate = useNavigate();
   const [hallData, sethallData] = useState({
+    name: "",
+    description: "",
+    base_occupancy: "",
+    high_occupancy: "",
+    floor_id: "",
+    base_price: "",
+    high_price: "",
     amenities: [],
   });
+  const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [halls, setHalls] = useState();
   const [floors, setFloors] = useState([]);
   const [amenities, setAmenities] = useState([]);
   const [selectedAmenities, setSelectedAmenities] = useState([]);
@@ -34,6 +41,10 @@ const HallCreate = () => {
         setFloors(res.data);
       });
   };
+  const handleImageChange = (file) => {
+    setImage(file[0]);
+  };
+
   const getAmenities = async () => {
     await axios
       .get("http://localhost:8000/api/amenities", {
@@ -45,7 +56,12 @@ const HallCreate = () => {
         setAmenities(res.data);
       });
   };
+
   const handleRoleChange = (e, act) => {
+    console.log(e);
+    setSelectedAmenities(e);
+  };
+  const handleAmenityChange = (e) => {
     console.log(e);
     setSelectedAmenities(e);
   };
@@ -69,22 +85,19 @@ const HallCreate = () => {
     fd.append("description", hallData.description);
     fd.append("base_occupancy", hallData.base_occupancy);
     fd.append("high_occupancy", hallData.high_occupancy);
-    fd.append("amenities", hallData.selectedAmenities);
     fd.append("floor_id", hallData.floor_id);
-    fd.append("image", hallData.image);
+    fd.append("image", image);
     fd.append("base_price", hallData.base_price);
     fd.append("high_price", hallData.high_price);
-
+    values.forEach((item) => {
+      fd.append("amenities[]", item);
+    });
     await axios
-      .post(
-        "http://localhost:8000/api/halls",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
+      .post("http://localhost:8000/api/halls", fd, {
+        headers: {
+          Authorization: "Bearer " + token,
         },
-        fd
-      )
+      })
       .then((res) => {
         Swal.fire({
           position: "center",
@@ -164,6 +177,27 @@ const HallCreate = () => {
                   )}
                 </div>
                 <div className="form-group">
+                  <label htmlFor="image">Image</label>
+                  <input
+                    onChange={(e) => handleImageChange(e.target.files)}
+                    name="image"
+                    type="file"
+                    className={`form-control ${
+                      validationErr.image ? "is-invalid" : ""
+                    }`}
+                    id="image"
+                  />
+                  {validationErr.image ? (
+                    <>
+                      <span className="text-danger form-text">
+                        {validationErr.image}
+                      </span>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </div>
+                <div className="form-group">
                   <label htmlFor="base_occupancy">Base Occupancy</label>
                   <input
                     onChange={handleInputChange}
@@ -190,7 +224,7 @@ const HallCreate = () => {
                   <label htmlFor="high_occupancy">High Occupancy</label>
                   <input
                     onChange={handleInputChange}
-                    value={hallData.high_ocupancy}
+                    value={hallData.high_occupancy}
                     name="high_occupancy"
                     type="text"
                     className={`form-control ${
@@ -248,7 +282,7 @@ const HallCreate = () => {
                   <label htmlFor="amenities">Amenity</label>
                   <Select
                     isMulti
-                    onChange={handleRoleChange}
+                    onChange={handleAmenityChange}
                     value={selectedAmenities}
                     options={amenitiesOptions}
                     name="amenities"

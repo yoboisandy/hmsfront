@@ -36,7 +36,8 @@ const Login = () => {
       })
       .catch((err) => {
         console.log(err);
-        setError("Invalid Email or Password");
+        setError(err.response.data.message);
+        console.log(err.response.data.message);
       });
     setFullLoading(false);
   };
@@ -72,6 +73,11 @@ const Login = () => {
         <div className="px-8 py-6 mx-4  text-left bg-white shadow-lg md:w-1/3 lg:w-1/3 sm:w-1/3">
           <h3 className="text-2xl font-bold text-center">Login</h3>
           <form onSubmit={login}>
+            {error && (
+              <div className="text-white font-medium bg-red-600 py-3 px-2 rounded mt-4 text-center">
+                {error}
+              </div>
+            )}
             <div className="mt-4">
               <div className="mt-4">
                 <label className="block" htmlFor="email">
