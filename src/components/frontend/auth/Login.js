@@ -29,7 +29,7 @@ const Login = () => {
         setloggedUser(res.data.user);
         setUser(res.data.user);
         if (res.data.user.role === "Admin") {
-          navigate("/admin");
+          navigate("/dashboard");
         } else {
           navigate("/");
         }
@@ -53,7 +53,7 @@ const Login = () => {
         })
         .then((res) => {
           if (res.data.role === "Admin") {
-            navigate("/admin");
+            navigate("/dashboard");
           } else if (res.data.role === "Customer") {
             navigate("/");
           }

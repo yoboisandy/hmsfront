@@ -50,14 +50,60 @@ const Layout = ({ children }) => {
             >
               Contact Us
             </button>
-            {user.role === "Admin" && (
-              <button
-                onClick={() => goTo("/admin/")}
-                className="md:mr-5 hover:text-gray-900 font-semibold pb-0.5 border-b-2 border-transparent transition-all duration-300 hover:border-indigo-600 cursor-pointer"
-              >
-                Admin
-              </button>
-            )}
+            {/* <button
+              onClick={() => goTo("/mybookings")}
+              className="md:mr-5 hover:text-gray-900 font-semibold pb-0.5 border-b-2 border-transparent transition-all duration-300 hover:border-indigo-600 cursor-pointer"
+            >
+              My Bookings
+            </button> */}
+            <>
+              {user.role && (
+                <div className="group relative">
+                  <button className="inline-flex items-center bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-700 rounded text-white text-base  mt-4 md:mt-0">
+                    <i className="fa mr-2 fa-user" aria-hidden="true"></i>{" "}
+                    {user.name}
+                  </button>
+                  <div class="min-w-[150px] absolute  border border-t-0 bg-white invisible group-hover:visible">
+                    <a
+                      onClick={() => goTo("/profile")}
+                      href="#"
+                      class="hover:bg-grey-lighter block px-4 hover:bg-gray-100 py-2 text-black"
+                    >
+                      Profile
+                    </a>
+                    <hr class=" mx-2 border-t" />
+
+                    <a
+                      onClick={() => goTo("/mybookings")}
+                      href="#"
+                      class="hover:bg-grey-lighter block px-4 hover:bg-gray-100 py-2 text-black"
+                    >
+                      Bookings
+                    </a>
+                    {user.role === "Admin" ||
+                      (user.role === "Frontoffice" && (
+                        <>
+                          <a
+                            onClick={() => goTo("/dashboard/")}
+                            href="#"
+                            class="hover:bg-grey-lighter block px-4 hover:bg-gray-100 py-2 text-black"
+                          >
+                            Dashboard
+                          </a>
+                          <hr class=" mx-2 border-t" />
+                        </>
+                      ))}
+                    <a
+                      onClick={() => goTo("/logout")}
+                      href="#"
+                      class="hover:bg-grey-lighter block px-4 hover:bg-gray-100 py-2 text-black"
+                    >
+                      Logout
+                    </a>
+                  </div>
+                </div>
+              )}
+            </>
           </nav>
           {!user.role && (
             <button
@@ -68,7 +114,7 @@ const Layout = ({ children }) => {
               <i className="ml-2 fas fa-sign-in-alt"></i>
             </button>
           )}
-          {user.role && (
+          {/* {user.role && (
             <>
               <button
                 onClick={() => goTo("/logout")}
@@ -78,7 +124,7 @@ const Layout = ({ children }) => {
                 <i className="ml-2 fas fa-power-off"></i>
               </button>
             </>
-          )}
+          )} */}
         </div>
       </header>
       <div className="">{children}</div>

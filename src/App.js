@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Admin from "./components/admin/Admin";
+import Dashboard from "./components/dashboard/Dashboard";
 import Frontend from "./components/frontend/Frontend";
 import { useState, useEffect } from "react";
 import UserContext from "./contexts/UserContext";
@@ -40,7 +40,7 @@ function App() {
           <Routes>
             {!fullLoading && (
               <>
-                <Route exact path="/admin/*" element={<Admin />} />
+                <Route exact path="/dashboard/*" element={<Dashboard />} />
                 <Route exact path="/*" element={<Frontend />} />
               </>
             )}

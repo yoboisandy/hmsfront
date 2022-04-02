@@ -31,6 +31,7 @@ const Rooms = () => {
   const viewAvailableFromSearch = async (e) => {
     setLoading(true);
     e.preventDefault();
+    setValidationErr({});
     await axios
       .post(`http://localhost:8000/api/viewavailable`, searchData)
       .then((res) => {
@@ -93,9 +94,11 @@ const Rooms = () => {
                   name="start_date"
                   id="start_date"
                 />
-                <div className="text-xs text-red-500 mt-1">
-                  {validationErr.start_date}
-                </div>
+                {validationErr && (
+                  <div className="text-xs text-red-500 mt-1">
+                    {validationErr.start_date}
+                  </div>
+                )}
               </div>
               <div className="md:w-1/5 flex flex-col">
                 <label htmlFor="end_date">Check Out</label>
@@ -106,9 +109,11 @@ const Rooms = () => {
                   onChange={handleInputChange}
                   id="end_date"
                 />
-                <div className="text-xs text-red-500 mt-1">
-                  {validationErr.end_date}
-                </div>
+                {validationErr && (
+                  <div className="text-xs text-red-500 mt-1">
+                    {validationErr.end_date}
+                  </div>
+                )}
               </div>
               <div className="md:w-1/5 flex flex-col">
                 <label htmlFor="roomtype">Room Type</label>
@@ -125,9 +130,11 @@ const Rooms = () => {
                     return <option value={data.id}>{data.type_name}</option>;
                   })}
                 </select>
-                <div className="text-xs text-red-500 mt-1">
-                  {validationErr.roomtype_id}
-                </div>
+                {validationErr && (
+                  <div className="text-xs text-red-500 mt-1">
+                    {validationErr.roomtype_id}
+                  </div>
+                )}
               </div>
               <div className="md:w-1/5 flex flex-col">
                 <button

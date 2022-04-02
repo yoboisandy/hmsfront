@@ -16,6 +16,8 @@ import FullLoadingContext from "../../contexts/FullLoadingContext";
 import FullSpinner from "./components/FullSpinner";
 import Halls from "./Halls";
 import HallDetail from "./HallDetail";
+import MyBookings from "./MyBookings";
+import Profile from "./Profile";
 const Frontend = () => {
   const [fullLoading, setFullLoading] = useContext(FullLoadingContext);
   return (
@@ -31,13 +33,17 @@ const Frontend = () => {
           <Route path="/rooms" element={<Rooms />} />
           <Route path="/rooms/:id" element={<RoomDetail />} />
           <Route path="/contact" element={<Contact />} />
-
           <Route path="/halls" element={<Halls />} />
           <Route path="/halls/:id" element={<HallDetail />} />
+          <Route path="/halls/:id" element={<HallDetail />} />
+          <Route path="/mybookings" element={<MyBookings />} />
           {/* auth */}
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
+
+          {/* profile */}
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </Layout>
     </div>
