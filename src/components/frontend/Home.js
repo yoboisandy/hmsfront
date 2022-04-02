@@ -8,6 +8,18 @@ import "swiper/css/pagination";
 // import required modules
 import { Pagination, Autoplay, Navigation } from "swiper";
 const Home = () => {
+  const [count, setCount] = useState({});
+
+  const fetchCount = async () => {
+    await axios.get(`http://localhost:8000/api/count`).then((res) => {
+      setCount(res.data);
+    });
+  };
+
+  useEffect(() => {
+    fetchCount();
+  }, []);
+
   return (
     <div>
       {/* Hero Section */}
@@ -29,7 +41,7 @@ const Home = () => {
               optio consectetur consequuntur perspiciatis nulla provident soluta
             </p>
             <a
-              href="#"
+              href=""
               className="p-2 rounded-md mt-4 text-center  bg-indigo-700 hover:bg-indigo-900 font-semibold"
             >
               Book Your Stay
@@ -295,27 +307,27 @@ const Home = () => {
           <div className="flex flex-wrap -m-4 text-center">
             <div className="p-4 sm:w-1/4 w-1/2">
               <h2 className="title-font font-medium sm:text-4xl text-3xl text-gray-200">
-                2.7K
+                {count.room}
               </h2>
-              <p className="leading-relaxed">Users</p>
+              <p className="leading-relaxed">Rooms</p>
             </div>
             <div className="p-4 sm:w-1/4 w-1/2">
               <h2 className="title-font font-medium sm:text-4xl text-3xl text-gray-200">
-                1.8K
+                {count.hall}
               </h2>
-              <p className="leading-relaxed">Subscribes</p>
+              <p className="leading-relaxed">Halls</p>
             </div>
             <div className="p-4 sm:w-1/4 w-1/2">
               <h2 className="title-font font-medium sm:text-4xl text-3xl text-gray-200">
-                35
+                {count.customer}
               </h2>
-              <p className="leading-relaxed">Downloads</p>
+              <p className="leading-relaxed">Customers</p>
             </div>
             <div className="p-4 sm:w-1/4 w-1/2">
               <h2 className="title-font font-medium sm:text-4xl text-3xl text-gray-200">
-                4
+                {count.roomtype}
               </h2>
-              <p className="leading-relaxed">Products</p>
+              <p className="leading-relaxed">Room Types</p>
             </div>
           </div>
         </div>

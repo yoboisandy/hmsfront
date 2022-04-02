@@ -1,6 +1,7 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import UserContext from "../../contexts/UserContext";
 import IndividualRoomDetail from "./components/IndividualRoomDetail";
 // import Datepicker from "@themesberg/tailwind-datepicker/Datepicker";
 // import DateRangePicker from "@themesberg/tailwind-datepicker/DateRangePicker";
@@ -9,6 +10,7 @@ const RoomDetail = () => {
   const [roomDetail, setRoomDetail] = useState({
     amenities: [],
   });
+  const [user, fetchUser] = useContext(UserContext);
   const token = localStorage.getItem("token");
 
   const fetchRoomDetails = async () => {
@@ -27,7 +29,7 @@ const RoomDetail = () => {
     fetchRoomDetails();
   }, []);
 
-  return <IndividualRoomDetail {...roomDetail} />;
+  return <IndividualRoomDetail {...roomDetail} user={user} />;
 };
 
 export default RoomDetail;
