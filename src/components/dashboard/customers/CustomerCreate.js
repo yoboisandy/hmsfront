@@ -58,7 +58,7 @@ const CustomerCreate = () => {
                   <label htmlFor="firstname">First Name</label>
                   <input
                     onChange={handleInputChange}
-                    value={customerData.name}
+                    value={customerData.firstname}
                     name="firstname"
                     type="text"
                     className={`form-control ${

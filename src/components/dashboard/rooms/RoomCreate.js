@@ -60,15 +60,11 @@ const RoomCreate = () => {
     fd.append("roomtype_id", roomData.roomtype_id);
 
     await axios
-      .post(
-        "http://localhost:8000/api/rooms",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
+      .post("http://localhost:8000/api/rooms", fd, {
+        headers: {
+          Authorization: "Bearer " + token,
         },
-        fd
-      )
+      })
       .then((res) => {
         Swal.fire({
           position: "center",

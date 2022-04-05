@@ -78,10 +78,17 @@ const IndividualRoomDetail = ({
           if (res.data.message === "no room available") {
             Swal.fire({
               title: "Sorry",
+              icon: "error",
               text: "No room available",
             });
+          } else {
+            Swal.fire({
+              title: "Success",
+              icon: "success",
+              text: "Booking Request Sent Successfully",
+            });
+            navigate("/mybookings");
           }
-          navigate("/mybookings");
         })
         .catch((err) => {
           setValidationErr(err.response.data.errors);

@@ -86,45 +86,55 @@ const MyBookings = () => {
                   return (
                     <tr className="border-b p-20 hover:bg-gray-100 transition-all ease-linear">
                       <td className="px-6 py-4">{index + 1}</td>
-                      <td className="px-6 py-4">{el.roomtype_id}</td>
+                      <td className="px-6 py-4">{el.roomtype.type_name}</td>
                       <td className="px-6 py-4">{el.start_date}</td>
                       <td className="px-6 py-4">{el.end_date}</td>
                       <td className="px-6 py-4">{el.price}</td>
-                      <td className="px-6 py-4">{el.room_id}</td>
                       <td className="px-6 py-4">
-                        <form>
-                          <select
-                            disabled={el.status === "Canceled"}
-                            onChange={(e) => {
-                              updateStatus(el.id, e.target.value);
-                            }}
-                            className="rounded-full"
-                            name="status"
-                            id="status"
-                          >
-                            <option
-                              value="Pending"
-                              selected={el.status === "Pending"}
-                            >
-                              Pending
-                            </option>
-                            {el.status === "Confirmed" && (
-                              <option
-                                value="Confirmed"
-                                selected={el.status === "Confirmed"}
+                        {!el.room_id && <span>Not Assigned Yet</span>}
+                        {el.room_id && el.room.room_no}
+                      </td>
+                      <td className="px-6 py-4">
+                        {el.status === "Canceled" && <span>Canceled</span>}
+                        {el.status === "Checked Out" && (
+                          <span>Checked Out</span>
+                        )}
+                        {el.status !== "Canceled" &&
+                          el.status !== "Checked Out" && (
+                            <form>
+                              <select
+                                disabled={el.status === "Canceled"}
+                                onChange={(e) => {
+                                  updateStatus(el.id, e.target.value);
+                                }}
+                                className="rounded-full"
+                                name="status"
+                                id="status"
                               >
-                                Confirmed
-                              </option>
-                            )}
-                            <option
-                              disabled={el.status === "Canceled"}
-                              value="Canceled"
-                              selected={el.status === "Canceled"}
-                            >
-                              Cancel
-                            </option>
-                          </select>
-                        </form>
+                                <option
+                                  value="Pending"
+                                  selected={el.status === "Pending"}
+                                >
+                                  Pending
+                                </option>
+                                {el.status === "Confirmed" && (
+                                  <option
+                                    value="Confirmed"
+                                    selected={el.status === "Confirmed"}
+                                  >
+                                    Confirmed
+                                  </option>
+                                )}
+                                <option
+                                  disabled={el.status === "Canceled"}
+                                  value="Canceled"
+                                  selected={el.status === "Canceled"}
+                                >
+                                  Cancel
+                                </option>
+                              </select>
+                            </form>
+                          )}
                       </td>
                     </tr>
                   );

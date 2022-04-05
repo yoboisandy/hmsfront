@@ -7,6 +7,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 // import required modules
 import { Pagination, Autoplay, Navigation } from "swiper";
+import { Link } from "react-router-dom";
 const Home = () => {
   const [count, setCount] = useState({});
 
@@ -40,8 +41,8 @@ const Home = () => {
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iste
               optio consectetur consequuntur perspiciatis nulla provident soluta
             </p>
-            <a
-              href=""
+            <Link
+              to="/rooms"
               className="p-2 rounded-md mt-4 text-center  bg-indigo-700 hover:bg-indigo-900 font-semibold"
             >
               Book Your Stay
@@ -56,7 +57,7 @@ const Home = () => {
               >
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

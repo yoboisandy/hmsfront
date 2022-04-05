@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 import axios from "axios";
-const BookingIndex = () => {
+const BookingEdit = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(false);
   const [changeStatusMsg, setChangeStatusMsg] = useState("");
@@ -46,21 +46,10 @@ const BookingIndex = () => {
         }
       )
       .then((res) => {
-        if (res.data.message === "Room Already assigned") {
-          Swal.fire({
-            title: "Error!",
-            text: res.data.message,
-            icon: "error",
-          });
-          fetchBookings();
-        } else {
-          Swal.fire({
-            icon: "success",
-            text: res.data.message,
-          });
-          updateStatus(id, "Confirmed");
-        }
-        fetchBookings();
+        Swal.fire({
+          icon: "success",
+          text: res.data.message,
+        });
       });
   };
 
@@ -78,12 +67,12 @@ const BookingIndex = () => {
         }
       )
       .then((res) => {
+        // setChangeStatusMsg(res.data.message);
         Swal.fire({
           icon: "success",
           text: res.data.message,
         });
       });
-    fetchBookings();
   };
 
   useEffect(() => {
@@ -165,7 +154,7 @@ const BookingIndex = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {loading && (
+                  {loading ? (
                     <tr>
                       <td colSpan={9}>
                         <div className="d-flex justify-content-center py-5">
@@ -178,70 +167,72 @@ const BookingIndex = () => {
                         </div>
                       </td>
                     </tr>
+                  ) : (
+                    ""
                   )}
-                  {!loading &&
-                    bookings.map((booking, index) => {
-                      return (
-                        <tr>
-                          {/* <td>{index + 1}</td> */}
-                          <td>{booking.id}</td>
-                          <td>{booking.user.name}</td>
-                          <td>{booking.start_date}</td>
-                          <td>{booking.end_date}</td>
-                          <td>{booking.roomtype.type_name}</td>
-                          <td>
-                            <select
-                              onChange={(e) => {
-                                assignRoom(booking.id, e.target.value);
-                              }}
-                              className="form-control "
-                              name="room_id"
-                            >
-                              <option disabled>Assign Room</option>
-                              {booking.roomtype.rooms.map((el) => (
-                                <option
-                                  selected={booking.room_id === el.id}
-                                  value={el.id}
-                                >
-                                  {el.room_no}
-                                </option>
-                              ))}
-                            </select>
-                          </td>
-                          <td>{booking.price}</td>
-                          <td>
-                            <form>
-                              <select
-                                className="form-control"
-                                onChange={(e) => {
-                                  updateStatus(booking.id, e.target.value);
-                                }}
-                                name="status"
-                                id="status"
+                  {bookings.map((booking, index) => {
+                    return (
+                      <tr>
+                        <td>{index + 1}</td>
+                        <td>{booking.user.name}</td>
+                        <td>{booking.start_date}</td>
+                        <td>{booking.end_date}</td>
+                        <td>{booking.roomtype.type_name}</td>
+                        <td>
+                          <select
+                            onChange={(e) => {
+                              assignRoom(booking.id, e.target.value);
+                            }}
+                            className="form-control "
+                            name="room_id"
+                          >
+                            <option selected disabled>
+                              Assign Room
+                            </option>
+                            {booking.roomtype.rooms.map((el) => (
+                              <option
+                                selected={booking.room_id === el.id}
+                                value={el.id}
                               >
-                                <option
-                                  value="Pending"
-                                  selected={booking.status === "Pending"}
-                                >
-                                  Pending
-                                </option>
-                                <option
-                                  value="Confirmed"
-                                  selected={booking.status === "Confirmed"}
-                                >
-                                  Confirmed
-                                </option>
-                                <option
-                                  value="Canceled"
-                                  selected={booking.status === "Canceled"}
-                                >
-                                  Cancel
-                                </option>
-                              </select>
-                            </form>
-                          </td>
+                                {el.room_no}
+                              </option>
+                            ))}
+                          </select>
+                        </td>
+                        <td>{booking.price}</td>
+                        <td>
+                          <form>
+                            <select
+                              className="form-control"
+                              onChange={(e) => {
+                                updateStatus(booking.id, e.target.value);
+                              }}
+                              name="status"
+                              id="status"
+                            >
+                              <option
+                                value="Pending"
+                                selected={booking.status === "Pending"}
+                              >
+                                Pending
+                              </option>
+                              <option
+                                value="Confirmed"
+                                selected={booking.status === "Confirmed"}
+                              >
+                                Confirmed
+                              </option>
+                              <option
+                                value="Canceled"
+                                selected={booking.status === "Canceled"}
+                              >
+                                Cancel
+                              </option>
+                            </select>
+                          </form>
+                        </td>
 
-                          {/*<td className="d-flex justify-content-center">
+                        {/*<td className="d-flex justify-content-center">
                            <Link
                             to={`/dashboard/bookings/${booking.id}`}
                             className="btn-sm bg-success mr-1"
@@ -261,9 +252,9 @@ const BookingIndex = () => {
                             <i className="fas fa-trash-alt"> </i>
                           </span>
                         </td>*/}
-                        </tr>
-                      );
-                    })}
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -274,4 +265,4 @@ const BookingIndex = () => {
   );
 };
 
-export default BookingIndex;
+export default BookingEdit;

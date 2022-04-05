@@ -43,6 +43,14 @@ const Layout = ({ children }) => {
             >
               Halls
             </button>
+            {user.role === "Customer" && (
+              <button
+                onClick={() => goTo("/foods")}
+                className="mr-5 hover:text-gray-900 font-semibold pb-0.5 border-b-2 border-transparent transition-all duration-300 hover:border-indigo-600 cursor-pointer"
+              >
+                Foods
+              </button>
+            )}
 
             <button
               onClick={() => goTo("/contact")}
@@ -72,14 +80,15 @@ const Layout = ({ children }) => {
                       Profile
                     </a>
                     <hr class=" mx-2 border-t" />
-
-                    <a
-                      onClick={() => goTo("/mybookings")}
-                      href="#"
-                      class="hover:bg-grey-lighter block px-4 hover:bg-gray-100 py-2 text-black"
-                    >
-                      Bookings
-                    </a>
+                    {user.role === "Customer" && (
+                      <a
+                        onClick={() => goTo("/mybookings")}
+                        href="#"
+                        class="hover:bg-grey-lighter block px-4 hover:bg-gray-100 py-2 text-black"
+                      >
+                        Bookings
+                      </a>
+                    )}
                     {user.role === "Admin" ||
                       (user.role === "Frontoffice" && (
                         <>
