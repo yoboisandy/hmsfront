@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import FullLoadingContext from "../../../contexts/FullLoadingContext";
 import UserContext from "../../../contexts/UserContext";
 
@@ -55,6 +55,8 @@ const Login = () => {
           if (res.data.role === "Admin") {
             navigate("/dashboard");
           } else if (res.data.role === "Customer") {
+            navigate("/");
+          } else {
             navigate("/");
           }
         })
@@ -120,9 +122,23 @@ const Login = () => {
                   Login
                 </button>
               </div>
+              <div className="mt-6">
+                forget password?
+                <Link
+                  to="/forgetpassword"
+                  className="text-blue-600 hover:underline ml-1"
+                >
+                  Click here
+                </Link>
+              </div>
               <div className="mt-6 text-grey-dark">
                 Don't have an account?
-                <a className="text-blue-600 hover:underline ml-1">Register</a>
+                <Link
+                  to="/register"
+                  className="text-blue-600 hover:underline ml-1"
+                >
+                  Register
+                </Link>
               </div>
             </div>
           </form>

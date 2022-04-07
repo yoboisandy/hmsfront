@@ -18,6 +18,10 @@ import Halls from "./Halls";
 import HallDetail from "./HallDetail";
 import MyBookings from "./MyBookings";
 import Profile from "./Profile";
+import Food from "./Food";
+import ForgetPassword from "./auth/ForgetPassword";
+import OTPVerification from "./auth/OTPVerification";
+import ChangePassword from "./auth/ChangePassword";
 const Frontend = () => {
   const [fullLoading, setFullLoading] = useContext(FullLoadingContext);
   return (
@@ -41,9 +45,15 @@ const Frontend = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
+          <Route path="/forgetpassword" element={<ForgetPassword />} />
+          <Route path="/otpverification" element={<OTPVerification />} />
+          <Route path="/changepassword" element={<ChangePassword />} />
 
           {/* profile */}
           <Route path="/profile" element={<Profile />} />
+
+          {/* food */}
+          <Route path="/foods" element={<Food />} />
         </Routes>
       </Layout>
     </div>

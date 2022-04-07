@@ -14,6 +14,7 @@ import RoomTypeApp from "./roomtypes/RoomTypeApp";
 import UserContext from "../../contexts/UserContext";
 import FullSpinner from "../frontend/components/FullSpinner";
 import BookingApp from "./bookings/BookingApp";
+import FoodApp from "./Food/FoodApp";
 // import "./css/adminlte.min.css";
 
 const Admin = () => {
@@ -59,7 +60,8 @@ const Admin = () => {
     } else if (
       user.role &&
       user.role !== "Admin" &&
-      user.role !== "Frontoffice"
+      user.role !== "Frontoffice" &&
+      user.role !== "Kitchen"
     ) {
       navigate("/");
     }
@@ -103,6 +105,9 @@ const Admin = () => {
 
           {/* Bookings */}
           <Route path="/bookings/*" element={<BookingApp />} />
+
+          {/* food */}
+          <Route path="/foods/*" element={<FoodApp />} />
         </Routes>
       </Layout>
     </>
