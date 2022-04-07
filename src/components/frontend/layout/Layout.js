@@ -58,12 +58,7 @@ const Layout = ({ children }) => {
             >
               Contact Us
             </button>
-            {/* <button
-              onClick={() => goTo("/mybookings")}
-              className="md:mr-5 hover:text-gray-900 font-semibold pb-0.5 border-b-2 border-transparent transition-all duration-300 hover:border-indigo-600 cursor-pointer"
-            >
-              My Bookings
-            </button> */}
+
             <>
               {user.role && (
                 <div className="group relative">
@@ -89,19 +84,42 @@ const Layout = ({ children }) => {
                         Bookings
                       </a>
                     )}
-                    {user.role === "Admin" ||
-                      (user.role === "Frontoffice" && (
-                        <>
-                          <a
-                            onClick={() => goTo("/dashboard/")}
-                            href="#"
-                            class="hover:bg-grey-lighter block px-4 hover:bg-gray-100 py-2 text-black"
-                          >
-                            Dashboard
-                          </a>
-                          <hr class=" mx-2 border-t" />
-                        </>
-                      ))}
+                    {user.role === "Admin" && (
+                      <>
+                        <a
+                          onClick={() => goTo("/dashboard/")}
+                          href="#"
+                          class="hover:bg-grey-lighter block px-4 hover:bg-gray-100 py-2 text-black"
+                        >
+                          Dashboard
+                        </a>
+                        <hr class=" mx-2 border-t" />
+                      </>
+                    )}
+                    {user.role === "Frontoffice" && (
+                      <>
+                        <a
+                          onClick={() => goTo("/dashboard/")}
+                          href="#"
+                          class="hover:bg-grey-lighter block px-4 hover:bg-gray-100 py-2 text-black"
+                        >
+                          Dashboard
+                        </a>
+                        <hr class=" mx-2 border-t" />
+                      </>
+                    )}
+                    {user.role === "Kitchen" && (
+                      <>
+                        <a
+                          onClick={() => goTo("/dashboard/")}
+                          href="#"
+                          class="hover:bg-grey-lighter block px-4 hover:bg-gray-100 py-2 text-black"
+                        >
+                          Dashboard
+                        </a>
+                        <hr class=" mx-2 border-t" />
+                      </>
+                    )}
                     <a
                       onClick={() => goTo("/logout")}
                       href="#"

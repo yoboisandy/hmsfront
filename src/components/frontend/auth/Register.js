@@ -1,9 +1,15 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import FullLoadingContext from "../../../contexts/FullLoadingContext";
+import UserContext from "../../../contexts/UserContext";
 
 const Register = () => {
+  const [user] = useContext(UserContext);
+  const [fullLoading, setFullLoading] = useContext(FullLoadingContext);
+  let navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [customerData, setCustomerData] = useState({
     firstname: "",
     lastname: "",
@@ -13,7 +19,7 @@ const Register = () => {
     phone: "",
     citizenship_number: "",
   });
-  const [validationErr, setValidationErr] = useState("");
+  const [validationErr, setValidationErr] = useState({});
   const handleInputChange = (e) => {
     setCustomerData({ ...customerData, [e.target.name]: e.target.value });
   };
@@ -35,11 +41,40 @@ const Register = () => {
           title: "Success",
           text: "You're Registered Successfully",
         });
+        navigate("/login");
       })
-      .then((err) => {
+      .catch((err) => {
         setValidationErr(err.response.data.errors);
       });
   };
+
+  useEffect(() => {
+    setFullLoading(true);
+    if (localStorage.getItem("token")) {
+      axios
+        .get("http://localhost:8000/api/user", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          if (res.data.role === "Admin") {
+            navigate("/dashboard");
+          } else if (res.data.role === "Customer") {
+            navigate("/");
+          } else {
+            navigate("/");
+          }
+        })
+        .catch((err) => {
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
+    setFullLoading(false);
+  }, []);
+
   return (
     <div>
       <div className="flex py-8 items-center justify-center  bg-gray-100">
@@ -47,11 +82,8 @@ const Register = () => {
           <h3 className="text-2xl font-bold text-center">Register</h3>
           <form onSubmit={saveCustomer}>
             <div className="mt-4">
-              {/* {validationErr && (
-                <span className="text-xs text-red-400">{validationErr}</span>
-              )} */}
               <div>
-                <label className="block" htmlFor="Name">
+                <label className="block" htmlFor="firstname">
                   First Name
                   <label>
                     <input
@@ -63,6 +95,11 @@ const Register = () => {
                     />
                   </label>
                 </label>
+                {validationErr.firstname && (
+                  <div className="text-red-400 text-sm">
+                    {validationErr.firstname}
+                  </div>
+                )}
               </div>
               <div className="mt-4">
                 <label className="block" htmlFor="Name">
@@ -77,6 +114,11 @@ const Register = () => {
                     />
                   </label>
                 </label>
+                {validationErr.lastname && (
+                  <div className="text-red-400 text-sm">
+                    {validationErr.lastname}
+                  </div>
+                )}
               </div>
               <div className="mt-4">
                 <label className="block" htmlFor="email">
@@ -91,6 +133,11 @@ const Register = () => {
                     />
                   </label>
                 </label>
+                {validationErr.email && (
+                  <div className="text-red-400 text-sm">
+                    {validationErr.email}
+                  </div>
+                )}
               </div>
               <div className="mt-4">
                 <label className="block" htmlFor="email">
@@ -105,6 +152,11 @@ const Register = () => {
                     />
                   </label>
                 </label>
+                {validationErr.phone && (
+                  <div className="text-red-400 text-sm">
+                    {validationErr.phone}
+                  </div>
+                )}
               </div>
               <div className="mt-4">
                 <label className="block" htmlFor="email">
@@ -119,6 +171,11 @@ const Register = () => {
                     />
                   </label>
                 </label>
+                {validationErr.address && (
+                  <div className="text-red-400 text-sm">
+                    {validationErr.address}
+                  </div>
+                )}
               </div>
               <div className="mt-4">
                 <label className="block" htmlFor="email">
@@ -133,6 +190,11 @@ const Register = () => {
                     />
                   </label>
                 </label>
+                {validationErr.citizenship_number && (
+                  <div className="text-red-400 text-sm">
+                    {validationErr.citizenship_number}
+                  </div>
+                )}
               </div>
               <div className="mt-4">
                 <label className="block">
@@ -147,20 +209,11 @@ const Register = () => {
                     />
                   </label>
                 </label>
-              </div>
-              <div className="mt-4">
-                <label className="block">
-                  Confirm Password
-                  <label>
-                    <input
-                      onChange={handleInputChange}
-                      value={customerData.confirm_password}
-                      type="password"
-                      name="confirm_password"
-                      className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-                    />
-                  </label>
-                </label>
+                {validationErr.password && (
+                  <div className="text-red-400 text-sm">
+                    {validationErr.password}
+                  </div>
+                )}
               </div>
 
               <div className="flex">

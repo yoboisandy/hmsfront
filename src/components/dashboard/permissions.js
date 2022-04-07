@@ -1,12 +1,15 @@
 function canView(page, role) {
   // let admin_view = ["employees", "customers"];
   let front_view = ["roomtypes", "bookings", "rooms", "customers"];
-
-  // if (role == "Admin" && admin_view.includes(page)) {
-  //   return true;
-  // }
+  let kitchen_view = ["foods", "foodorders"];
 
   if (role == "Frontoffice" && front_view.includes(page)) {
+    return true;
+  }
+  if (role == "Admin") {
+    return true;
+  }
+  if (role == "Kitchen" && kitchen_view.includes(page)) {
     return true;
   }
 
