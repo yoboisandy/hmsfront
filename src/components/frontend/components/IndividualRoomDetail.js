@@ -14,6 +14,7 @@ const IndividualRoomDetail = ({
 }) => {
   const [checkAvailabilityData, setcheckAvailabilityData] = useState({});
   const [loading, setLoading] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
   const [validationErr, setValidationErr] = useState({});
   const [availability, setAvailability] = useState(null);
   const [notAvailableMsg, setNotAvailableMsg] = useState("");
@@ -28,7 +29,7 @@ const IndividualRoomDetail = ({
   };
 
   const checkAvailability = async (e) => {
-    setLoading(true);
+    setBtnLoading(true);
     e.preventDefault();
     setValidationErr({});
     setAvailability(false);
@@ -49,10 +50,12 @@ const IndividualRoomDetail = ({
       .catch((err) => {
         setValidationErr(err.response.data.errors);
       });
-    setLoading(false);
+    setBtnLoading(false);
   };
 
   const bookRoom = async () => {
+    setBtnLoading(true);
+
     if (user.role === "") {
       navigate("/login");
     } else if (user.role && user.role !== "Customer") {
@@ -94,6 +97,7 @@ const IndividualRoomDetail = ({
           setValidationErr(err.response.data.errors);
         });
     }
+    setBtnLoading(false);
   };
 
   return (

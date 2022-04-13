@@ -25,6 +25,7 @@ const HallCreate = () => {
   let { id } = useParams();
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
   const [floors, setFloors] = useState([]);
   const [amenities, setAmenities] = useState([]);
   const [selectedAmenities, setSelectedAmenities] = useState([]);
@@ -51,6 +52,7 @@ const HallCreate = () => {
   };
 
   const getAmenities = async () => {
+    setLoading(true);
     await axios
       .get("http://localhost:8000/api/amenities", {
         headers: {
@@ -60,6 +62,7 @@ const HallCreate = () => {
       .then((res) => {
         setAmenities(res.data);
       });
+    setLoading(false);
   };
 
   const handleAmenityChange = (e) => {
@@ -76,10 +79,10 @@ const HallCreate = () => {
   });
 
   const saveHall = async (e) => {
+    setBtnLoading(true);
     e.preventDefault();
     let values = selectedAmenities.map((val) => val.value);
 
-    setLoading(true);
     const fd = new FormData();
     fd.append("name", hallData.name);
     fd.append("description", hallData.description);
@@ -89,11 +92,12 @@ const HallCreate = () => {
     fd.append("image", image);
     fd.append("base_price", hallData.base_price);
     fd.append("high_price", hallData.high_price);
-    values.forEach((item) => {
-      fd.append("amenities[]", item);
-    });
+    fd.append("_method", "PUT");
+    // values.forEach((item) => {
+    //   fd.append("amenities[]", item);
+    // });
     await axios
-      .put(`http://localhost:8000/api/halls/${id}`, fd, {
+      .post(`http://localhost:8000/api/halls/${id}`, fd, {
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -111,7 +115,7 @@ const HallCreate = () => {
       .catch((err) => {
         setValidationErr(err.response.data.errors);
       });
-    setLoading(false);
+    setBtnLoading(false);
   };
 
   const getHallData = async () => {
@@ -153,121 +157,129 @@ const HallCreate = () => {
               </div>
             </div>
             <div className="card-body ">
-              <form onSubmit={saveHall} method="post">
-                <div className="form-group">
-                  <label htmlFor="Name">Name</label>
-                  <input
-                    onChange={handleInputChange}
-                    value={hallData.name}
-                    name="name"
-                    type="text"
-                    className={`form-control ${
-                      validationErr.name ? "is-invalid" : ""
-                    }`}
-                    id="name"
-                    placeholder="Enter Hall Name"
-                  />
-                  {validationErr.name ? (
-                    <>
-                      <span className="text-danger form-text">
-                        {validationErr.name}
-                      </span>
-                    </>
-                  ) : (
-                    ""
-                  )}
+              {loading && (
+                <div className="d-flex justify-content-center py-5">
+                  <div className="spinner-border text-indigo" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
                 </div>
-                <div className="form-group">
-                  <label htmlFor="description">Description</label>
-                  <input
-                    onChange={handleInputChange}
-                    value={hallData.description}
-                    name="description"
-                    type="text"
-                    className={`form-control ${
-                      validationErr.description ? "is-invalid" : ""
-                    }`}
-                    id="description"
-                    placeholder="Enter Hall Description"
-                  />
-                  {validationErr.description ? (
-                    <>
-                      <span className="text-danger form-text">
-                        {validationErr.description}
-                      </span>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div className="form-group">
-                  <label htmlFor="image">Image</label>
-                  <input
-                    onChange={(e) => handleImageChange(e.target.files)}
-                    name="image"
-                    type="file"
-                    className={`form-control ${
-                      validationErr.image ? "is-invalid" : ""
-                    }`}
-                    id="image"
-                  />
-                  {validationErr.image ? (
-                    <>
-                      <span className="text-danger form-text">
-                        {validationErr.image}
-                      </span>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div className="form-group">
-                  <label htmlFor="base_occupancy">Base Occupancy</label>
-                  <input
-                    onChange={handleInputChange}
-                    value={hallData.base_occupancy}
-                    name="base_occupancy"
-                    type="text"
-                    className={`form-control ${
-                      validationErr.base_occupancy ? "is-invalid" : ""
-                    }`}
-                    id="base_occupancy"
-                    placeholder="Enter Base Occupancy"
-                  />
-                  {validationErr.base_occupancy ? (
-                    <>
-                      <span className="text-danger form-text">
-                        {validationErr.base_occupancy}
-                      </span>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div className="form-group">
-                  <label htmlFor="high_occupancy">High Occupancy</label>
-                  <input
-                    onChange={handleInputChange}
-                    value={hallData.high_occupancy}
-                    name="high_occupancy"
-                    type="text"
-                    className={`form-control ${
-                      validationErr.high_occupancy ? "is-invalid" : ""
-                    }`}
-                    id="base_occupancy"
-                    placeholder="Enter High Occupancy"
-                  />
-                  {validationErr.high_occupancy ? (
-                    <>
-                      <span className="text-danger form-text">
-                        {validationErr.high_occupancy}
-                      </span>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                {/* <div className="form-group">
+              )}
+              {!loading && (
+                <form onSubmit={saveHall} method="post">
+                  <div className="form-group">
+                    <label htmlFor="Name">Name</label>
+                    <input
+                      onChange={handleInputChange}
+                      value={hallData.name}
+                      name="name"
+                      type="text"
+                      className={`form-control ${
+                        validationErr.name ? "is-invalid" : ""
+                      }`}
+                      id="name"
+                      placeholder="Enter Hall Name"
+                    />
+                    {validationErr.name ? (
+                      <>
+                        <span className="text-danger form-text">
+                          {validationErr.name}
+                        </span>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="description">Description</label>
+                    <input
+                      onChange={handleInputChange}
+                      value={hallData.description}
+                      name="description"
+                      type="text"
+                      className={`form-control ${
+                        validationErr.description ? "is-invalid" : ""
+                      }`}
+                      id="description"
+                      placeholder="Enter Hall Description"
+                    />
+                    {validationErr.description ? (
+                      <>
+                        <span className="text-danger form-text">
+                          {validationErr.description}
+                        </span>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="image">Image</label>
+                    <input
+                      onChange={(e) => handleImageChange(e.target.files)}
+                      name="image"
+                      type="file"
+                      className={`form-control p-0 ${
+                        validationErr.image ? "is-invalid" : ""
+                      }`}
+                      id="image"
+                    />
+                    {validationErr.image ? (
+                      <>
+                        <span className="text-danger form-text">
+                          {validationErr.image}
+                        </span>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="base_occupancy">Base Occupancy</label>
+                    <input
+                      onChange={handleInputChange}
+                      value={hallData.base_occupancy}
+                      name="base_occupancy"
+                      type="text"
+                      className={`form-control ${
+                        validationErr.base_occupancy ? "is-invalid" : ""
+                      }`}
+                      id="base_occupancy"
+                      placeholder="Enter Base Occupancy"
+                    />
+                    {validationErr.base_occupancy ? (
+                      <>
+                        <span className="text-danger form-text">
+                          {validationErr.base_occupancy}
+                        </span>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="high_occupancy">High Occupancy</label>
+                    <input
+                      onChange={handleInputChange}
+                      value={hallData.high_occupancy}
+                      name="high_occupancy"
+                      type="text"
+                      className={`form-control ${
+                        validationErr.high_occupancy ? "is-invalid" : ""
+                      }`}
+                      id="base_occupancy"
+                      placeholder="Enter High Occupancy"
+                    />
+                    {validationErr.high_occupancy ? (
+                      <>
+                        <span className="text-danger form-text">
+                          {validationErr.high_occupancy}
+                        </span>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  {/* <div className="form-group">
                   <label htmlFor="amenity_id">Amenity</label>
                   <select
                     className={`form-control ${
@@ -302,7 +314,7 @@ const HallCreate = () => {
                     ""
                   )}
                 </div> */}
-                <div className="form-group">
+                  {/* <div className="form-group">
                   <label htmlFor="amenities">Amenity</label>
                   <AsyncSelect
                     isMulti
@@ -322,110 +334,111 @@ const HallCreate = () => {
                   ) : (
                     ""
                   )}
-                </div>
-                <div className="form-group">
-                  <label htmlFor="floor_id">Floor</label>
-                  <select
-                    className={`form-control ${
-                      validationErr.floor_id ? "is-invalid" : ""
-                    }`}
-                    onChange={handleInputChange}
-                    value={hallData.floor_id}
-                    name="floor_id"
-                    id="floor_id"
-                  >
-                    <option selected value="">
-                      Select Floor
-                    </option>
-                    {floors.map((floor) => {
-                      return (
-                        <option
-                          selected={hallData.floor_id == floor.id}
-                          value={floor.id}
-                        >
-                          {floor.name}
-                        </option>
-                      );
-                    })}
-                  </select>
-                  {validationErr.floor_id ? (
-                    <>
-                      <span className="text-danger form-text">
-                        {validationErr.floor_id}
-                      </span>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div className="form-group">
-                  <label htmlFor="base_price">Base Price</label>
-                  <input
-                    onChange={handleInputChange}
-                    value={hallData.base_price}
-                    name="base_price"
-                    type="text"
-                    className={`form-control ${
-                      validationErr.base_price ? "is-invalid" : ""
-                    }`}
-                    id="base_price"
-                    placeholder="Enter Base Price"
-                  />
-                  {validationErr.base_price ? (
-                    <>
-                      <span className="text-danger form-text">
-                        {validationErr.base_price}
-                      </span>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div className="form-group">
-                  <label htmlFor="high_price">High Price</label>
-                  <input
-                    onChange={handleInputChange}
-                    value={hallData.high_price}
-                    name="high_price"
-                    type="text"
-                    className={`form-control ${
-                      validationErr.high_price ? "is-invalid" : ""
-                    }`}
-                    id="high_price"
-                    placeholder="Enter High Price"
-                  />
-                  {validationErr.high_price ? (
-                    <>
-                      <span className="text-danger form-text">
-                        {validationErr.high_price}
-                      </span>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </div>
-
-                <div className="form-group my-2">
-                  <button
-                    onClick={saveHall}
-                    type="submit"
-                    className="btn bg-indigo"
-                  >
-                    {loading ? (
+                </div> */}
+                  <div className="form-group">
+                    <label htmlFor="floor_id">Floor</label>
+                    <select
+                      className={`form-control ${
+                        validationErr.floor_id ? "is-invalid" : ""
+                      }`}
+                      onChange={handleInputChange}
+                      value={hallData.floor_id}
+                      name="floor_id"
+                      id="floor_id"
+                    >
+                      <option selected value="">
+                        Select Floor
+                      </option>
+                      {floors.map((floor) => {
+                        return (
+                          <option
+                            selected={hallData.floor_id == floor.id}
+                            value={floor.id}
+                          >
+                            {floor.name}
+                          </option>
+                        );
+                      })}
+                    </select>
+                    {validationErr.floor_id ? (
                       <>
-                        <span
-                          className="spinner-border spinner-border-sm mr-2"
-                          role="status"
-                          aria-hidden="true"
-                        ></span>
-                        <span>Saving...</span>
+                        <span className="text-danger form-text">
+                          {validationErr.floor_id}
+                        </span>
                       </>
                     ) : (
-                      "Update"
+                      ""
                     )}
-                  </button>
-                </div>
-              </form>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="base_price">Base Price</label>
+                    <input
+                      onChange={handleInputChange}
+                      value={hallData.base_price}
+                      name="base_price"
+                      type="text"
+                      className={`form-control ${
+                        validationErr.base_price ? "is-invalid" : ""
+                      }`}
+                      id="base_price"
+                      placeholder="Enter Base Price"
+                    />
+                    {validationErr.base_price ? (
+                      <>
+                        <span className="text-danger form-text">
+                          {validationErr.base_price}
+                        </span>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="high_price">High Price</label>
+                    <input
+                      onChange={handleInputChange}
+                      value={hallData.high_price}
+                      name="high_price"
+                      type="text"
+                      className={`form-control ${
+                        validationErr.high_price ? "is-invalid" : ""
+                      }`}
+                      id="high_price"
+                      placeholder="Enter High Price"
+                    />
+                    {validationErr.high_price ? (
+                      <>
+                        <span className="text-danger form-text">
+                          {validationErr.high_price}
+                        </span>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+
+                  <div className="form-group my-2">
+                    <button
+                      onClick={saveHall}
+                      type="submit"
+                      className="btn bg-indigo"
+                    >
+                      {loading ? (
+                        <>
+                          <span
+                            className="spinner-border spinner-border-sm mr-2"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                          <span>Saving...</span>
+                        </>
+                      ) : (
+                        "Update"
+                      )}
+                    </button>
+                  </div>
+                </form>
+              )}
             </div>
           </div>
         </div>

@@ -24,15 +24,11 @@ const ShiftCreate = () => {
     fd.append("name", shiftData.name);
 
     await axios
-      .post(
-        "http://localhost:8000/api/shifts",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
+      .post("http://localhost:8000/api/shifts", fd, {
+        headers: {
+          Authorization: "Bearer " + token,
         },
-        fd
-      )
+      })
       .then((res) => {
         Swal.fire({
           position: "center",

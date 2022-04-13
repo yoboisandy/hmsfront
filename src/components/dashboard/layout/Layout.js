@@ -72,7 +72,14 @@ const Layout = ({ children }) => {
             </a>
           </li>
 
-          <li className="nav-item dropdown">
+          {user.role && (
+            <li className="nav-item d-none d-sm-inline-block">
+              <a href="/logout" className="nav-link">
+                <i className="fas mr-1 fa-power-off"></i> LogOut
+              </a>
+            </li>
+          )}
+          {/* <li className="nav-item dropdown">
             <a
               className="nav-link dropdown-toggle"
               href="#"
@@ -94,7 +101,7 @@ const Layout = ({ children }) => {
                 Logout
               </a>
             </div>
-          </li>
+          </li> */}
         </ul>
       </nav>
       {/* SideBar */}
@@ -126,128 +133,6 @@ const Layout = ({ children }) => {
                   <p>Dashboard</p>
                 </NavLink>
               </li>
-              {canView("customers", user.role) && (
-                <li className="nav-item mb-2">
-                  <NavLink
-                    to="/dashboard/customers"
-                    className="nav-link "
-                    activeClassName="active"
-                  >
-                    <i className="nav-icon mr-3 fas fa-users" />
-                    <p>Customers</p>
-                  </NavLink>
-                </li>
-              )}
-              {canView("employees", user.role) && (
-                <>
-                  <li className="nav-item mb-2">
-                    <NavLink
-                      to="/dashboard/employees"
-                      className="nav-link "
-                      activeClassName="active"
-                    >
-                      <i className="fas fa-user-tie nav-icon mr-3"></i>
-                      <p>Employees</p>
-                    </NavLink>
-                  </li>
-                </>
-              )}
-              {canView("halls", user.role) && (
-                <li className="nav-item mb-2">
-                  <NavLink
-                    to="/dashboard/halls"
-                    className="nav-link "
-                    activeClassName="active"
-                  >
-                    <i className="nav-icon mr-3 fas fa-couch" />
-                    <p>Halls</p>
-                  </NavLink>
-                </li>
-              )}
-              {canView("amenities", user.role) && (
-                <li className="nav-item mb-2">
-                  <NavLink
-                    to="/dashboard/amenities"
-                    className="nav-link "
-                    activeClassName="active"
-                  >
-                    <i className="nav-icon mr-3 fas fa-bath" />
-                    <p>Amenities</p>
-                  </NavLink>
-                </li>
-              )}
-              {canView("rooms", user.role) && (
-                <li className="nav-item mb-2">
-                  <NavLink
-                    to="/dashboard/rooms"
-                    className="nav-link "
-                    activeClassName="active"
-                  >
-                    <i className="nav-icon mr-3 fas fa-bed" />
-                    <p>Rooms</p>
-                  </NavLink>
-                </li>
-              )}
-              {canView("roomtypes", user.role) && (
-                <li className="nav-item mb-2">
-                  <NavLink
-                    to="/dashboard/roomtypes"
-                    className="nav-link "
-                    activeClassName="active"
-                  >
-                    <i className="nav-icon mr-3 fas fa-procedures" />
-                    <p>Room Types</p>
-                  </NavLink>
-                </li>
-              )}
-              {canView("shifts", user.role) && (
-                <li className="nav-item mb-2">
-                  <NavLink
-                    to="/dashboard/shifts"
-                    className="nav-link"
-                    activeClassName="active"
-                  >
-                    <i className="nav-icon mr-3 fas fa-sun" />
-                    <p>Shifts</p>
-                  </NavLink>
-                </li>
-              )}
-              {canView("roles", user.role) && (
-                <li className="nav-item mb-2">
-                  <NavLink
-                    to="/dashboard/roles"
-                    className="nav-link "
-                    activeClassName="active"
-                  >
-                    <i className="nav-icon mr-3 fas fa-user-tag" />
-                    <p>Roles</p>
-                  </NavLink>
-                </li>
-              )}
-              {canView("departments", user.role) && (
-                <li className="nav-item mb-2">
-                  <NavLink
-                    to="/dashboard/departments"
-                    className="nav-link "
-                    activeClassName="active"
-                  >
-                    <i className="nav-icon mr-3 fas fa-briefcase" />
-                    <p>Departments</p>
-                  </NavLink>
-                </li>
-              )}
-              {canView("floors", user.role) && (
-                <li className="nav-item mb-2">
-                  <NavLink
-                    to="/dashboard/floors"
-                    className="nav-link "
-                    activeClassName="active"
-                  >
-                    <i className="nav-icon mr-3 fas fa-home" />
-                    <p>Floors</p>
-                  </NavLink>
-                </li>
-              )}
               {canView("bookings", user.role) && (
                 <li className="nav-item mb-2">
                   <NavLink
@@ -260,6 +145,131 @@ const Layout = ({ children }) => {
                   </NavLink>
                 </li>
               )}
+              {canView("customers", user.role) && (
+                <li className="nav-item mb-2">
+                  <NavLink
+                    to="/dashboard/customers"
+                    className="nav-link "
+                    activeClassName="active"
+                  >
+                    <i className="nav-icon mr-3 fas fa-users" />
+                    <p>Customers*</p>
+                  </NavLink>
+                </li>
+              )}
+              {canView("employees", user.role) && (
+                <>
+                  <li className="nav-item mb-2">
+                    <NavLink
+                      to="/dashboard/employees"
+                      className="nav-link "
+                      activeClassName="active"
+                    >
+                      <i className="fas fa-user-tie nav-icon mr-3"></i>
+                      <p>Employees*</p>
+                    </NavLink>
+                  </li>
+                </>
+              )}
+              {canView("floors", user.role) && (
+                <li className="nav-item mb-2">
+                  <NavLink
+                    to="/dashboard/floors"
+                    className="nav-link "
+                    activeClassName="active"
+                  >
+                    <i className="nav-icon mr-3 fas fa-home" />
+                    <p>Floors*</p>
+                  </NavLink>
+                </li>
+              )}
+
+              {canView("halls", user.role) && (
+                <li className="nav-item mb-2">
+                  <NavLink
+                    to="/dashboard/halls"
+                    className="nav-link "
+                    activeClassName="active"
+                  >
+                    <i className="nav-icon mr-3 fas fa-couch" />
+                    <p>Halls*</p>
+                  </NavLink>
+                </li>
+              )}
+              {canView("amenities", user.role) && (
+                <li className="nav-item mb-2">
+                  <NavLink
+                    to="/dashboard/amenities"
+                    className="nav-link "
+                    activeClassName="active"
+                  >
+                    <i className="nav-icon mr-3 fas fa-bath" />
+                    <p>Amenities*</p>
+                  </NavLink>
+                </li>
+              )}
+              {canView("rooms", user.role) && (
+                <li className="nav-item mb-2">
+                  <NavLink
+                    to="/dashboard/rooms"
+                    className="nav-link "
+                    activeClassName="active"
+                  >
+                    <i className="nav-icon mr-3 fas fa-bed" />
+                    <p>Rooms*</p>
+                  </NavLink>
+                </li>
+              )}
+              {canView("roomtypes", user.role) && (
+                <li className="nav-item mb-2">
+                  <NavLink
+                    to="/dashboard/roomtypes"
+                    className="nav-link "
+                    activeClassName="active"
+                  >
+                    <i className="nav-icon mr-3 fas fa-procedures" />
+                    <p>Room Types*</p>
+                  </NavLink>
+                </li>
+              )}
+
+              {canView("departments", user.role) && (
+                <li className="nav-item mb-2">
+                  <NavLink
+                    to="/dashboard/departments"
+                    className="nav-link "
+                    activeClassName="active"
+                  >
+                    <i className="nav-icon mr-3 fas fa-briefcase" />
+                    <p>Departments*</p>
+                  </NavLink>
+                </li>
+              )}
+              {canView("roles", user.role) && (
+                <li className="nav-item mb-2">
+                  <NavLink
+                    to="/dashboard/roles"
+                    className="nav-link "
+                    activeClassName="active"
+                  >
+                    <i className="nav-icon mr-3 fas fa-user-tag" />
+                    <p>Roles*</p>
+                  </NavLink>
+                </li>
+              )}
+              {canView("shifts", user.role) && (
+                <li className="nav-item mb-2">
+                  <NavLink
+                    to="/dashboard/shifts"
+                    className="nav-link"
+                    activeClassName="active"
+                  >
+                    <i className="nav-icon mr-3 fas fa-sun" />
+                    <p>Shifts*</p>
+                  </NavLink>
+                </li>
+              )}
+
               {canView("foods", user.role) && (
                 <li className="nav-item mb-2">
                   <NavLink

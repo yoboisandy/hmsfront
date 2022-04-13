@@ -23,15 +23,11 @@ const CustomerEdit = () => {
     e.preventDefault();
     setBtnLoading(true);
     await axios
-      .put(
-        `http://localhost:8000/api/customers/${id}`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
+      .put(`http://localhost:8000/api/customers/${id}`, customerData, {
+        headers: {
+          Authorization: "Bearer " + token,
         },
-        customerData
-      )
+      })
       .then((res) => {
         Swal.fire({
           position: "center",

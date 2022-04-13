@@ -70,6 +70,27 @@ const EmployeeCreate = () => {
       });
   };
 
+  const loadRolesFromDepartment = () => {
+    axios
+      .get(
+        `http://localhost:8000/api/departments/${employeeData.department_id}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
+      .then((res) => {
+        setRoles(res.data.roles);
+      });
+  };
+
+  useEffect(() => {
+    if (employeeData.department_id) {
+      loadRolesFromDepartment();
+    }
+  }, [employeeData.department_id]);
+
   useEffect(() => {
     getDepartments();
     getShifts();
@@ -102,15 +123,11 @@ const EmployeeCreate = () => {
     fd.append("joining_date", employeeData.joining_date);
     fd.append("image", image);
     await axios
-      .post(
-        "http://localhost:8000/api/employees",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
+      .post("http://localhost:8000/api/employees", fd, {
+        headers: {
+          Authorization: "Bearer " + token,
         },
-        fd
-      )
+      })
       .then((res) => {
         Swal.fire({
           position: "center",
@@ -145,7 +162,7 @@ const EmployeeCreate = () => {
               <form onSubmit={saveEmployee} method="post">
                 <div className="form-group">
                   <label htmlFor="designation">Designation</label>
-                  <input
+                  {/* <input
                     onChange={handleInputChange}
                     value={employeeData.designation}
                     name="designation"
@@ -155,7 +172,44 @@ const EmployeeCreate = () => {
                     }`}
                     id="designation"
                     placeholder="Enter Designation"
-                  />
+                  /> */}
+                  <select
+                    className={`form-control ${
+                      validationErr.designation ? "is-invalid" : ""
+                    }`}
+                    value={employeeData.designation}
+                    onChange={handleInputChange}
+                    name="designation"
+                    id="designation"
+                  >
+                    <option disabled value={""}>
+                      Select Designation
+                    </option>
+                    <option
+                      value="Mr"
+                      selected={employeeData.designation === "Mr"}
+                    >
+                      Mr
+                    </option>
+                    <option
+                      value="Mrs"
+                      selected={employeeData.designation === "Mrs"}
+                    >
+                      Mrs
+                    </option>
+                    <option
+                      value="Er"
+                      selected={employeeData.designation === "Er"}
+                    >
+                      Er
+                    </option>
+                    <option
+                      value="Dr"
+                      selected={employeeData.designation === "Dr"}
+                    >
+                      Dr
+                    </option>
+                  </select>
                   {validationErr.designation ? (
                     <>
                       <span className="text-danger form-text">
@@ -310,7 +364,7 @@ const EmployeeCreate = () => {
                     onChange={(e) => handleImageChange(e.target.files)}
                     name="image"
                     type="file"
-                    className={`form-control ${
+                    className={`form-control p-0 ${
                       validationErr.image ? "is-invalid" : ""
                     }`}
                     id="image"

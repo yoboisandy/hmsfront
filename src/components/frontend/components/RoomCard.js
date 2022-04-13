@@ -15,7 +15,7 @@ const RoomCard = ({
       <div className="border-t-4 border-indigo-500 rounded-lg">
         <div className="h-full border-l-2 border-r-2 border-b-2 border-gray-200 border-opacity-60  overflow-hidden">
           <img
-            className="lg:h-48  md:h-36 w-full object-cover object-center"
+            className="lg:h-64  md:h-36 w-full object-cover"
             src={`http://localhost:8000/storage/${image}`}
             alt="blog"
           />

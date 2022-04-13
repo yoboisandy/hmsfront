@@ -52,7 +52,14 @@ const DepartmentEdit = () => {
   const updateDepartment = async (e) => {
     e.preventDefault();
     setBtnLoading(true);
-    let values = selectedRoles.map((val) => val.value);
+    console.log(selectedRoles);
+    let values = selectedRoles.map((val) => {
+      if (val.value) {
+        return val.value;
+      } else {
+        return val.id;
+      }
+    });
     console.log(values);
     await axios
       .put(
@@ -98,7 +105,7 @@ const DepartmentEdit = () => {
         setSelectedRoles(res.data.roles);
       });
     setLoading(false);
-    // console.log(departmentData);
+    console.log(selectedRoles);
   };
 
   useEffect(() => {

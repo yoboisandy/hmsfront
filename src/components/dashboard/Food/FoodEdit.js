@@ -152,7 +152,7 @@ const FoodEdit = () => {
                       onChange={(e) => handleImageChange(e.target.files)}
                       name="image"
                       type="file"
-                      className={`form-control ${
+                      className={`form-control p-0 ${
                         validationErr.image ? "is-invalid" : ""
                       }`}
                       id="image"

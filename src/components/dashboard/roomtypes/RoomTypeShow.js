@@ -2,45 +2,45 @@ import axios from "axios";
 import { React, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
-const HallShow = () => {
+const RoomTypeShow = () => {
   let { id } = useParams();
-  const [hall, setHall] = useState({});
+  const [roomType, setRoomType] = useState({});
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
 
-  const fetchHall = async () => {
+  const fetchRoOmType = async () => {
     setLoading(true);
     await axios
-      .get(`http://localhost:8000/api/halls/${id}`, {
+      .get(`http://localhost:8000/api/roomtypes/${id}`, {
         headers: {
           Authorization: "Bearer " + token,
         },
       })
       .then((res) => {
-        setHall(res.data);
-        console.log(hall);
+        setRoomType(res.data);
+        console.log(roomType);
       });
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchHall();
+    fetchRoOmType();
   }, []);
 
   return (
     <div>
       <div className="card">
         <div className="card-header">
-          <div className="card-title text-lg">Hall Detail</div>
+          <div className="card-title text-lg">Room Type Detail</div>
           <div className="card-tools">
             <div className="card-tools">
               <Link
-                to={`/dashboard/halls/edit/${id}`}
+                to={`/dashboard/roomtypes/edit/${id}`}
                 className="btn-sm bg-teal mr-1"
               >
                 <i className=" fas fa-edit mr-1"></i>Edit
               </Link>
-              <Link to="/dashboard/halls" className="btn-sm bg-indigo">
+              <Link to="/dashboard/roomtypes" className="btn-sm bg-indigo">
                 <i className="fa fa-arrow-left mr-1" aria-hidden="true"></i> Go
                 back
               </Link>
@@ -66,7 +66,7 @@ const HallShow = () => {
                     <div className="d-flex justify-content-center w-full">
                       <img
                         className="img-fluid w-25 rounded-lg"
-                        src={`http://localhost:8000/storage/${hall.image}`}
+                        src={`http://localhost:8000/storage/${roomType.image}`}
                         alt=""
                       />
                     </div>
@@ -74,35 +74,49 @@ const HallShow = () => {
                 </tr>
                 <tr>
                   <th>ID</th>
-                  <td>{hall.id}</td>
+                  <td>{roomType.id}</td>
                 </tr>
                 <tr>
                   <th>Name</th>
-                  <td>{hall.name}</td>
+                  <td>{roomType.type_name}</td>
                 </tr>
                 <tr>
                   <th>Description</th>
-                  <td>{hall.description}</td>
+                  <td>{roomType.description}</td>
+                </tr>
+                <tr>
+                  <th>Adult Occupancy</th>
+                  <td>{roomType.adult_occupancy}</td>
+                </tr>
+                <tr>
+                  <th>Child Occupancy</th>
+                  <td>{roomType.child_occupancy}</td>
                 </tr>
                 <tr>
                   <th>Base Occupancy</th>
-                  <td>{hall.base_occupancy}</td>
+                  <td>{roomType.base_occupancy}</td>
                 </tr>
                 <tr>
                   <th>Higher Occupancy</th>
-                  <td>{hall.high_occupancy}</td>
+                  <td>{roomType.higher_occupancy}</td>
                 </tr>
                 <tr>
-                  <th>Floor</th>
-                  <td>{hall.floor.name}</td>
+                  <th>Extra Bed</th>
+                  <td>
+                    {roomType.extra_bed ? (
+                      <span>Available</span>
+                    ) : (
+                      <span>Not Available</span>
+                    )}
+                  </td>
                 </tr>
                 <tr>
                   <th>Base Price</th>
-                  <td>{hall.base_price}</td>
+                  <td>{roomType.base_price}</td>
                 </tr>
                 <tr>
-                  <th>Higher Price</th>
-                  <td>{hall.high_price}</td>
+                  <th>Extra Bed Price</th>
+                  <td>{roomType.extra_bed_price}</td>
                 </tr>
               </>
             )}
@@ -113,4 +127,4 @@ const HallShow = () => {
   );
 };
 
-export default HallShow;
+export default RoomTypeShow;

@@ -56,17 +56,17 @@ const EmployeeEdit = () => {
         setShifts(res.data);
       });
   };
-  const getRoles = async () => {
-    await axios
-      .get("http://localhost:8000/api/roles", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setRoles(res.data);
-      });
-  };
+  // const getRoles = async () => {
+  //   await axios
+  //     .get("http://localhost:8000/api/roles", {
+  //       headers: {
+  //         Authorization: "Bearer " + token,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       setRoles(res.data);
+  //     });
+  // };
 
   const handleInputChange = (e) => {
     setEmployeeData({ ...employeeData, [e.target.name]: e.target.value });
@@ -80,6 +80,7 @@ const EmployeeEdit = () => {
   const updateEmployee = async (e) => {
     e.preventDefault();
     setBtnLoading(true);
+    let dd = document.querySelector("#role_id").value;
     const fd = new FormData();
     console.log(employeeData);
     fd.append("firstname", employeeData.firstname);
@@ -88,7 +89,7 @@ const EmployeeEdit = () => {
     fd.append("dob", employeeData.dob);
     fd.append("phone", employeeData.phone);
     fd.append("department_id", employeeData.department_id);
-    fd.append("role_id", employeeData.role_id);
+    fd.append("role_id", dd);
     fd.append("shift_id", employeeData.shift_id);
     fd.append("designation", employeeData.designation);
     fd.append("address", employeeData.address);
@@ -105,15 +106,11 @@ const EmployeeEdit = () => {
     console.log(fd.get("firstname"));
     // return fd;
     await axios
-      .post(
-        `http://localhost:8000/api/employees/${id}`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
+      .post(`http://localhost:8000/api/employees/${id}`, fd, {
+        headers: {
+          Authorization: "Bearer " + token,
         },
-        fd
-      )
+      })
       .then((res) => {
         Swal.fire({
           position: "center",
@@ -130,9 +127,30 @@ const EmployeeEdit = () => {
     setBtnLoading(false);
   };
 
+  const loadRolesFromDepartment = () => {
+    axios
+      .get(
+        `http://localhost:8000/api/departments/${employeeData.department_id}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
+      .then((res) => {
+        setRoles(res.data.roles);
+      });
+  };
+
+  useEffect(() => {
+    if (employeeData.department_id) {
+      loadRolesFromDepartment();
+    }
+  }, [employeeData.department_id]);
+
   useEffect(() => {
     getEmployee();
-    getRoles();
+    // getRoles();
     getDepartments();
     getShifts();
   }, []);
@@ -162,17 +180,43 @@ const EmployeeEdit = () => {
                 <form onSubmit={updateEmployee} method="post">
                   <div className="form-group">
                     <label htmlFor="designation">Designation</label>
-                    <input
-                      onChange={handleInputChange}
-                      value={employeeData.designation}
-                      name="designation"
-                      type="text"
+                    <select
                       className={`form-control ${
                         validationErr.designation ? "is-invalid" : ""
                       }`}
+                      value={employeeData.designation}
+                      onChange={handleInputChange}
+                      name="designation"
                       id="designation"
-                      placeholder="Enter Designation"
-                    />
+                    >
+                      <option disabled value={""}>
+                        Select Designation
+                      </option>
+                      <option
+                        value="Mr"
+                        selected={employeeData.designation === "Mr"}
+                      >
+                        Mr
+                      </option>
+                      <option
+                        value="Mrs"
+                        selected={employeeData.designation === "Mrs"}
+                      >
+                        Mrs
+                      </option>
+                      <option
+                        value="Er"
+                        selected={employeeData.designation === "Er"}
+                      >
+                        Er
+                      </option>
+                      <option
+                        value="Dr"
+                        selected={employeeData.designation === "Dr"}
+                      >
+                        Dr
+                      </option>
+                    </select>
                     {validationErr.designation ? (
                       <>
                         <span className="text-danger form-text">
@@ -335,7 +379,7 @@ const EmployeeEdit = () => {
                       onChange={(e) => handleImageChange(e.target.files)}
                       name="image"
                       type="file"
-                      className={`form-control ${
+                      className={`form-control p-0 ${
                         validationErr.image ? "is-invalid" : ""
                       }`}
                       id="image"
@@ -521,9 +565,14 @@ const EmployeeEdit = () => {
                       className={`form-control ${
                         validationErr.role_id ? "is-invalid" : ""
                       }`}
-                      onChange={handleInputChange}
-                      value={employeeData.role_id}
-                      name="role_id"
+                      // onChange={(e) =>
+                      //   setEmployeeData({
+                      //     ...employeeData,
+                      //     role_id: e.target.value,
+                      //   })
+                      // }
+                      // value={employeeData.role_id}
+                      // name="role_id"
                       id="role_id"
                     >
                       <option disabled selected>

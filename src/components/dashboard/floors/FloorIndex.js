@@ -73,7 +73,7 @@ const FloorIndex = () => {
 
   return (
     <div>
-      <div className="card">
+      <div className="card ">
         <div className="card-header">
           <div className="card-title text-lg">All Floors</div>
           <div className="card-tools">
@@ -82,7 +82,7 @@ const FloorIndex = () => {
             </Link>
           </div>
         </div>
-        <div className="card-body p-0">
+        <div className="card-body p-0 ">
           <table className="table table-hover table-bordered ">
             <thead className="bg-indigo">
               <tr>
@@ -90,44 +90,54 @@ const FloorIndex = () => {
                 <th>ID</th>
                 <th>Name</th>
                 <th>Floor Number</th>
-                <th>Created Date</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {floors.map((floor, index) => {
-                return (
-                  <tr>
-                    <td>{index + 1}</td>
-                    <td>{floor.id}</td>
-                    <td>{floor.name}</td>
-                    <td>{floor.floor_number}</td>
-                    <td>{floor.created_at}</td>
-                    <td>
-                      <td className="d-flex justify-content-center border-0">
-                        <Link
-                          to={`/dashboard/floors/${floor.id}`}
-                          className="btn-sm bg-success mr-1"
-                        >
-                          <i className="fa fa-eye"> </i>
-                        </Link>
-                        <Link
-                          to={`/dashboard/floors/edit/${floor.id}`}
-                          className="btn-sm bg-teal mr-1"
-                        >
-                          <i className=" fas fa-edit"> </i>
-                        </Link>
-                        <span
-                          onClick={() => handleDelete(floor.id)}
-                          className="btn-sm bg-danger mr-1"
-                        >
-                          <i className="fas fa-trash-alt"> </i>
-                        </span>
+              {loading && (
+                <tr>
+                  <td colSpan={9}>
+                    <div className="d-flex justify-content-center py-5">
+                      <div className="spinner-border text-indigo" role="status">
+                        <span className="sr-only">Loading...</span>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              )}
+              {!loading &&
+                floors.map((floor, index) => {
+                  return (
+                    <tr>
+                      <td>{index + 1}</td>
+                      <td>{floor.id}</td>
+                      <td>{floor.name}</td>
+                      <td>{floor.floor_number}</td>
+                      <td>
+                        <td className="d-flex justify-content-center border-0">
+                          <Link
+                            to={`/dashboard/floors/${floor.id}`}
+                            className="btn-sm bg-success mr-1"
+                          >
+                            <i className="fa fa-eye"> </i>
+                          </Link>
+                          <Link
+                            to={`/dashboard/floors/edit/${floor.id}`}
+                            className="btn-sm bg-teal mr-1"
+                          >
+                            <i className=" fas fa-edit"> </i>
+                          </Link>
+                          <span
+                            onClick={() => handleDelete(floor.id)}
+                            className="btn-sm bg-danger mr-1"
+                          >
+                            <i className="fas fa-trash-alt"> </i>
+                          </span>
+                        </td>
                       </td>
-                    </td>
-                  </tr>
-                );
-              })}
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
           .

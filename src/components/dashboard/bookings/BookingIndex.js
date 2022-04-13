@@ -58,32 +58,40 @@ const BookingIndex = () => {
             icon: "success",
             text: res.data.message,
           });
-          updateStatus(id, "Confirmed");
         }
         fetchBookings();
       });
   };
 
-  const updateStatus = async (id, status) => {
-    await axios
-      .put(
-        `http://localhost:8000/api/changestatus/${id}`,
-        {
-          status: status,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      )
-      .then((res) => {
-        Swal.fire({
-          icon: "success",
-          text: res.data.message,
-        });
+  const updateStatus = async (id, status, room_id) => {
+    if (!room_id && status === "Confirmed") {
+      Swal.fire({
+        icon: "error",
+        title: "Error!",
+        text: "Assign Room Before Confirming",
       });
-    fetchBookings();
+      fetchBookings();
+    } else {
+      await axios
+        .put(
+          `http://localhost:8000/api/changestatus/${id}`,
+          {
+            status: status,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        )
+        .then((res) => {
+          Swal.fire({
+            icon: "success",
+            text: res.data.message,
+          });
+        });
+      fetchBookings();
+    }
   };
 
   useEffect(() => {
@@ -190,14 +198,25 @@ const BookingIndex = () => {
                           <td>{booking.end_date}</td>
                           <td>{booking.roomtype.type_name}</td>
                           <td>
+                            {/* {booking.room_id && (
+                              <span>{booking.room.room_no}</span>
+                            )} */}
+
                             <select
+                              disabled={
+                                booking.status === "Canceled" ||
+                                booking.status === "Checked Out" ||
+                                booking.status === "Checked In"
+                              }
                               onChange={(e) => {
                                 assignRoom(booking.id, e.target.value);
                               }}
                               className="form-control "
                               name="room_id"
                             >
-                              <option disabled>Assign Room</option>
+                              <option disabled selected>
+                                Assign Room
+                              </option>
                               {booking.roomtype.rooms.map((el) => (
                                 <option
                                   selected={booking.room_id === el.id}
@@ -213,30 +232,65 @@ const BookingIndex = () => {
                             <form>
                               <select
                                 className="form-control"
+                                disabled={
+                                  booking.status === "Checked Out" ||
+                                  booking.status === "Canceled"
+                                }
                                 onChange={(e) => {
-                                  updateStatus(booking.id, e.target.value);
+                                  updateStatus(
+                                    booking.id,
+                                    e.target.value,
+                                    booking.room_id
+                                  );
                                 }}
                                 name="status"
                                 id="status"
                               >
-                                <option
-                                  value="Pending"
-                                  selected={booking.status === "Pending"}
-                                >
-                                  Pending
-                                </option>
-                                <option
-                                  value="Confirmed"
-                                  selected={booking.status === "Confirmed"}
-                                >
-                                  Confirmed
-                                </option>
-                                <option
-                                  value="Canceled"
-                                  selected={booking.status === "Canceled"}
-                                >
-                                  Cancel
-                                </option>
+                                {booking.status === "Pending" && (
+                                  <option
+                                    value="Pending"
+                                    selected={booking.status === "Pending"}
+                                  >
+                                    Pending
+                                  </option>
+                                )}
+                                {(booking.status === "Pending" ||
+                                  booking.status === "Confirmed") && (
+                                  <option
+                                    value="Confirmed"
+                                    selected={booking.status === "Confirmed"}
+                                  >
+                                    Confirmed
+                                  </option>
+                                )}
+                                {(booking.status === "Confirmed" ||
+                                  booking.status === "Checked In") && (
+                                  <option
+                                    value="Checked In"
+                                    selected={booking.status === "Checked In"}
+                                  >
+                                    Checked In
+                                  </option>
+                                )}
+                                {(booking.status === "Checked In" ||
+                                  booking.status === "Checked Out") && (
+                                  <option
+                                    value="Checked Out"
+                                    selected={booking.status === "Checked Out"}
+                                  >
+                                    Checked Out
+                                  </option>
+                                )}
+                                {(booking.status === "Pending" ||
+                                  booking.status === "Canceled" ||
+                                  booking.status === "Confirmed") && (
+                                  <option
+                                    value="Canceled"
+                                    selected={booking.status === "Canceled"}
+                                  >
+                                    Cancel
+                                  </option>
+                                )}
                               </select>
                             </form>
                           </td>
