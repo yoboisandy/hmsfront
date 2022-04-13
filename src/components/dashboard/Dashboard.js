@@ -15,6 +15,8 @@ import UserContext from "../../contexts/UserContext";
 import FullSpinner from "../frontend/components/FullSpinner";
 import BookingApp from "./bookings/BookingApp";
 import FoodApp from "./Food/FoodApp";
+import AmenitiesApp from "./amenities/AmenitiesApp";
+import FoodOrderApp from "./foodorders/FoodOrderApp";
 // import "./css/adminlte.min.css";
 
 const Admin = () => {
@@ -94,6 +96,9 @@ const Admin = () => {
           {/* department */}
           <Route path="/departments/*" element={<DepartmentApp />} />
 
+          {/* Amenities */}
+          <Route path="/amenities/*" element={<AmenitiesApp />} />
+
           {/* floors */}
           <Route path="/floors/*" element={<FloorApp />} />
 
@@ -108,6 +113,9 @@ const Admin = () => {
 
           {/* food */}
           <Route path="/foods/*" element={<FoodApp />} />
+
+          {/* food orders */}
+          <Route path="/foodorders/*" element={<FoodOrderApp />} />
         </Routes>
       </Layout>
     </>

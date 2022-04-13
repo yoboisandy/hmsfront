@@ -1,44 +1,55 @@
 import React from "react";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 import Select from "react-select";
 
-const FloorEdit = () => {
-  const [floorData, setfloorData] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [btnLoading, setBtnLoading] = useState(false);
+const AmenitiesEdit = () => {
   const [validationErr, setValidationErr] = useState({});
   const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [icon, setIcon] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
   const token = localStorage.getItem("token");
 
-  const handleInputChange = (e) => {
-    setfloorData({ ...floorData, [e.target.name]: e.target.value });
-    console.log(floorData);
+  const { id } = useParams();
+
+  useEffect(() => {
+    fetchAmenityData();
+  }, []);
+
+  const handleImage = (files) => {
+    setIcon(files[0]);
   };
 
-  const getFloor = async () => {
+  const fetchAmenityData = async () => {
     setLoading(true);
     await axios
-      .get(`http://localhost:8000/api/floors/${id}`, {
+      .get(`http://localhost:8000/api/amenities/${id}`, {
         headers: {
           Authorization: "Bearer " + token,
         },
       })
       .then((res) => {
-        setfloorData(res.data);
+        setName(res.data.name);
+        setIcon(res.data.icon);
       });
     setLoading(false);
   };
 
-  let { id } = useParams();
-
-  const updateFloor = async (e) => {
-    e.preventDefault();
+  const saveAmenity = async (e) => {
     setBtnLoading(true);
+    e.preventDefault();
+
+    let fd = new FormData();
+    fd.append("name", name);
+    fd.append("icon", icon);
+    fd.append("_method", "PUT");
+
     await axios
-      .put(`http://localhost:8000/api/floors/${id}`, floorData, {
+      .post(`http://localhost:8000/api/amenities/${id}`, fd, {
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -51,7 +62,7 @@ const FloorEdit = () => {
           showConfirmButton: false,
           timer: 2000,
         });
-        navigate("/dashboard/floors");
+        navigate("/dashboard/amenities");
       })
       .catch((err) => {
         setValidationErr(err.response.data.errors);
@@ -59,45 +70,42 @@ const FloorEdit = () => {
     setBtnLoading(false);
   };
 
-  useEffect(() => {
-    getFloor();
-  }, []);
-
   return (
     <div>
       <div className="row">
         <div className="col-12">
           <div className="card">
             <div className="card-header">
-              <div className="card-title text-lg">Update Floor</div>
+              <div className="card-title text-lg">Add Amenity</div>
               <div className="card-tools">
-                <Link to="/dashboard/floors" className="btn-sm bg-indigo">
+                <Link to="/dashboard/amenities" className="btn-sm bg-indigo">
                   <i className="fa fa-arrow-left mr-1" aria-hidden="true"></i>{" "}
                   Go back
                 </Link>
               </div>
             </div>
             <div className="card-body ">
-              {loading ? (
+              {loading && (
                 <div className="d-flex justify-content-center py-5">
                   <div className="spinner-border text-indigo" role="status">
                     <span className="sr-only">Loading...</span>
                   </div>
                 </div>
-              ) : (
-                <form onSubmit={updateFloor} method="post">
+              )}
+              {!loading && (
+                <form onSubmit={saveAmenity} method="post">
                   <div className="form-group">
-                    <label htmlFor="name">Name</label>
+                    <label htmlFor="name">Amenity Name</label>
                     <input
-                      onChange={handleInputChange}
-                      value={floorData.name}
+                      onChange={(e) => setName(e.target.value)}
+                      value={name}
                       name="name"
                       type="text"
                       className={`form-control ${
                         validationErr.name ? "is-invalid" : ""
                       }`}
                       id="name"
-                      placeholder="Enter Floor Name"
+                      placeholder="Enter Amenity Name"
                     />
                     {validationErr.name ? (
                       <>
@@ -110,45 +118,26 @@ const FloorEdit = () => {
                     )}
                   </div>
                   <div className="form-group">
-                    <label htmlFor="name">Floor Number</label>
-                    <input
-                      onChange={handleInputChange}
-                      value={floorData.floor_number}
-                      name="floor_number"
-                      type="text"
-                      className={`form-control ${
-                        validationErr.floor_number ? "is-invalid" : ""
-                      }`}
-                      id="floor_number"
-                      placeholder="Enter Floor Number"
+                    <label htmlFor="icon">Icon</label>
+                    <img
+                      className="img-fluid mb-2"
+                      width={64}
+                      src={`http://localhost:8000/storage/${icon}`}
+                      alt=""
                     />
-                    {validationErr.floor_number ? (
-                      <>
-                        <span className="text-danger form-text">
-                          {validationErr.floor_number}
-                        </span>
-                      </>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="name">Floor Description</label>
-                    <textarea
-                      onChange={handleInputChange}
-                      value={floorData.description}
-                      name="description"
-                      type="text"
-                      className={`form-control ${
-                        validationErr.description ? "is-invalid" : ""
+                    <input
+                      onChange={(e) => handleImage(e.target.files)}
+                      name="icon"
+                      type="file"
+                      className={`form-control p-0 ${
+                        validationErr.icon ? "is-invalid" : ""
                       }`}
-                      id="description"
-                      placeholder="Enter Floor Description"
-                    ></textarea>
-                    {validationErr.description ? (
+                      id="icon"
+                    />
+                    {validationErr.icon ? (
                       <>
                         <span className="text-danger form-text">
-                          {validationErr.description}
+                          {validationErr.icon}
                         </span>
                       </>
                     ) : (
@@ -158,7 +147,7 @@ const FloorEdit = () => {
 
                   <div className="form-group my-2">
                     <button
-                      onClick={updateFloor}
+                      onClick={saveAmenity}
                       type="submit"
                       className="btn bg-indigo"
                     >
@@ -169,10 +158,10 @@ const FloorEdit = () => {
                             role="status"
                             aria-hidden="true"
                           ></span>
-                          <span>Updating...</span>
+                          <span>Saving...</span>
                         </>
                       ) : (
-                        "Update"
+                        "Create"
                       )}
                     </button>
                   </div>
@@ -186,4 +175,4 @@ const FloorEdit = () => {
   );
 };
 
-export default FloorEdit;
+export default AmenitiesEdit;

@@ -1,5 +1,7 @@
+import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { button, useNavigate } from "react-router-dom";
+import CanOrderFood from "../../../contexts/CanOrderFood";
 import FullLoadingContext from "../../../contexts/FullLoadingContext";
 import UserContext from "../../../contexts/UserContext";
 
@@ -7,6 +9,7 @@ const Layout = ({ children }) => {
   const navigate = useNavigate();
   const [user] = useContext(UserContext);
   const [fullLoading, setFullLoading] = useContext(FullLoadingContext);
+  const canOrder = useContext(CanOrderFood);
 
   function goTo(url, e) {
     setFullLoading(true);
@@ -14,8 +17,10 @@ const Layout = ({ children }) => {
     navigate(url);
     setFullLoading(false);
   }
+  useEffect(() => {
+    console.log(canOrder);
+  }, []);
 
-  console.log(user);
   return (
     <div>
       <header className="text-gray-600 body-font shadow-md sticky top-0 bg-white z-30">
@@ -43,7 +48,7 @@ const Layout = ({ children }) => {
             >
               Halls
             </button>
-            {user.role === "Customer" && (
+            {canOrder && (
               <button
                 onClick={() => goTo("/foods")}
                 className="mr-5 hover:text-gray-900 font-semibold pb-0.5 border-b-2 border-transparent transition-all duration-300 hover:border-indigo-600 cursor-pointer"

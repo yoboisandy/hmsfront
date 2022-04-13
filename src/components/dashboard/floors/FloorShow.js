@@ -4,10 +4,12 @@ import { Link, useParams } from "react-router-dom";
 
 const FloorShow = () => {
   const [floor, setFloor] = useState({});
+  const [loading, setLoading] = useState(false);
   let { id } = useParams();
   const token = localStorage.getItem("token");
 
   const getFloors = async () => {
+    setLoading(true);
     await axios
       .get(`http://localhost:8000/api/floors/${id}`, {
         headers: {
@@ -18,6 +20,7 @@ const FloorShow = () => {
         setFloor(res.data);
         console.log(floor);
       });
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -43,32 +46,41 @@ const FloorShow = () => {
           </div>
         </div>
         <div className="card-body p-0">
-          <table className="table table-bordered">
-            <tr>
-              <th>ID</th>
-              <td>{floor.id}</td>
-            </tr>
-            <tr>
-              <th>Name</th>
-              <td>{floor.name}</td>
-            </tr>
-            <tr>
-              <th>Floor Number</th>
-              <td>{floor.floor_number}</td>
-            </tr>
-            <tr>
-              <th>Floor Description</th>
-              <td>{floor.description}</td>
-            </tr>
-            <tr>
-              <th>Created Date</th>
-              <td>{floor.created_at}</td>
-            </tr>
-            <tr>
-              <th>Updated Date</th>
-              <td>{floor.updated_at}</td>
-            </tr>
-          </table>
+          {loading && (
+            <div className="d-flex justify-content-center py-5">
+              <div className="spinner-border text-indigo" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            </div>
+          )}
+          {!loading && (
+            <table className="table table-bordered">
+              <tr>
+                <th>ID</th>
+                <td>{floor.id}</td>
+              </tr>
+              <tr>
+                <th>Name</th>
+                <td>{floor.name}</td>
+              </tr>
+              <tr>
+                <th>Floor Number</th>
+                <td>{floor.floor_number}</td>
+              </tr>
+              <tr>
+                <th>Floor Description</th>
+                <td>{floor.description}</td>
+              </tr>
+              <tr>
+                <th>Created Date</th>
+                <td>{floor.created_at}</td>
+              </tr>
+              <tr>
+                <th>Updated Date</th>
+                <td>{floor.updated_at}</td>
+              </tr>
+            </table>
+          )}
         </div>
       </div>
     </div>

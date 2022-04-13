@@ -23,15 +23,11 @@ const ShiftEdit = () => {
     e.preventDefault();
     setBtnLoading(true);
     await axios
-      .put(
-        `http://localhost:8000/api/shifts/${id}`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
+      .put(`http://localhost:8000/api/shifts/${id}`, shiftData, {
+        headers: {
+          Authorization: "Bearer " + token,
         },
-        shiftData
-      )
+      })
       .then((res) => {
         Swal.fire({
           position: "center",

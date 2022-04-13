@@ -23,15 +23,11 @@ const RoleEdit = () => {
     e.preventDefault();
     setBtnLoading(true);
     await axios
-      .put(
-        `http://localhost:8000/api/roles/${id}`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
+      .put(`http://localhost:8000/api/roles/${id}`, roleData, {
+        headers: {
+          Authorization: "Bearer " + token,
         },
-        roleData
-      )
+      })
       .then((res) => {
         Swal.fire({
           position: "center",

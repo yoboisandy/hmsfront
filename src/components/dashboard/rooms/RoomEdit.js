@@ -11,6 +11,19 @@ const RoomEdit = () => {
   const [validationErr, setValidationErr] = useState({});
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const [roomTypes, setRoomTypes] = useState([]);
+
+  const getRoomTypes = async () => {
+    await axios
+      .get("http://localhost:8000/api/roomtypes", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        setRoomTypes(res.data);
+      });
+  };
 
   const handleInputChange = (e) => {
     setRoomData({ ...roomData, [e.target.name]: e.target.value });
@@ -23,15 +36,11 @@ const RoomEdit = () => {
     e.preventDefault();
     setBtnLoading(true);
     await axios
-      .put(
-        `http://localhost:8000/api/rooms/${id}`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
+      .put(`http://localhost:8000/api/rooms/${id}`, roomData, {
+        headers: {
+          Authorization: "Bearer " + token,
         },
-        roomData
-      )
+      })
       .then((res) => {
         Swal.fire({
           position: "center",
@@ -72,6 +81,7 @@ const RoomEdit = () => {
 
   useEffect(() => {
     fetchRoom();
+    getRoomTypes();
   }, []);
   return (
     <div>
@@ -212,19 +222,31 @@ const RoomEdit = () => {
                     )}
                   </div>
                   <div className="form-group">
-                    <label htmlFor="citizenship_number">Room Type</label>
-                    <input
-                      onChange={handleInputChange}
-                      value={roomData.roomtype_id}
-                      name="roomtype_id"
-                      type="text"
+                    <label htmlFor="roomtype_id">Room Type</label>
+                    <select
                       className={`form-control ${
                         validationErr.roomtype_id ? "is-invalid" : ""
                       }`}
+                      onChange={handleInputChange}
+                      value={roomData.roomtype_id}
+                      name="roomtype_id"
                       id="roomtype_id"
-                      placeholder="Enter Room Type"
-                    />
-                    {validationErr.roomtype_id ? (
+                    >
+                      <option disabled selected>
+                        Select Room Type
+                      </option>
+                      {roomTypes.map((roomtype) => {
+                        return (
+                          <option
+                            selected={roomData.roomtype_id == roomtype.id}
+                            value={roomtype.id}
+                          >
+                            {roomtype.type_name}
+                          </option>
+                        );
+                      })}
+                    </select>
+                    {validationErr.rooomtype_id ? (
                       <>
                         <span className="text-danger form-text">
                           {validationErr.roomtype_id}

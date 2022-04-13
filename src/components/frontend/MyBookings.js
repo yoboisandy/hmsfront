@@ -99,11 +99,16 @@ const MyBookings = () => {
                         {el.status === "Checked Out" && (
                           <span>Checked Out</span>
                         )}
+                        {el.status === "Checked In" && <span>Checked In</span>}
                         {el.status !== "Canceled" &&
-                          el.status !== "Checked Out" && (
+                          el.status !== "Checked Out" &&
+                          el.status !== "Checked In" && (
                             <form>
                               <select
-                                disabled={el.status === "Canceled"}
+                                disabled={
+                                  el.status === "Canceled" ||
+                                  el.status === "Confirmed"
+                                }
                                 onChange={(e) => {
                                   updateStatus(el.id, e.target.value);
                                 }}

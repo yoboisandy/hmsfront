@@ -89,15 +89,11 @@ const RoomTypeCreate = () => {
     console.log(fd.get("amenities"));
 
     await axios
-      .post(
-        "http://localhost:8000/api/roomtypes",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
+      .post("http://localhost:8000/api/roomtypes", fd, {
+        headers: {
+          Authorization: "Bearer " + token,
         },
-        fd
-      )
+      })
       .then((res) => {
         Swal.fire({
           position: "center",
@@ -227,7 +223,7 @@ const RoomTypeCreate = () => {
                   <input
                     onChange={(e) => handleImageChange(e.target.files)}
                     type="file"
-                    className={`form-control ${
+                    className={`form-control p-0 ${
                       validationErr.image ? "is-invalid" : ""
                     }`}
                     id="image"

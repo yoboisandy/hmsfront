@@ -3,30 +3,32 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
+import Select from "react-select";
 
-const RoleCreate = () => {
-  const [validationErr, setValidationErr] = useState({
-    name: "",
-  });
+const AmenitiesCreate = () => {
+  const [validationErr, setValidationErr] = useState({});
   const navigate = useNavigate();
-  const [roleData, setroleData] = useState({});
+  const [name, setName] = useState("");
+  const [icon, setIcon] = useState(null);
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
 
-  const handleInputChange = (e) => {
-    setroleData({ ...roleData, [e.target.name]: e.target.value });
-    console.log(roleData);
+  useEffect(() => {}, []);
+
+  const handleImage = (files) => {
+    setIcon(files[0]);
   };
 
-  const saveRole = async (e) => {
+  const saveAmenity = async (e) => {
     e.preventDefault();
-
     setLoading(true);
-    // const fd = new FormData();
-    // fd.append("name", roleData.name);
+
+    let fd = new FormData();
+    fd.append("name", name);
+    fd.append("icon", icon);
 
     await axios
-      .post("http://localhost:8000/api/roles", roleData, {
+      .post("http://localhost:8000/api/amenities", fd, {
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -39,7 +41,7 @@ const RoleCreate = () => {
           showConfirmButton: false,
           timer: 2000,
         });
-        navigate("/dashboard/roles");
+        navigate("/dashboard/amenities");
       })
       .catch((err) => {
         setValidationErr(err.response.data.errors);
@@ -53,28 +55,28 @@ const RoleCreate = () => {
         <div className="col-12">
           <div className="card">
             <div className="card-header">
-              <div className="card-title text-lg">Add Role</div>
+              <div className="card-title text-lg">Add Amenity</div>
               <div className="card-tools">
-                <Link to="/dashboard/roles" className="btn-sm bg-indigo">
+                <Link to="/dashboard/amenities" className="btn-sm bg-indigo">
                   <i className="fa fa-arrow-left mr-1" aria-hidden="true"></i>{" "}
                   Go back
                 </Link>
               </div>
             </div>
             <div className="card-body ">
-              <form onSubmit={saveRole} method="post">
+              <form onSubmit={saveAmenity} method="post">
                 <div className="form-group">
-                  <label htmlFor="name">Role Name</label>
+                  <label htmlFor="name">Amenity Name</label>
                   <input
-                    onChange={handleInputChange}
-                    value={roleData.name}
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}
                     name="name"
                     type="text"
                     className={`form-control ${
                       validationErr.name ? "is-invalid" : ""
                     }`}
                     id="name"
-                    placeholder="Enter Role Name"
+                    placeholder="Enter Amenity Name"
                   />
                   {validationErr.name ? (
                     <>
@@ -86,10 +88,31 @@ const RoleCreate = () => {
                     ""
                   )}
                 </div>
+                <div className="form-group">
+                  <label htmlFor="icon">Icon</label>
+                  <input
+                    onChange={(e) => handleImage(e.target.files)}
+                    name="icon"
+                    type="file"
+                    className={`form-control p-0 ${
+                      validationErr.icon ? "is-invalid" : ""
+                    }`}
+                    id="icon"
+                  />
+                  {validationErr.icon ? (
+                    <>
+                      <span className="text-danger form-text">
+                        {validationErr.icon}
+                      </span>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </div>
 
                 <div className="form-group my-2">
                   <button
-                    onClick={saveRole}
+                    onClick={saveAmenity}
                     type="submit"
                     className="btn bg-indigo"
                   >
@@ -116,4 +139,4 @@ const RoleCreate = () => {
   );
 };
 
-export default RoleCreate;
+export default AmenitiesCreate;

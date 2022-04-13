@@ -4,21 +4,21 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 import axios from "axios";
-const HallIndex = () => {
-  const [halls, setHalls] = useState([]);
-  const [loading, setLoading] = useState([]);
+const AmenitiesIndex = () => {
+  const [amenities, setAmenities] = useState([]);
+  const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
 
-  const fetchHalls = async () => {
+  const fetchAmenities = async () => {
     setLoading(true);
     await axios
-      .get("http://localhost:8000/api/halls", {
+      .get("http://localhost:8000/api/amenities", {
         headers: {
           Authorization: "Bearer " + token,
         },
       })
       .then((res) => {
-        setHalls(res.data);
+        setAmenities(res.data);
         console.log(res.data);
       })
       .catch((err) => {
@@ -28,7 +28,7 @@ const HallIndex = () => {
   };
 
   useEffect(() => {
-    fetchHalls();
+    fetchAmenities();
   }, []);
 
   const handleDelete = async (id) => {
@@ -46,7 +46,7 @@ const HallIndex = () => {
 
     if (isConfirmed) {
       await axios
-        .delete(`http://localhost:8000/api/halls/${id}`, {
+        .delete(`http://localhost:8000/api/amenities/${id}`, {
           headers: {
             Authorization: "Bearer " + token,
           },
@@ -56,13 +56,20 @@ const HallIndex = () => {
             icon: "success",
             text: res.data.message,
           });
-          fetchHalls();
+          fetchAmenities();
         })
         .catch((err) => {
-          Swal.fire({
-            text: err.response.data.message,
-            icon: "error",
-          });
+          if (err.response.status === 500) {
+            Swal.fire({
+              text: "Status " + err.response.status + ": Something went wrong!",
+              icon: "error",
+            });
+          } else {
+            Swal.fire({
+              text: "Status " + err.response.status + ": Something went wrong!",
+              icon: "error",
+            });
+          }
         });
     }
   };
@@ -73,9 +80,12 @@ const HallIndex = () => {
         <div className="col-12">
           <div className="card">
             <div className="card-header">
-              <div className="card-title text-lg">Halls</div>
+              <div className="card-title text-lg">Departments</div>
               <div className="card-tools">
-                <Link to="/dashboard/halls/create" className="btn-sm bg-indigo">
+                <Link
+                  to="/dashboard/amenities/create"
+                  className="btn-sm bg-indigo"
+                >
                   <i className="fas fa-plus-circle mr-1"></i> Add New
                 </Link>
               </div>
@@ -85,13 +95,8 @@ const HallIndex = () => {
                 <thead className="bg-indigo">
                   <tr className="text-center">
                     <th>SN</th>
+                    <th>Image</th>
                     <th>Name</th>
-                    <th>Photo</th>
-                    <th>Base Occupancy</th>
-                    <th>High Occupancy</th>
-                    <th>Floor</th>
-                    <th>High Price</th>
-                    <th>Base Price</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -112,39 +117,29 @@ const HallIndex = () => {
                   ) : (
                     ""
                   )}
-                  {halls.map((hall, index) => {
+                  {amenities.map((amenity, index) => {
                     return (
                       <tr>
                         <td>{index + 1}</td>
-                        <td>{hall.name}</td>
                         <td>
                           <img
-                            src={`http://localhost:8000/storage/${hall.image}`}
-                            width="100"
-                            alt=""
+                            src={`http://localhost:8000/storage/${amenity.icon}`}
+                            style={{
+                              width: "64px",
+                              height: "64px",
+                            }}
                           />
                         </td>
-                        <td>{hall.base_occupancy}</td>
-                        <td>{hall.high_occupancy}</td>
-                        {/* <td>{hall.amenity.name}</td> */}
-                        <td>{hall.floor.name}</td>
-                        <td>{hall.base_price}</td>
-                        <td>{hall.high_price}</td>
+                        <td>{amenity.name}</td>
                         <td className="d-flex justify-content-center">
                           <Link
-                            to={`/dashboard/halls/${hall.id}`}
-                            className="btn-sm bg-success mr-1"
-                          >
-                            <i className="fa fa-eye"> </i>
-                          </Link>
-                          <Link
-                            to={`/dashboard/halls/edit/${hall.id}`}
+                            to={`/dashboard/amenities/edit/${amenity.id}`}
                             className="btn-sm bg-teal mr-1"
                           >
                             <i className=" fas fa-edit"> </i>
                           </Link>
                           <span
-                            onClick={() => handleDelete(hall.id)}
+                            onClick={() => handleDelete(amenity.id)}
                             className="btn-sm bg-danger mr-1"
                           >
                             <i className="fas fa-trash-alt"> </i>
@@ -163,4 +158,4 @@ const HallIndex = () => {
   );
 };
 
-export default HallIndex;
+export default AmenitiesIndex;
