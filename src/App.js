@@ -50,7 +50,9 @@ function App() {
         // console.log(res.data);
       });
   };
-
+  window.onunload = function () {
+    sessionStorage.clear();
+  };
   useEffect(() => {
     fetchUser();
     canOrderFood();
