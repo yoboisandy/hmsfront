@@ -22,6 +22,8 @@ import Food from "./Food";
 import ForgetPassword from "./auth/ForgetPassword";
 import OTPVerification from "./auth/OTPVerification";
 import ChangePassword from "./auth/ChangePassword";
+import MyOrders from "./MyOrders";
+import MyHallBookings from "./MyHallBookings";
 const Frontend = () => {
   const [fullLoading, setFullLoading] = useContext(FullLoadingContext);
   return (
@@ -41,6 +43,8 @@ const Frontend = () => {
           <Route path="/halls/:id" element={<HallDetail />} />
           <Route path="/halls/:id" element={<HallDetail />} />
           <Route path="/mybookings" element={<MyBookings />} />
+          <Route path="/myhallbookings" element={<MyHallBookings />} />
+
           {/* auth */}
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
@@ -54,6 +58,7 @@ const Frontend = () => {
 
           {/* food */}
           <Route path="/foods" element={<Food />} />
+          <Route path="/myorders" element={<MyOrders />} />
         </Routes>
       </Layout>
     </div>

@@ -97,8 +97,7 @@ const RoomIndex = () => {
                     <th>SN</th>
                     <th>Image</th>
                     <th>Room Type</th>
-                    <th>Child Occupancy</th>
-                    <th>Adult Occupancy</th>
+                    <th>Occupancy</th>
                     <th>Price</th>
                     <th>Actions</th>
                   </tr>
@@ -131,9 +130,8 @@ const RoomIndex = () => {
                             />
                           </td>
                           <td>{roomtype.type_name}</td>
-                          <td>{roomtype.child_occupancy}</td>
-                          <td>{roomtype.adult_occupancy} Person</td>
-                          <td>Rs. {roomtype.base_price}</td>
+                          <td>{roomtype.occupancy} Person</td>
+                          <td>Rs. {roomtype.price}</td>
                           <td className="d-flex justify-content-center">
                             <Link
                               to={`/dashboard/roomtypes/${roomtype.id}`}

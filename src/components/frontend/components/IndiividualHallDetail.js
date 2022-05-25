@@ -1,12 +1,101 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const IndividualHallDetail = ({
+  id,
   image,
   name,
   description,
   amenities,
   price,
+  user,
 }) => {
+  const [checkAvailabilityData, setcheckAvailabilityData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
+  const [validationErr, setValidationErr] = useState({});
+  const [availability, setAvailability] = useState(null);
+  const [notAvailableMsg, setNotAvailableMsg] = useState("");
+
+  let navigate = useNavigate();
+
+  const handleInput = (e) => {
+    setcheckAvailabilityData({
+      ...checkAvailabilityData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const checkAvailability = async (e) => {
+    e.preventDefault();
+    setBtnLoading(true);
+    setValidationErr({});
+    setAvailability(false);
+    setNotAvailableMsg("");
+    await axios
+      .post(`http://localhost:8000/api/hallavailability`, {
+        ...checkAvailabilityData,
+        hall_id: id,
+      })
+      .then((res) => {
+        if (res.data.message) {
+          setAvailability(true);
+        } else {
+          setNotAvailableMsg(res.data.error);
+        }
+      })
+      .catch((err) => {
+        setValidationErr(err.response.data.errors);
+      });
+    setBtnLoading(false);
+  };
+
+  const bookHall = async () => {
+    setBtnLoading(true);
+
+    if (user.role === "") {
+      navigate("/login");
+    } else if (user.role && user.role !== "Customer") {
+      navigate("/");
+    } else {
+      await axios
+        .post(
+          `http://localhost:8000/api/book-hall`,
+          {
+            ...checkAvailabilityData,
+            hall_id: id,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data.message === "no hall available") {
+            Swal.fire({
+              title: "Sorry",
+              icon: "error",
+              text: "No room available",
+            });
+          } else {
+            Swal.fire({
+              title: "Success",
+              icon: "success",
+              text: "Booking Request Sent Successfully",
+            });
+            navigate("/myhallbookings");
+          }
+        })
+        .catch((err) => {
+          setValidationErr(err.response.data.errors);
+        });
+    }
+    setBtnLoading(false);
+  };
+
   return (
     <div>
       <div className="mx-16 my-16">
@@ -62,119 +151,93 @@ const IndividualHallDetail = ({
           <div className="md:w-4/12 md:mt-0 mt-4">
             <div className="bg-indigo-500 p-3 font-bold text-white">{name}</div>
             <div className="border-2 pb-4 border-indigo-400 px-3">
-              <form>
+              <form onSubmit={checkAvailability}>
                 <div className="flex gap-2">
                   <div className="py-4 w-1/2 space-y-2">
                     <label htmlFor="checkin">From</label>
                     <input
-                      type="datetime-local"
+                      onChange={handleInput}
+                      type="date"
+                      value={checkAvailabilityData.start_date}
                       className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                      name=""
+                      name="start_date"
                       id="checkin"
                     />
+                    {validationErr && (
+                      <div className="text-xs text-red-500 mt-1">
+                        {validationErr.start_date}
+                      </div>
+                    )}
                   </div>
                   <div className="py-4 w-1/2 space-y-2">
                     <label htmlFor="checkout">To</label>
                     <input
-                      type="datetime-local"
+                      onChange={handleInput}
+                      type="date"
+                      value={checkAvailabilityData.end_date}
                       className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                      name=""
+                      name="end_date"
                       id="checkout"
                     />
+                    {validationErr && (
+                      <div className="text-xs text-red-500 mt-1">
+                        {validationErr.end_date}
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="py-4 space-y-2">
-                  <label htmlFor="childs">People</label>
+                  <label htmlFor="capacity">People</label>
                   <input
+                    onChange={handleInput}
                     type="number"
+                    value={checkAvailabilityData.capacity}
                     className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                    name=""
+                    name="capacity"
                     placeholder="no. of People"
-                    id="childs"
+                    id="capacity"
                   />
+                  {validationErr && (
+                    <div className="text-xs text-red-500 mt-1">
+                      {validationErr.capacity}
+                    </div>
+                  )}
                 </div>
-
-                {/* <div className="my-4">
-                  <h2 className="font-bold">Extra Services</h2>
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center mt-3">
-                      <div>
-                        <div className="flex items-center">
-                          <div className="flex items-center h-5">
-                            <input
-                              id="remember"
-                              aria-describedby="remember"
-                              type="checkbox"
-                              className="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-                              required
-                            />
-                          </div>
-                          <div className="ml-3 text-sm">
-                            <label
-                              htmlFor="remember"
-                              className="font-medium text-gray-900 dark:text-gray-300"
-                            >
-                              Breakfast
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="text-sm">Rs.400</div>
-                    </div>
-                    <div className="flex justify-between items-center ">
-                      <div>
-                        <div className="flex items-center">
-                          <div className="flex items-center h-5">
-                            <input
-                              id="remember"
-                              aria-describedby="remember"
-                              type="checkbox"
-                              className="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-                              required
-                            />
-                          </div>
-                          <div className="ml-3 text-sm">
-                            <label
-                              htmlFor="remember"
-                              className="font-medium text-gray-900 dark:text-gray-300"
-                            >
-                              Dinner
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="text-sm">Rs.400</div>
-                    </div>
-                    <div className="flex justify-between items-center ">
-                      <div>
-                        <div className="flex items-center">
-                          <div className="flex items-center h-5">
-                            <input
-                              id="remember"
-                              aria-describedby="remember"
-                              type="checkbox"
-                              className="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-                              required
-                            />
-                          </div>
-                          <div className="ml-3 text-sm">
-                            <label
-                              htmlFor="remember"
-                              className="font-medium text-gray-900 dark:text-gray-300"
-                            >
-                              Lunch
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="text-sm">Rs.400</div>
-                    </div>
-                  </div>
-                </div> */}
                 <center>
                   <button className="p-2 rounded-md mt-4 text-center w-3/4 text-white  bg-indigo-500 hover:bg-indigo-700 font-semibold">
-                    Check availability
+                    {btnLoading ? (
+                      <>
+                        <span
+                          className="spinner-border spinner-border-sm mr-2"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        <span>Checking...</span>
+                      </>
+                    ) : (
+                      "Check Availability"
+                    )}
                   </button>
+                  {notAvailableMsg && (
+                    <div className="text-xs text-center text-red-500 mt-3">
+                      <i class="fas fa-times-circle mr-1"></i>
+                      {notAvailableMsg}
+                    </div>
+                  )}
+                  {availability && (
+                    <>
+                      <center className="text-green-400 mt-3">
+                        <i class="fas fa-check-circle mr-1"></i> Hall is
+                        available
+                      </center>
+                      <button
+                        className="p-2 rounded-md mt-4 text-center w-3/4 text-white bg-indigo-500 hover:bg-indigo-700 font-semibold"
+                        onClick={bookHall}
+                      >
+                        Book Hall
+                      </button>
+                    </>
+                  )}
                 </center>
               </form>
             </div>

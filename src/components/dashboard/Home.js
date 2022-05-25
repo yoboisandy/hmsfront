@@ -34,7 +34,7 @@ const Dashboard = () => {
       {loading && <AdminSpinner />}
       {!loading && (
         <div className="">
-          <div className="text-lg font-medium">Hello {user.role}</div>
+          {/* <div className="text-lg font-medium">Hello {user.role}</div> */}
           <div className="row">
             <div className="col-lg-3 col-6">
               <div className="small-box bg-info">

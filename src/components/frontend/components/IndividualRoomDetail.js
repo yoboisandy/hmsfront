@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
@@ -9,6 +9,7 @@ const IndividualRoomDetail = ({
   type_name,
   description,
   amenities,
+  rooms,
   price,
   user,
 }) => {
@@ -41,10 +42,10 @@ const IndividualRoomDetail = ({
       })
       .then((res) => {
         if (res.data.message) {
-          setAvailability(false);
-          setNotAvailableMsg(res.data.message);
-        } else {
           setAvailability(true);
+        } else {
+          setNotAvailableMsg(res.data.error);
+          setAvailability(false);
         }
       })
       .catch((err) => {
@@ -67,9 +68,6 @@ const IndividualRoomDetail = ({
           {
             ...checkAvailabilityData,
             roomtype_id: id,
-            number_of_people:
-              Number(checkAvailabilityData.child_occupancy) +
-              Number(checkAvailabilityData.adult_occupancy),
           },
           {
             headers: {
@@ -78,7 +76,7 @@ const IndividualRoomDetail = ({
           }
         )
         .then((res) => {
-          if (res.data.message === "no room available") {
+          if (res.data.error) {
             Swal.fire({
               title: "Sorry",
               icon: "error",
@@ -99,6 +97,10 @@ const IndividualRoomDetail = ({
     }
     setBtnLoading(false);
   };
+
+  useEffect(() => {
+    console.log(rooms);
+  }, []);
 
   return (
     <div>
@@ -194,36 +196,38 @@ const IndividualRoomDetail = ({
                 </div>
                 <div className="flex gap-2">
                   <div className="py-4 w-1/2 space-y-2">
-                    <label htmlFor="child_occupancy">Childs</label>
+                    <label htmlFor="child_occupancy">No. of People</label>
                     <input
                       type="number"
-                      className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                      name="child_occupancy"
+                      className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 leading-8 transition-colors duration-200 ease-in-out"
+                      name="occupancy"
                       onChange={handleInput}
-                      value={checkAvailabilityData.child_occupancy}
-                      placeholder="no. of childs"
-                      id="child_occupancy"
+                      value={checkAvailabilityData.occupancy}
+                      placeholder="no. of Peoples"
+                      id="occupancy"
                     />
                     {validationErr && (
                       <div className="text-xs text-red-500 mt-1">
-                        {validationErr.child_occupancy}
+                        {validationErr.occupancy}
                       </div>
                     )}
                   </div>
-                  <div className="py-4 w-1/2 space-y-2">
-                    <label htmlFor="adult_occupancy">Adults</label>
-                    <input
-                      type="number"
-                      className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                      name="adult_occupancy"
+                  <div className="flex flex-col justify-center space-y-2  w-1/2">
+                    <label>Room No.</label>
+                    <select
                       onChange={handleInput}
-                      value={checkAvailabilityData.adult_occupancy}
-                      placeholder="no. of adults"
-                      id="adult_occupancy"
-                    />
+                      value={checkAvailabilityData.room_id}
+                      name="room_id"
+                      className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 leading-8 transition-colors duration-200 ease-in-out"
+                    >
+                      <option value={""}>Select a room no</option>
+                      {rooms.map((room) => {
+                        return <option value={room.id}>{room.room_no}</option>;
+                      })}
+                    </select>
                     {validationErr && (
                       <div className="text-xs text-red-500 mt-1">
-                        {validationErr.adult_occupancy}
+                        {validationErr.room_id}
                       </div>
                     )}
                   </div>

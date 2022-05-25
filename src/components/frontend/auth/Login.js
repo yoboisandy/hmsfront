@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import CanOrderFood from "../../../contexts/CanOrderFood";
 import FullLoadingContext from "../../../contexts/FullLoadingContext";
 import UserContext from "../../../contexts/UserContext";
 
@@ -8,6 +9,7 @@ const Login = () => {
   const [loginDetails, setLoginDetails] = useState({});
   const [user, fetchUser, setUser] = useContext(UserContext);
   const [fullLoading, setFullLoading] = useContext(FullLoadingContext);
+  const [canOrder, canOrderFood] = useContext(CanOrderFood);
   const [error, setError] = useState("");
   const [loggedUser, setloggedUser] = useState({});
   const [loading, setLoading] = useState(false);
@@ -39,6 +41,7 @@ const Login = () => {
         setError(err.response.data.message);
         console.log(err.response.data.message);
       });
+    canOrderFood();
     setFullLoading(false);
   };
 

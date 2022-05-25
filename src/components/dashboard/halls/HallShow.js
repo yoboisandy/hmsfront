@@ -85,24 +85,16 @@ const HallShow = () => {
                   <td>{hall.description}</td>
                 </tr>
                 <tr>
-                  <th>Base Occupancy</th>
-                  <td>{hall.base_occupancy}</td>
-                </tr>
-                <tr>
-                  <th>Higher Occupancy</th>
-                  <td>{hall.high_occupancy}</td>
+                  <th>Occupancy</th>
+                  <td>{hall.occupancy}</td>
                 </tr>
                 <tr>
                   <th>Floor</th>
                   <td>{hall.floor.name}</td>
                 </tr>
                 <tr>
-                  <th>Base Price</th>
-                  <td>{hall.base_price}</td>
-                </tr>
-                <tr>
-                  <th>Higher Price</th>
-                  <td>{hall.high_price}</td>
+                  <th>Price</th>
+                  <td>{hall.price}</td>
                 </tr>
               </>
             )}

@@ -15,13 +15,8 @@ const RoomTypeCreate = () => {
   const [roomTypeData, setroomTypeData] = useState({
     type_name: "",
     description: "",
-    adult_occupancy: "",
-    child_occupancy: "",
-    base_occupancy: "",
-    higher_occupancy: "",
-    base_price: "",
-    additional_price: "",
-    extra_bed_price: "",
+    occupancy: "",
+    price: "",
   });
   // const [roomTypeData, setroomTypeData] = useState({});
   const [loading, setLoading] = useState(false);
@@ -99,13 +94,8 @@ const RoomTypeCreate = () => {
     const fd = new FormData();
     fd.append("type_name", roomTypeData.type_name);
     fd.append("description", roomTypeData.description);
-    fd.append("adult_occupancy", roomTypeData.adult_occupancy);
-    fd.append("child_occupancy", roomTypeData.child_occupancy);
-    fd.append("base_occupancy", roomTypeData.base_occupancy);
-    fd.append("higher_occupancy", roomTypeData.higher_occupancy);
-    fd.append("base_price", roomTypeData.base_price);
-    fd.append("additional_price", roomTypeData.additional_price);
-    fd.append("extra_bed_price", roomTypeData.extra_bed_price);
+    fd.append("occupancy", roomTypeData.occupancy);
+    fd.append("price", roomTypeData.price);
     fd.append("_method", "PUT");
     // fd.append("amenities[]", values);
     values.forEach((item) => {
@@ -213,51 +203,29 @@ const RoomTypeCreate = () => {
                     )}
                   </div>
                   <div className="form-group">
-                    <label htmlFor="adult_occupancy">Adult Occupancy</label>
+                    <label htmlFor="occupancy">Occupancy</label>
                     <input
                       onChange={handleInputChange}
-                      value={roomTypeData.adult_occupancy}
-                      name="adult_occupancy"
+                      value={roomTypeData.occupancy}
+                      name="occupancy"
                       type="number"
                       className={`form-control ${
-                        validationErr.adult_occupancy ? "is-invalid" : ""
+                        validationErr.occupancy ? "is-invalid" : ""
                       }`}
-                      id="adult_occupancy"
-                      placeholder="Enter Room adult_occupancy"
+                      id="occupancy"
+                      placeholder="Enter Room occupancy"
                     />
-                    {validationErr.adult_occupancy ? (
+                    {validationErr.occupancy ? (
                       <>
                         <span className="text-danger form-text">
-                          {validationErr.adult_occupancy}
+                          {validationErr.occupancy}
                         </span>
                       </>
                     ) : (
                       ""
                     )}
                   </div>
-                  <div className="form-group">
-                    <label htmlFor="child_occupancy">child Occupancy</label>
-                    <input
-                      onChange={handleInputChange}
-                      value={roomTypeData.child_occupancy}
-                      name="child_occupancy"
-                      type="number"
-                      className={`form-control ${
-                        validationErr.child_occupancy ? "is-invalid" : ""
-                      }`}
-                      id="child_occupancy"
-                      placeholder="Enter Room child_occupancy"
-                    />
-                    {validationErr.child_occupancy ? (
-                      <>
-                        <span className="text-danger form-text">
-                          {validationErr.child_occupancy}
-                        </span>
-                      </>
-                    ) : (
-                      ""
-                    )}
-                  </div>
+
                   <div className="form-group">
                     <label htmlFor="image">Photo</label>
                     <input
@@ -284,70 +252,6 @@ const RoomTypeCreate = () => {
                       alt=""
                     />
                   </div>
-                  <div className="form-group">
-                    <label htmlFor="base_occupancy">base Occupancy</label>
-                    <input
-                      onChange={handleInputChange}
-                      value={roomTypeData.base_occupancy}
-                      name="base_occupancy"
-                      type="number"
-                      className={`form-control ${
-                        validationErr.base_occupancy ? "is-invalid" : ""
-                      }`}
-                      id="base_occupancy"
-                      placeholder="Enter Room base_occupancy"
-                    />
-                    {validationErr.base_occupancy ? (
-                      <>
-                        <span className="text-danger form-text">
-                          {validationErr.base_occupancy}
-                        </span>
-                      </>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="higher_occupancy">higher Occupancy</label>
-                    <input
-                      onChange={handleInputChange}
-                      value={roomTypeData.higher_occupancy}
-                      name="higher_occupancy"
-                      type="number"
-                      className={`form-control ${
-                        validationErr.higher_occupancy ? "is-invalid" : ""
-                      }`}
-                      id="higher_occupancy"
-                      placeholder="Enter Room higher_occupancy"
-                    />
-                    {validationErr.higher_occupancy ? (
-                      <>
-                        <span className="text-danger form-text">
-                          {validationErr.higher_occupancy}
-                        </span>
-                      </>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                  <div className="form-check my-4">
-                    <input
-                      onChange={handleChkChange}
-                      checked={roomTypeData.extra_bed}
-                      className="form-check-input"
-                      type="checkbox"
-                      name="extra_bed"
-                      value={1}
-                      id="defaultCheck1"
-                    />
-                    <label
-                      className="form-check-label font-bold"
-                      htmlFor="defaultCheck1"
-                    >
-                      Extra Bed
-                    </label>
-                  </div>
-
                   {/* <div className="form-group">
                   <label htmlFor="extra_bed">Extra Bed</label>
                   <input
@@ -373,73 +277,22 @@ const RoomTypeCreate = () => {
                 </div> */}
 
                   <div className="form-group">
-                    <label htmlFor="base_price">Base base_Price</label>
+                    <label htmlFor="price">Price</label>
                     <input
                       onChange={handleInputChange}
-                      value={roomTypeData.base_price}
-                      name="base_price"
+                      value={roomTypeData.price}
+                      name="price"
                       type="text"
                       className={`form-control ${
-                        validationErr.base_price ? "is-invalid" : ""
+                        validationErr.price ? "is-invalid" : ""
                       }`}
-                      id="base_price"
+                      id="price"
                       placeholder="Enter Room base_Price"
                     />
-                    {validationErr.base_price ? (
+                    {validationErr.price ? (
                       <>
                         <span className="text-danger form-text">
-                          {validationErr.base_price}
-                        </span>
-                      </>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="additional_price">
-                      Base additional_Price
-                    </label>
-                    <input
-                      onChange={handleInputChange}
-                      value={roomTypeData.additional_price}
-                      name="additional_price"
-                      type="text"
-                      className={`form-control ${
-                        validationErr.additional_price ? "is-invalid" : ""
-                      }`}
-                      id="additional_price"
-                      placeholder="Enter Room additional_Price"
-                    />
-                    {validationErr.additional_price ? (
-                      <>
-                        <span className="text-danger form-text">
-                          {validationErr.additional_price}
-                        </span>
-                      </>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="extra_bed_price">
-                      Base extra_bed_price
-                    </label>
-                    <input
-                      onChange={handleInputChange}
-                      value={roomTypeData.extra_bed_price}
-                      name="extra_bed_price"
-                      type="text"
-                      className={`form-control ${
-                        validationErr.extra_bed_price ? "is-invalid" : ""
-                      }`}
-                      id="extra_bed_price"
-                      placeholder="Enter Room extra_bed_price"
-                    />
-                    {validationErr.extra_bed_price ? (
-                      <>
-                        <span className="text-danger form-text">
-                          {validationErr.extra_bed_price}
+                          {validationErr.price}
                         </span>
                       </>
                     ) : (

@@ -85,38 +85,12 @@ const RoomTypeShow = () => {
                   <td>{roomType.description}</td>
                 </tr>
                 <tr>
-                  <th>Adult Occupancy</th>
-                  <td>{roomType.adult_occupancy}</td>
+                  <th>Occupancy</th>
+                  <td>{roomType.occupancy}</td>
                 </tr>
                 <tr>
-                  <th>Child Occupancy</th>
-                  <td>{roomType.child_occupancy}</td>
-                </tr>
-                <tr>
-                  <th>Base Occupancy</th>
-                  <td>{roomType.base_occupancy}</td>
-                </tr>
-                <tr>
-                  <th>Higher Occupancy</th>
-                  <td>{roomType.higher_occupancy}</td>
-                </tr>
-                <tr>
-                  <th>Extra Bed</th>
-                  <td>
-                    {roomType.extra_bed ? (
-                      <span>Available</span>
-                    ) : (
-                      <span>Not Available</span>
-                    )}
-                  </td>
-                </tr>
-                <tr>
-                  <th>Base Price</th>
-                  <td>{roomType.base_price}</td>
-                </tr>
-                <tr>
-                  <th>Extra Bed Price</th>
-                  <td>{roomType.extra_bed_price}</td>
+                  <th>Price</th>
+                  <td>{roomType.price}</td>
                 </tr>
               </>
             )}

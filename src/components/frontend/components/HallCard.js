@@ -5,8 +5,8 @@ const HallCard = ({
   id,
   image,
   name,
-  base_price,
-  base_occupancy,
+  price,
+  occupancy,
   high_occupancy,
   index,
 }) => {
@@ -26,7 +26,7 @@ const HallCard = ({
             {name}
           </h1>
           <p className="leading-relaxed mb-3">
-            Starting from Rs.{base_price}/Per Day{" "}
+            Starting from Rs.{price}/Per Day{" "}
           </p>
           <div className="flex items-center justify-between ">
             <Link
@@ -53,7 +53,7 @@ const HallCard = ({
                 data-tooltip-trigger="hover"
               >
                 <i className="fas fa-users mr-1" />
-                {base_occupancy} to {high_occupancy}
+                Upto {occupancy} Peoples
               </button>
               <div
                 id="tooltip-default"

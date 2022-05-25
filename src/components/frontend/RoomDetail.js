@@ -10,6 +10,7 @@ const RoomDetail = () => {
   let { id } = useParams();
   const [roomDetail, setRoomDetail] = useState({
     amenities: [],
+    rooms: [],
   });
   const [loading, setloading] = useState(false);
   const [user, fetchUser] = useContext(UserContext);

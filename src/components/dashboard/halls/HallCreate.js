@@ -11,11 +11,9 @@ const HallCreate = () => {
   const [hallData, sethallData] = useState({
     name: "",
     description: "",
-    base_occupancy: "",
-    high_occupancy: "",
+    occupancy: "",
     floor_id: "",
-    base_price: "",
-    high_price: "",
+    price: "",
     amenities: [],
   });
   const [image, setImage] = useState(null);
@@ -83,12 +81,10 @@ const HallCreate = () => {
     const fd = new FormData();
     fd.append("name", hallData.name);
     fd.append("description", hallData.description);
-    fd.append("base_occupancy", hallData.base_occupancy);
-    fd.append("high_occupancy", hallData.high_occupancy);
+    fd.append("occupancy", hallData.occupancy);
     fd.append("floor_id", hallData.floor_id);
     fd.append("image", image);
-    fd.append("base_price", hallData.base_price);
-    fd.append("high_price", hallData.high_price);
+    fd.append("price", hallData.price);
     values.forEach((item) => {
       fd.append("amenities[]", item);
     });
@@ -198,45 +194,22 @@ const HallCreate = () => {
                   )}
                 </div>
                 <div className="form-group">
-                  <label htmlFor="base_occupancy">Base Occupancy</label>
+                  <label htmlFor="occupancy">Occupancy</label>
                   <input
                     onChange={handleInputChange}
-                    value={hallData.base_ocupancy}
-                    name="base_occupancy"
+                    value={hallData.occupancy}
+                    name="occupancy"
                     type="text"
                     className={`form-control ${
-                      validationErr.base_occupancy ? "is-invalid" : ""
+                      validationErr.occupancy ? "is-invalid" : ""
                     }`}
-                    id="base_occupancy"
-                    placeholder="Enter Base Occupancy"
+                    id="occupancy"
+                    placeholder="Enter Occupancy"
                   />
-                  {validationErr.base_occupancy ? (
+                  {validationErr.occupancy ? (
                     <>
                       <span className="text-danger form-text">
-                        {validationErr.base_occupancy}
-                      </span>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div className="form-group">
-                  <label htmlFor="high_occupancy">High Occupancy</label>
-                  <input
-                    onChange={handleInputChange}
-                    value={hallData.high_occupancy}
-                    name="high_occupancy"
-                    type="text"
-                    className={`form-control ${
-                      validationErr.high_occupancy ? "is-invalid" : ""
-                    }`}
-                    id="base_occupancy"
-                    placeholder="Enter High Occupancy"
-                  />
-                  {validationErr.high_occupancy ? (
-                    <>
-                      <span className="text-danger form-text">
-                        {validationErr.high_occupancy}
+                        {validationErr.occupancy}
                       </span>
                     </>
                   ) : (
@@ -335,45 +308,22 @@ const HallCreate = () => {
                   )}
                 </div>
                 <div className="form-group">
-                  <label htmlFor="base_price">Base Price</label>
+                  <label htmlFor="price">Price</label>
                   <input
                     onChange={handleInputChange}
-                    value={hallData.base_price}
-                    name="base_price"
+                    value={hallData.price}
+                    name="price"
                     type="text"
                     className={`form-control ${
-                      validationErr.base_price ? "is-invalid" : ""
+                      validationErr.price ? "is-invalid" : ""
                     }`}
-                    id="base_price"
-                    placeholder="Enter Base Price"
+                    id="price"
+                    placeholder="Enter  Price"
                   />
-                  {validationErr.base_price ? (
+                  {validationErr.price ? (
                     <>
                       <span className="text-danger form-text">
-                        {validationErr.base_price}
-                      </span>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div className="form-group">
-                  <label htmlFor="high_price">High Price</label>
-                  <input
-                    onChange={handleInputChange}
-                    value={hallData.high_price}
-                    name="high_price"
-                    type="text"
-                    className={`form-control ${
-                      validationErr.high_price ? "is-invalid" : ""
-                    }`}
-                    id="high_price"
-                    placeholder="Enter High Price"
-                  />
-                  {validationErr.high_price ? (
-                    <>
-                      <span className="text-danger form-text">
-                        {validationErr.high_price}
+                        {validationErr.price}
                       </span>
                     </>
                   ) : (

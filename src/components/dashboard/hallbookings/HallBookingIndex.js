@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 import axios from "axios";
-const BookingIndex = () => {
+const HallBookingIndex = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(false);
   const [changeStatusMsg, setChangeStatusMsg] = useState("");
@@ -14,7 +14,7 @@ const BookingIndex = () => {
   const fetchBookings = async () => {
     setLoading(true);
     await axios
-      .get("http://localhost:8000/api/viewbookings", {
+      .get("http://localhost:8000/api/hallbooks", {
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -32,83 +32,31 @@ const BookingIndex = () => {
   //   setBookingStatus({ ...bookingStatus, [e.target.name]: e.target.value });
   // };
 
-  const updateStatus = async (id, status, room_id) => {
-    if (!room_id && status === "Confirmed") {
-      Swal.fire({
-        icon: "error",
-        title: "Error!",
-        text: "Assign Room Before Confirming",
-      });
-      fetchBookings();
-    } else {
-      await axios
-        .put(
-          `http://localhost:8000/api/changestatus/${id}`,
-          {
-            status: status,
-          },
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-            },
-          }
-        )
-        .then((res) => {
-          Swal.fire({
-            icon: "success",
-            text: res.data.message,
-          });
-        });
-      fetchBookings();
-    }
-  };
-
-  useEffect(() => {
-    fetchBookings();
-  }, []);
-
-  const handleDelete = async (id) => {
-    const isConfirmed = await Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((res) => {
-      return res.isConfirmed;
-    });
-
-    if (isConfirmed) {
-      await axios
-        .delete(`http://localhost:8000/api/bookings/${id}`, {
+  const updateStatus = async (id, status, hall_id) => {
+    await axios
+      .post(
+        `http://localhost:8000/api/changehallbookstatus/${id}`,
+        {
+          status: status,
+          _method: "PUT",
+        },
+        {
           headers: {
             Authorization: "Bearer " + token,
           },
-        })
-        .then((res) => {
-          Swal.fire({
-            icon: "success",
-            text: res.data.message,
-          });
-          fetchBookings();
-        })
-        .catch((err) => {
-          if (err.response.status === 500) {
-            Swal.fire({
-              text: "Status " + err.response.status + ": Something went wrong!",
-              icon: "error",
-            });
-          } else {
-            Swal.fire({
-              text: "Status " + err.response.status + ": Something went wrong!",
-              icon: "error",
-            });
-          }
+        }
+      )
+      .then((res) => {
+        Swal.fire({
+          icon: "success",
+          text: res.data.message,
         });
-    }
+      });
+    fetchBookings();
   };
+  useEffect(() => {
+    fetchBookings();
+  }, []);
 
   return (
     <div>
@@ -116,15 +64,7 @@ const BookingIndex = () => {
         <div className="col-12">
           <div className="card">
             <div className="card-header">
-              <div className="card-title text-lg">Bookings</div>
-              <div className="card-tools">
-                <Link
-                  to="/dashboard/bookings/create"
-                  className="btn-sm bg-indigo"
-                >
-                  <i className="fas fa-plus-circle mr-1"></i> Add New
-                </Link>
-              </div>
+              <div className="card-title text-lg">Hall Bookings</div>
             </div>
             <div className="card-body p-0" style={{ overflowX: "auto" }}>
               <table className="table table-hover table-bordered">
@@ -132,13 +72,11 @@ const BookingIndex = () => {
                   <tr className="text-center">
                     <th>SN</th>
                     <th>User</th>
-                    <th>Check In</th>
-                    <th>Check Out</th>
-                    <th>Room Type</th>
-                    <th>Room Number</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Hall</th>
                     <th>Price</th>
                     <th>Status</th>
-                    {/* <th>Actions</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -160,14 +98,13 @@ const BookingIndex = () => {
                     bookings.map((booking, index) => {
                       return (
                         <tr>
-                          {/* <td>{index + 1}</td> */}
-                          <td>{booking.id}</td>
+                          <td>{index + 1}</td>
+                          {/* <td>{booking.id}</td> */}
                           <td>{booking.user.name}</td>
                           <td>{booking.start_date}</td>
                           <td>{booking.end_date}</td>
-                          <td>{booking.roomtype.type_name}</td>
-                          <td>{booking.room.room_no}</td>
-                          <td>{booking.price}</td>
+                          <td>{booking.hall.name}</td>
+                          <td>{booking.hall.price}</td>
                           <td>
                             <form>
                               <select
@@ -180,7 +117,7 @@ const BookingIndex = () => {
                                   updateStatus(
                                     booking.id,
                                     e.target.value,
-                                    booking.room_id
+                                    booking.hall_id
                                   );
                                 }}
                                 name="status"
@@ -268,4 +205,4 @@ const BookingIndex = () => {
   );
 };
 
-export default BookingIndex;
+export default HallBookingIndex;

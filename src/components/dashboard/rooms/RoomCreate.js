@@ -54,9 +54,6 @@ const RoomCreate = () => {
     const fd = new FormData();
     fd.append("room_no", roomData.room_no);
     fd.append("floor_id", roomData.floor_id);
-    fd.append("capacity", roomData.capacity);
-    fd.append("price", roomData.price);
-    fd.append("description", roomData.description);
     fd.append("roomtype_id", roomData.roomtype_id);
 
     await axios
@@ -149,75 +146,6 @@ const RoomCreate = () => {
                     <>
                       <span className="text-danger form-text">
                         {validationErr.floor_id}
-                      </span>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div className="form-group">
-                  <label htmlFor="capacity">Capacity</label>
-                  <input
-                    onChange={handleInputChange}
-                    value={roomData.capacity}
-                    name="capacity"
-                    type="text"
-                    className={`form-control ${
-                      validationErr.capacity ? "is-invalid" : ""
-                    }`}
-                    id="capacity"
-                    placeholder="Enter Room Capacity"
-                  />
-                  {validationErr.capacity ? (
-                    <>
-                      <span className="text-danger form-text">
-                        {validationErr.capacity}
-                      </span>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div className="form-group">
-                  <label htmlFor="price">Price</label>
-                  <input
-                    onChange={handleInputChange}
-                    value={roomData.price}
-                    name="price"
-                    type="text"
-                    className={`form-control ${
-                      validationErr.price ? "is-invalid" : ""
-                    }`}
-                    id="price"
-                    placeholder="Enter Room Price"
-                  />
-                  {validationErr.price ? (
-                    <>
-                      <span className="text-danger form-text">
-                        {validationErr.price}
-                      </span>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div className="form-group">
-                  <label htmlFor="description">Description</label>
-                  <textarea
-                    onChange={handleInputChange}
-                    value={roomData.description}
-                    name="description"
-                    type="text"
-                    className={`form-control ${
-                      validationErr.description ? "is-invalid" : ""
-                    }`}
-                    id="description"
-                    placeholder="Enter Description Number"
-                  ></textarea>
-                  {validationErr.description ? (
-                    <>
-                      <span className="text-danger form-text">
-                        {validationErr.description}
                       </span>
                     </>
                   ) : (

@@ -73,15 +73,15 @@ const RoomShow = () => {
                   </tr>
                   <tr>
                     <th>Capacity</th>
-                    <td>{roomData.capacity} Person</td>
+                    <td>{roomData.roomtype.occupancy} Person</td>
                   </tr>
                   <tr>
                     <th>Price</th>
-                    <td>Rs. {roomData.price}</td>
+                    <td>Rs. {roomData.roomtype.price}</td>
                   </tr>
                   <tr>
                     <th>Description</th>
-                    <td>{roomData.description}</td>
+                    <td>{roomData.roomtype.description}</td>
                   </tr>
                   <tr>
                     <th>Room Type</th>

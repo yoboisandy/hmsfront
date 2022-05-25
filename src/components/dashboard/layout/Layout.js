@@ -141,7 +141,19 @@ const Layout = ({ children }) => {
                     activeClassName="active"
                   >
                     <i className="nav-icon mr-3 fas fa-check-square" />
-                    <p>Bookings</p>
+                    <p>Room Bookings</p>
+                  </NavLink>
+                </li>
+              )}
+              {canView("hallbookings", user.role) && (
+                <li className="nav-item mb-2">
+                  <NavLink
+                    to="/dashboard/hallbookings"
+                    className="nav-link "
+                    activeClassName="active"
+                  >
+                    <i className="nav-icon mr-3 fas fa-check-square" />
+                    <p>Hall Bookings</p>
                   </NavLink>
                 </li>
               )}
@@ -153,7 +165,7 @@ const Layout = ({ children }) => {
                     activeClassName="active"
                   >
                     <i className="nav-icon mr-3 fas fa-users" />
-                    <p>Customers*</p>
+                    <p>Customers</p>
                   </NavLink>
                 </li>
               )}
@@ -166,7 +178,7 @@ const Layout = ({ children }) => {
                       activeClassName="active"
                     >
                       <i className="fas fa-user-tie nav-icon mr-3"></i>
-                      <p>Employees*</p>
+                      <p>Employees</p>
                     </NavLink>
                   </li>
                 </>
@@ -179,7 +191,7 @@ const Layout = ({ children }) => {
                     activeClassName="active"
                   >
                     <i className="nav-icon mr-3 fas fa-home" />
-                    <p>Floors*</p>
+                    <p>Floors</p>
                   </NavLink>
                 </li>
               )}
@@ -192,7 +204,7 @@ const Layout = ({ children }) => {
                     activeClassName="active"
                   >
                     <i className="nav-icon mr-3 fas fa-couch" />
-                    <p>Halls*</p>
+                    <p>Halls</p>
                   </NavLink>
                 </li>
               )}
@@ -204,7 +216,7 @@ const Layout = ({ children }) => {
                     activeClassName="active"
                   >
                     <i className="nav-icon mr-3 fas fa-bath" />
-                    <p>Amenities*</p>
+                    <p>Amenities</p>
                   </NavLink>
                 </li>
               )}
@@ -216,7 +228,7 @@ const Layout = ({ children }) => {
                     activeClassName="active"
                   >
                     <i className="nav-icon mr-3 fas fa-bed" />
-                    <p>Rooms*</p>
+                    <p>Rooms</p>
                   </NavLink>
                 </li>
               )}
@@ -228,7 +240,7 @@ const Layout = ({ children }) => {
                     activeClassName="active"
                   >
                     <i className="nav-icon mr-3 fas fa-procedures" />
-                    <p>Room Types*</p>
+                    <p>Room Types</p>
                   </NavLink>
                 </li>
               )}
@@ -241,7 +253,7 @@ const Layout = ({ children }) => {
                     activeClassName="active"
                   >
                     <i className="nav-icon mr-3 fas fa-briefcase" />
-                    <p>Departments*</p>
+                    <p>Departments</p>
                   </NavLink>
                 </li>
               )}
@@ -253,7 +265,7 @@ const Layout = ({ children }) => {
                     activeClassName="active"
                   >
                     <i className="nav-icon mr-3 fas fa-user-tag" />
-                    <p>Roles*</p>
+                    <p>Roles</p>
                   </NavLink>
                 </li>
               )}
@@ -265,7 +277,7 @@ const Layout = ({ children }) => {
                     activeClassName="active"
                   >
                     <i className="nav-icon mr-3 fas fa-sun" />
-                    <p>Shifts*</p>
+                    <p>Shifts</p>
                   </NavLink>
                 </li>
               )}

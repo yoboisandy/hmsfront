@@ -87,11 +87,9 @@ const HallIndex = () => {
                     <th>SN</th>
                     <th>Name</th>
                     <th>Photo</th>
-                    <th>Base Occupancy</th>
-                    <th>High Occupancy</th>
+                    <th>Occupancy</th>
                     <th>Floor</th>
-                    <th>High Price</th>
-                    <th>Base Price</th>
+                    <th>Price</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -124,12 +122,10 @@ const HallIndex = () => {
                             alt=""
                           />
                         </td>
-                        <td>{hall.base_occupancy}</td>
-                        <td>{hall.high_occupancy}</td>
+                        <td>{hall.occupancy}</td>
                         {/* <td>{hall.amenity.name}</td> */}
                         <td>{hall.floor.name}</td>
-                        <td>{hall.base_price}</td>
-                        <td>{hall.high_price}</td>
+                        <td>{hall.price}</td>
                         <td className="d-flex justify-content-center">
                           <Link
                             to={`/dashboard/halls/${hall.id}`}

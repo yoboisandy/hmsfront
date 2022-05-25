@@ -47,7 +47,9 @@ function App() {
         } else {
           setCanOrder(false);
         }
-        // console.log(res.data);
+      })
+      .catch((err) => {
+        setCanOrder(false);
       });
   };
   window.onunload = function () {
@@ -62,7 +64,7 @@ function App() {
   return (
     <FullLoadingContext.Provider value={[fullLoading, setFullLoading]}>
       <UserContext.Provider value={[user, fetchUser, setUser]}>
-        <CanOrderFood.Provider value={canOrder}>
+        <CanOrderFood.Provider value={[canOrder, canOrderFood, setCanOrder]}>
           {fullLoading && <FullSpinner />}
           <BrowserRouter>
             <Routes>

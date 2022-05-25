@@ -17,6 +17,7 @@ import BookingApp from "./bookings/BookingApp";
 import FoodApp from "./Food/FoodApp";
 import AmenitiesApp from "./amenities/AmenitiesApp";
 import FoodOrderApp from "./foodorders/FoodOrderApp";
+import HallBookingApp from "./hallbookings/HallBookingApp";
 // import "./css/adminlte.min.css";
 
 const Admin = () => {
@@ -110,6 +111,9 @@ const Admin = () => {
 
           {/* Bookings */}
           <Route path="/bookings/*" element={<BookingApp />} />
+
+          {/* Hall Bookings */}
+          <Route path="/hallbookings/*" element={<HallBookingApp />} />
 
           {/* food */}
           <Route path="/foods/*" element={<FoodApp />} />

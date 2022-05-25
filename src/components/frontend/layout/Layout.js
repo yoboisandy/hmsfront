@@ -9,7 +9,7 @@ const Layout = ({ children }) => {
   const navigate = useNavigate();
   const [user] = useContext(UserContext);
   const [fullLoading, setFullLoading] = useContext(FullLoadingContext);
-  const canOrder = useContext(CanOrderFood);
+  const [canOrder, canOrderFood] = useContext(CanOrderFood);
 
   function goTo(url, e) {
     setFullLoading(true);
@@ -18,6 +18,7 @@ const Layout = ({ children }) => {
     setFullLoading(false);
   }
   useEffect(() => {
+    canOrderFood();
     console.log(canOrder);
   }, []);
 
@@ -86,7 +87,25 @@ const Layout = ({ children }) => {
                         href="#"
                         class="hover:bg-grey-lighter block px-4 hover:bg-gray-100 py-2 text-black"
                       >
-                        Bookings
+                        Room Bookings
+                      </a>
+                    )}
+                    {user.role === "Customer" && (
+                      <a
+                        onClick={() => goTo("/myhallbookings")}
+                        href="#"
+                        class="hover:bg-grey-lighter block px-4 hover:bg-gray-100 py-2 text-black"
+                      >
+                        Hall Bookings
+                      </a>
+                    )}
+                    {canOrder && (
+                      <a
+                        onClick={() => goTo("/myorders")}
+                        href="#"
+                        class="hover:bg-grey-lighter block px-4 hover:bg-gray-100 py-2 text-black"
+                      >
+                        Food Orders
                       </a>
                     )}
                     {user.role === "Admin" && (

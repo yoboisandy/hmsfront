@@ -127,8 +127,8 @@ const RoomIndex = () => {
                         </td> */}
                         <td>{room.room_no}</td>
                         <td>{room.floor.name}</td>
-                        <td>{room.capacity} Person</td>
-                        <td>Rs. {room.price}</td>
+                        <td>{room.roomtype.occupancy} Person</td>
+                        <td>Rs. {room.roomtype.price}</td>
                         <td>{room.roomtype.type_name}</td>
                         <td className="d-flex justify-content-center">
                           <Link

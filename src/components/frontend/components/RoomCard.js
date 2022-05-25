@@ -1,15 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const RoomCard = ({
-  id,
-  image,
-  type_name,
-  base_price,
-  base_occupancy,
-  higher_occupancy,
-  index,
-}) => {
+const RoomCard = ({ id, image, type_name, price, occupancy, index }) => {
   return (
     <div className="p-4 md:w-1/3 ">
       <div className="border-t-4 border-indigo-500 rounded-lg">
@@ -27,7 +19,7 @@ const RoomCard = ({
               {type_name}
             </h1>
             <p className="leading-relaxed mb-3">
-              Starting from Rs.{base_price}/Per Night{" "}
+              Starting from Rs.{price}/Per Night{" "}
             </p>
             <div className="flex items-center justify-between ">
               <Link
@@ -49,20 +41,9 @@ const RoomCard = ({
                 </svg>
               </Link>
               <div className="text-gray-400 inline-flex items-center leading-none text-sm">
-                <button
-                  data-tooltip-target="tooltip-default"
-                  data-tooltip-trigger="hover"
-                >
+                <div>
                   <i className="fas fa-users mr-1" />
-                  {base_occupancy} to {higher_occupancy}
-                </button>
-                <div
-                  id="tooltip-default"
-                  role="tooltip"
-                  className="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700"
-                >
-                  Tooltip content
-                  <div className="tooltip-arrow" data-popper-arrow />
+                  Upto {occupancy} Peoples
                 </div>
               </div>
             </div>
