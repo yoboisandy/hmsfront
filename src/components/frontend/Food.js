@@ -67,6 +67,13 @@ const Food = () => {
               text: res.data.message,
             });
           }
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "Something went wrong",
+            text: err.data,
+          });
         });
     }
   };

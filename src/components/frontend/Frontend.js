@@ -24,9 +24,12 @@ import OTPVerification from "./auth/OTPVerification";
 import ChangePassword from "./auth/ChangePassword";
 import MyOrders from "./MyOrders";
 import MyHallBookings from "./MyHallBookings";
+import Notifications from "./Notifications";
+import NotificationCard from "./components/NotificationCard";
 const Frontend = () => {
   const [fullLoading, setFullLoading] = useContext(FullLoadingContext);
   return (
+    // <NotificationCard />
     <div>
       <Layout>
         <ScrollToTop
@@ -55,6 +58,7 @@ const Frontend = () => {
 
           {/* profile */}
           <Route path="/profile" element={<Profile />} />
+          <Route path="/notifications" element={<Notifications />} />
 
           {/* food */}
           <Route path="/foods" element={<Food />} />

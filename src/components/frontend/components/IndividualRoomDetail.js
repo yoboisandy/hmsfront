@@ -232,6 +232,15 @@ const IndividualRoomDetail = ({
                     )}
                   </div>
                 </div>
+                <div className="py-2  space-y-2">
+                  <label htmlFor="child_occupancy">Price</label>
+                  <input
+                    type="text"
+                    className="w-full bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 leading-8 transition-colors duration-200 ease-in-out"
+                    disabled={true}
+                    value={"Rs. " + price}
+                  />
+                </div>
 
                 <center>
                   <button

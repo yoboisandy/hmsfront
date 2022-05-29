@@ -1,15 +1,20 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { button, useNavigate } from "react-router-dom";
+import { button, Link, useNavigate } from "react-router-dom";
 import CanOrderFood from "../../../contexts/CanOrderFood";
 import FullLoadingContext from "../../../contexts/FullLoadingContext";
+import NotificationCheck from "../../../contexts/NotificationCheck";
 import UserContext from "../../../contexts/UserContext";
 
 const Layout = ({ children }) => {
   const navigate = useNavigate();
+  const [roomTypes, setRoomTypes] = useState([]);
   const [user] = useContext(UserContext);
   const [fullLoading, setFullLoading] = useContext(FullLoadingContext);
   const [canOrder, canOrderFood] = useContext(CanOrderFood);
+  const [hasUnread, hasNotifications, notificationCount] =
+    useContext(NotificationCheck);
+  let token = localStorage.getItem("token");
 
   function goTo(url, e) {
     setFullLoading(true);
@@ -17,9 +22,17 @@ const Layout = ({ children }) => {
     navigate(url);
     setFullLoading(false);
   }
+  // const fetchRoomType = async () => {
+  //   setFullLoading(true);
+  //   await axios.get(`http://localhost:8000/api/viewroomtypes`).then((res) => {
+  //     setRoomTypes(res.data);
+  //   });
+  //   setFullLoading(false);
+  // };
+  // fetchRoomType();
   useEffect(() => {
     canOrderFood();
-    console.log(canOrder);
+    // console.log(notifications);
   }, []);
 
   return (
@@ -57,13 +70,31 @@ const Layout = ({ children }) => {
                 Foods
               </button>
             )}
-
-            <button
-              onClick={() => goTo("/contact")}
-              className="md:mr-5 hover:text-gray-900 font-semibold pb-0.5 border-b-2 border-transparent transition-all duration-300 hover:border-indigo-600 cursor-pointer"
-            >
-              Contact Us
-            </button>
+            {/* {hasNotifications && (
+              <button
+                onClick={() => goTo("/notifications")}
+                className="mr-5 hover:text-gray-900 font-semibold pb-0.5 border-b-2 border-transparent transition-all duration-300 hover:border-indigo-600 cursor-pointer group relative inline-block"
+              >
+                <div>
+                  <i className="fas  fa-bell"></i>
+                </div>
+                 <div class="min-w-[200px] absolute text-sm -right-10  border  bg-white invisible group-hover:visible">
+                  <div className="flex items-center py-2 px-1 justify-around relative">
+                    <Link to="">
+                      <div>Notification title</div>
+                      <div>Lorem ipsum dolor sit.</div>
+                    </Link>
+                    <div>
+                      <i
+                        title="mark as read"
+                        className="fas fa-2x fa-envelope-open-text"
+                      />
+                    </div>
+                    <hr class=" mx-2 border-t" />
+                  </div>
+                </div> 
+              </button>
+            )} */}
 
             <>
               {user.role && (
@@ -71,86 +102,108 @@ const Layout = ({ children }) => {
                   <button className="inline-flex items-center bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-700 rounded text-white text-base  mt-4 md:mt-0">
                     <i className="fa mr-2 fa-user" aria-hidden="true"></i>{" "}
                     {user.name}
+                    {hasUnread && (
+                      <span className="absolute top-0 right-0 inline-block w-3 h-3 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full" />
+                    )}
                   </button>
                   <div class="min-w-[150px] absolute  border border-t-0 bg-white invisible group-hover:visible">
-                    <a
+                    <span
                       onClick={() => goTo("/profile")}
-                      href="#"
-                      class="hover:bg-grey-lighter block px-4 hover:bg-gray-100 py-2 text-black"
+                      class="hover:bg-grey-lighter cursor-pointer block px-4 hover:bg-gray-100 py-2 text-black"
                     >
                       Profile
-                    </a>
+                    </span>
                     <hr class=" mx-2 border-t" />
                     {user.role === "Customer" && (
-                      <a
-                        onClick={() => goTo("/mybookings")}
-                        href="#"
-                        class="hover:bg-grey-lighter block px-4 hover:bg-gray-100 py-2 text-black"
-                      >
-                        Room Bookings
-                      </a>
+                      <>
+                        {hasNotifications && (
+                          <>
+                            <span
+                              onClick={() => goTo("/notifications")}
+                              class={`hover:bg-grey-lighter cursor-pointer flex px-4 hover:bg-gray-100 py-2 text-black`}
+                            >
+                              <span>Notifications</span>
+                              {hasUnread && (
+                                <span className="flex items-center">
+                                  <span className=" w-3 h-3 ml-2 bg-red-600 rounded-full" />
+                                </span>
+                              )}
+                            </span>
+                            <hr class="mx-2 border-t" />
+                          </>
+                        )}
+                      </>
                     )}
                     {user.role === "Customer" && (
-                      <a
-                        onClick={() => goTo("/myhallbookings")}
-                        href="#"
-                        class="hover:bg-grey-lighter block px-4 hover:bg-gray-100 py-2 text-black"
-                      >
-                        Hall Bookings
-                      </a>
+                      <>
+                        <span
+                          onClick={() => goTo("/mybookings")}
+                          class="hover:bg-grey-lighter cursor-pointer block px-4 hover:bg-gray-100 py-2 text-black"
+                        >
+                          Room Bookings
+                        </span>
+                        <hr class=" mx-2 border-t" />
+                      </>
                     )}
+                    {user.role === "Customer" && (
+                      <>
+                        <span
+                          onClick={() => goTo("/myhallbookings")}
+                          class="hover:bg-grey-lighter cursor-pointer block px-4 hover:bg-gray-100 py-2 text-black"
+                        >
+                          Hall Bookings
+                        </span>
+                        <hr class=" mx-2 border-t" />
+                      </>
+                    )}
+
                     {canOrder && (
-                      <a
+                      <span
                         onClick={() => goTo("/myorders")}
-                        href="#"
-                        class="hover:bg-grey-lighter block px-4 hover:bg-gray-100 py-2 text-black"
+                        class="hover:bg-grey-lighter cursor-pointer block px-4 hover:bg-gray-100 py-2 text-black"
                       >
                         Food Orders
-                      </a>
+                      </span>
                     )}
                     {user.role === "Admin" && (
                       <>
-                        <a
+                        <span
                           onClick={() => goTo("/dashboard/")}
-                          href="#"
-                          class="hover:bg-grey-lighter block px-4 hover:bg-gray-100 py-2 text-black"
+                          class="hover:bg-grey-lighter cursor-pointer block px-4 hover:bg-gray-100 py-2 text-black"
                         >
                           Dashboard
-                        </a>
+                        </span>
                         <hr class=" mx-2 border-t" />
                       </>
                     )}
                     {user.role === "Frontoffice" && (
                       <>
-                        <a
+                        <span
                           onClick={() => goTo("/dashboard/")}
-                          href="#"
-                          class="hover:bg-grey-lighter block px-4 hover:bg-gray-100 py-2 text-black"
+                          class="hover:bg-grey-lighter cursor-pointer block px-4 hover:bg-gray-100 py-2 text-black"
                         >
                           Dashboard
-                        </a>
+                        </span>
                         <hr class=" mx-2 border-t" />
                       </>
                     )}
                     {user.role === "Kitchen" && (
                       <>
-                        <a
+                        <span
                           onClick={() => goTo("/dashboard/")}
-                          href="#"
-                          class="hover:bg-grey-lighter block px-4 hover:bg-gray-100 py-2 text-black"
+                          class="hover:bg-grey-lighter cursor-pointer block px-4 hover:bg-gray-100 py-2 text-black"
                         >
                           Dashboard
-                        </a>
+                        </span>
                         <hr class=" mx-2 border-t" />
                       </>
                     )}
-                    <a
+                    <span
                       onClick={() => goTo("/logout")}
-                      href="#"
-                      class="hover:bg-grey-lighter block px-4 hover:bg-gray-100 py-2 text-black"
+                      class="hover:bg-grey-lighter cursor-pointer block px-4 hover:bg-gray-100 py-2 text-black"
                     >
                       Logout
-                    </a>
+                    </span>
                   </div>
                 </div>
               )}
@@ -182,7 +235,7 @@ const Layout = ({ children }) => {
       <footer className="text-gray-600 body-font bg-gray-800">
         <div className="container px-5 py-16 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
           <div className="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
-            <a className="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
+            <a className="flex title-font font-medium items-center md:justify-start justify-start text-gray-900">
               <img src="/logo2.png" alt="" className="w-56" />
               {/* <span className="ml-3 text-xl">Tailblocks</span> */}
             </a>
@@ -190,61 +243,44 @@ const Layout = ({ children }) => {
               Air plant banjo lyft occupy retro adaptogen indego
             </p>
           </div>
-          <div className="flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center">
+          <div className="flex-grow flex flex-wrap md:pl-10 -mb-10 md:mt-0 mt-10 md:text-left text-center">
             <div className="lg:w-1/3 md:w-1/2 w-full px-4">
               <h2 className="title-font font-medium text-white tracking-widest text-sm mb-3">
-                CATEGORIES
+                QUICK LINKS
               </h2>
               <nav className="list-none mb-10">
                 <li>
-                  <a href="#" className="text-gray-300 hover:text-gray-400">
-                    First Link
-                  </a>
+                  <Link to="/" className="text-gray-300 hover:text-gray-400">
+                    Home
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-300 hover:text-gray-400">
-                    Second Link
-                  </a>
+                  <Link
+                    to="/rooms"
+                    className="text-gray-300 hover:text-gray-400"
+                  >
+                    Rooms
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-300 hover:text-gray-400">
-                    Third Link
-                  </a>
+                  <Link
+                    to="/halls"
+                    className="text-gray-300 hover:text-gray-400"
+                  >
+                    Halls
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-300 hover:text-gray-400">
-                    Fourth Link
-                  </a>
+                  <Link
+                    to="/login"
+                    className="text-gray-300 hover:text-gray-400"
+                  >
+                    Login
+                  </Link>
                 </li>
               </nav>
             </div>
-            <div className="lg:w-1/3 md:w-1/2 w-full px-4">
-              <h2 className="title-font font-medium text-white tracking-widest text-sm mb-3">
-                CATEGORIES
-              </h2>
-              <nav className="list-none mb-10">
-                <li>
-                  <a href="#" className="text-gray-300 hover:text-gray-400">
-                    First Link
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-gray-300 hover:text-gray-400">
-                    Second Link
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-gray-300 hover:text-gray-400">
-                    Third Link
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-gray-300 hover:text-gray-400">
-                    Fourth Link
-                  </a>
-                </li>
-              </nav>
-            </div>
+
             {/* <div className="lg:w-1/3 md:w-1/2 w-full px-4">
               <h2 className="title-font font-medium text-white tracking-widest text-sm mb-3">
                 CATEGORIES
@@ -274,30 +310,37 @@ const Layout = ({ children }) => {
             </div> */}
             <div className="lg:w-1/3 md:w-1/2 w-full px-4">
               <h2 className="title-font font-medium text-white tracking-widest text-sm mb-3">
-                CATEGORIES
+                CONTACT US
               </h2>
               <nav className="list-none mb-10">
-                <li>
-                  <a href="#" className="text-gray-300 hover:text-gray-400">
-                    First Link
-                  </a>
+                <li className="text-gray-300 hover:text-gray-400">
+                  P.O. Box: 2141
                 </li>
-                <li>
-                  <a href="#" className="text-gray-300 hover:text-gray-400">
-                    Second Link
-                  </a>
+                <li className="text-gray-300 hover:text-gray-400">
+                  Street: Tiger marga
                 </li>
-                <li>
-                  <a href="#" className="text-gray-300 hover:text-gray-400">
-                    Third Link
-                  </a>
+                <li className="text-gray-300 hover:text-gray-400">
+                  Tel: 977-1-5523900
                 </li>
-                <li>
-                  <a href="#" className="text-gray-300 hover:text-gray-400">
-                    Fourth Link
-                  </a>
+                <li className="text-gray-300 hover:text-gray-400">
+                  Email : reservation@risenshine.com
                 </li>
               </nav>
+            </div>
+            <div className="lg:w-1/3 md:w-1/2 w-full px-4">
+              <h2 className="title-font font-medium text-white tracking-widest text-sm mb-3">
+                FACEBOOK PAGE
+              </h2>
+              <iframe
+                src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FTheEmerald.HotelandExecutiveApartments&tabs=timeline&width=340&height=70&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                width={300}
+                height={120}
+                style={{ border: "none", overflow: "hidden" }}
+                scrolling="no"
+                frameBorder={0}
+                allowFullScreen="true"
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+              />
             </div>
           </div>
         </div>
