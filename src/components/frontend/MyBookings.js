@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../helpers/instance";
 import React, { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import UserContext from "../../contexts/UserContext";
@@ -30,17 +30,9 @@ const MyBookings = () => {
 
   const updateStatus = async (id, status) => {
     await axios
-      .put(
-        `http://localhost:8000/api/changestatus/${id}`,
-        {
-          status: status,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      )
+      .put(`http://localhost:8000/api/changestatus/${id}`, {
+        status: status,
+      })
       .then((res) => {
         // setChangeStatusMsg(res.data.message);
         Swal.fire({

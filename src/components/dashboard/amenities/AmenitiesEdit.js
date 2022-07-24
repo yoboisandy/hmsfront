@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import Select from "react-select";
 
 const AmenitiesEdit = () => {
@@ -26,16 +26,10 @@ const AmenitiesEdit = () => {
 
   const fetchAmenityData = async () => {
     setLoading(true);
-    await axios
-      .get(`http://localhost:8000/api/amenities/${id}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setName(res.data.name);
-        setIcon(res.data.icon);
-      });
+    await axios.get(`http://localhost:8000/api/amenities/${id}`).then((res) => {
+      setName(res.data.name);
+      setIcon(res.data.icon);
+    });
     setLoading(false);
   };
 
@@ -49,11 +43,7 @@ const AmenitiesEdit = () => {
     fd.append("_method", "PUT");
 
     await axios
-      .post(`http://localhost:8000/api/amenities/${id}`, fd, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .post(`http://localhost:8000/api/amenities/${id}`, fd)
       .then((res) => {
         Swal.fire({
           position: "center",

@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import Select from "react-select";
 import AsyncSelect from "react-select/async";
 
@@ -37,15 +37,9 @@ const HallCreate = () => {
   };
 
   const getFloors = async () => {
-    await axios
-      .get("http://localhost:8000/api/floors", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setFloors(res.data);
-      });
+    await axios.get("http://localhost:8000/api/floors").then((res) => {
+      setFloors(res.data);
+    });
   };
   const handleImageChange = (file) => {
     setImage(file[0]);
@@ -53,15 +47,9 @@ const HallCreate = () => {
 
   const getAmenities = async () => {
     setLoading(true);
-    await axios
-      .get("http://localhost:8000/api/amenities", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setAmenities(res.data);
-      });
+    await axios.get("http://localhost:8000/api/amenities").then((res) => {
+      setAmenities(res.data);
+    });
     setLoading(false);
   };
 
@@ -97,11 +85,7 @@ const HallCreate = () => {
     //   fd.append("amenities[]", item);
     // });
     await axios
-      .post(`http://localhost:8000/api/halls/${id}`, fd, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .post(`http://localhost:8000/api/halls/${id}`, fd)
       .then((res) => {
         Swal.fire({
           position: "center",
@@ -120,18 +104,12 @@ const HallCreate = () => {
 
   const getHallData = async () => {
     setLoading(true);
-    await axios
-      .get(`http://localhost:8000/api/halls/${id}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setSelectedAmenities(res.data.amenities);
-        sethallData(res.data);
-        // console.log(hallData);
-        // console.log(res.data.amenities);
-      });
+    await axios.get(`http://localhost:8000/api/halls/${id}`).then((res) => {
+      setSelectedAmenities(res.data.amenities);
+      sethallData(res.data);
+      // console.log(hallData);
+      // console.log(res.data.amenities);
+    });
     setLoading(false);
   };
 

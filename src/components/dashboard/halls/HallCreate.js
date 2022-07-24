@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import Select from "react-select";
 
 const HallCreate = () => {
@@ -29,30 +29,18 @@ const HallCreate = () => {
   };
 
   const getFloors = async () => {
-    await axios
-      .get("http://localhost:8000/api/floors", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setFloors(res.data);
-      });
+    await axios.get("http://localhost:8000/api/floors").then((res) => {
+      setFloors(res.data);
+    });
   };
   const handleImageChange = (file) => {
     setImage(file[0]);
   };
 
   const getAmenities = async () => {
-    await axios
-      .get("http://localhost:8000/api/amenities", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setAmenities(res.data);
-      });
+    await axios.get("http://localhost:8000/api/amenities").then((res) => {
+      setAmenities(res.data);
+    });
   };
 
   const handleRoleChange = (e, act) => {
@@ -89,11 +77,7 @@ const HallCreate = () => {
       fd.append("amenities[]", item);
     });
     await axios
-      .post("http://localhost:8000/api/halls", fd, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .post("http://localhost:8000/api/halls", fd)
       .then((res) => {
         Swal.fire({
           position: "center",

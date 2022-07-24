@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-import axios from "axios";
+import axios from "../../../helpers/instance";
 const RoomIndex = () => {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -12,11 +12,7 @@ const RoomIndex = () => {
   const fetchRooms = async () => {
     setLoading(true);
     await axios
-      .get("http://localhost:8000/api/rooms", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .get("http://localhost:8000/api/rooms")
       .then((res) => {
         setRooms(res.data);
         console.log(res.data);
@@ -46,11 +42,7 @@ const RoomIndex = () => {
 
     if (isConfirmed) {
       await axios
-        .delete(`http://localhost:8000/api/rooms/${id}`, {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        })
+        .delete(`http://localhost:8000/api/rooms/${id}`)
         .then((res) => {
           Swal.fire({
             icon: "success",

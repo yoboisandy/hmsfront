@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CanOrderFood from "../../../contexts/CanOrderFood";
@@ -54,11 +54,7 @@ const Login = () => {
     setFullLoading(true);
     if (localStorage.getItem("token")) {
       axios
-        .get("http://localhost:8000/api/user", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
+        .get("http://localhost:8000/api/user")
         .then((res) => {
           if (res.data.role === "Admin") {
             navigate("/dashboard");

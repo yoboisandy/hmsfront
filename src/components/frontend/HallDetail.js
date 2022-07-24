@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../helpers/instance";
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
@@ -15,15 +15,9 @@ const HallDetail = () => {
   const [user, fetchUser] = useContext(UserContext);
 
   const fetchHallDetails = async () => {
-    await axios
-      .get(`http://localhost:8000/api/hall/${id}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setHallDetail(res.data);
-      });
+    await axios.get(`http://localhost:8000/api/hall/${id}`).then((res) => {
+      setHallDetail(res.data);
+    });
   };
 
   useEffect(() => {

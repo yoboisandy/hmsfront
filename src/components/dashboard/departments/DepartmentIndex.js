@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-import axios from "axios";
+import axios from "../../../helpers/instance";
 const DepartmentIndex = () => {
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -12,11 +12,7 @@ const DepartmentIndex = () => {
   const fetchDepartments = async () => {
     setLoading(true);
     await axios
-      .get("http://localhost:8000/api/departments", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .get("http://localhost:8000/api/departments")
       .then((res) => {
         setDepartments(res.data);
         console.log(res.data);
@@ -46,11 +42,7 @@ const DepartmentIndex = () => {
 
     if (isConfirmed) {
       await axios
-        .delete(`http://localhost:8000/api/departments/${id}`, {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        })
+        .delete(`http://localhost:8000/api/departments/${id}`)
         .then((res) => {
           Swal.fire({
             icon: "success",

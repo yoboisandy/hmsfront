@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import Select from "react-select";
 
 const DepartmentCreate = () => {
@@ -22,24 +22,14 @@ const DepartmentCreate = () => {
   };
 
   const getRoomtypes = async () => {
-    await axios
-      .get(`http://localhost:8000/api/roomtypes`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setRoomTypes(res.data);
-      });
+    await axios.get(`http://localhost:8000/api/roomtypes`).then((res) => {
+      setRoomTypes(res.data);
+    });
   };
 
   const getRooms = async () => {
     await axios
-      .get(`http://localhost:8000/api/roomtypes/${bookingData.roomtype_id}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .get(`http://localhost:8000/api/roomtypes/${bookingData.roomtype_id}`)
       .then((res) => {
         setRooms(res.data.rooms);
         console.log(res.data.rooms);
@@ -50,11 +40,7 @@ const DepartmentCreate = () => {
     e.preventDefault();
     setLoading(true);
     await axios
-      .post("http://localhost:8000/api/bookings", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .post("http://localhost:8000/api/bookings")
       .then((res) => {
         Swal.fire({
           position: "center",

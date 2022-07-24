@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import Swal from "sweetalert2";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
@@ -23,11 +23,7 @@ const CustomerEdit = () => {
     e.preventDefault();
     setBtnLoading(true);
     await axios
-      .put(`http://localhost:8000/api/customers/${id}`, customerData, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .put(`http://localhost:8000/api/customers/${id}`, customerData)
       .then((res) => {
         Swal.fire({
           position: "center",
@@ -46,22 +42,16 @@ const CustomerEdit = () => {
 
   const fetchCustomer = async () => {
     setLoading(true);
-    await axios
-      .get(`http://localhost:8000/api/customers/${id}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setCustomerData({
-          firstname: res.data.firstname,
-          lastname: res.data.lastname,
-          email: res.data.email,
-          phone: res.data.phone,
-          address: res.data.address,
-          citizenship_number: res.data.citizenship_number,
-        });
+    await axios.get(`http://localhost:8000/api/customers/${id}`).then((res) => {
+      setCustomerData({
+        firstname: res.data.firstname,
+        lastname: res.data.lastname,
+        email: res.data.email,
+        phone: res.data.phone,
+        address: res.data.address,
+        citizenship_number: res.data.citizenship_number,
       });
+    });
     setLoading(false);
     console.log(customerData);
   };

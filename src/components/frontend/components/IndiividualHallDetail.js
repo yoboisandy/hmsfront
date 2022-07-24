@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -61,18 +61,10 @@ const IndividualHallDetail = ({
       navigate("/");
     } else {
       await axios
-        .post(
-          `http://localhost:8000/api/book-hall`,
-          {
-            ...checkAvailabilityData,
-            hall_id: id,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
+        .post(`http://localhost:8000/api/book-hall`, {
+          ...checkAvailabilityData,
+          hall_id: id,
+        })
         .then((res) => {
           if (res.data.message === "no hall available") {
             Swal.fire({

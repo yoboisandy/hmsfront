@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import Select from "react-select";
-import axios from "axios";
+import axios from "../../../helpers/instance";
 
 const RoomTypeCreate = () => {
   const [validationErr, setValidationErr] = useState({});
@@ -28,15 +28,9 @@ const RoomTypeCreate = () => {
   const token = localStorage.getItem("token");
 
   const getAmenities = async () => {
-    axios
-      .get(`http://localhost:8000/api/amenities`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setAmenities(res.data);
-      });
+    axios.get(`http://localhost:8000/api/amenities`).then((res) => {
+      setAmenities(res.data);
+    });
   };
 
   const amenitiesOptions = [];
@@ -89,11 +83,7 @@ const RoomTypeCreate = () => {
     console.log(fd.get("amenities"));
 
     await axios
-      .post("http://localhost:8000/api/roomtypes", fd, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .post("http://localhost:8000/api/roomtypes", fd)
       .then((res) => {
         Swal.fire({
           position: "center",

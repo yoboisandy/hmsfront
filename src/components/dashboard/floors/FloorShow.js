@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import { React, useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -10,16 +10,10 @@ const FloorShow = () => {
 
   const getFloors = async () => {
     setLoading(true);
-    await axios
-      .get(`http://localhost:8000/api/floors/${id}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setFloor(res.data);
-        console.log(floor);
-      });
+    await axios.get(`http://localhost:8000/api/floors/${id}`).then((res) => {
+      setFloor(res.data);
+      console.log(floor);
+    });
     setLoading(false);
   };
 

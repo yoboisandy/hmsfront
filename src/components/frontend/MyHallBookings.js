@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../helpers/instance";
 import React, { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import UserContext from "../../contexts/UserContext";
@@ -14,11 +14,7 @@ const MyHallBookings = () => {
   const fetchBooking = async () => {
     setLoading(true);
     await axios
-      .get(`http://localhost:8000/api/myhallbookings`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
+      .get(`/myhallbookings`)
       .then((res) => {
         setBookings(res.data);
       })
@@ -30,17 +26,9 @@ const MyHallBookings = () => {
 
   const cancelBooking = async (id) => {
     await axios
-      .put(
-        `http://localhost:8000/api/changehallbookstatus/${id}`,
-        {
-          status: "Canceled",
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      )
+      .put(`http://localhost:8000/api/changehallbookstatus/${id}`, {
+        status: "Canceled",
+      })
       .then((res) => {
         // setChangeStatusMsg(res.data.message);
         Swal.fire({

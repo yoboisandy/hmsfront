@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-import axios from "axios";
+import axios from "../../../helpers/instance";
 const BookingEdit = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -14,11 +14,7 @@ const BookingEdit = () => {
   const fetchBookings = async () => {
     setLoading(true);
     await axios
-      .get("http://localhost:8000/api/viewbookings", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .get("http://localhost:8000/api/viewbookings")
       .then((res) => {
         setBookings(res.data);
       })
@@ -34,17 +30,9 @@ const BookingEdit = () => {
 
   const assignRoom = async (id, room_id) => {
     await axios
-      .put(
-        `http://localhost:8000/api/assignRoom/${id}`,
-        {
-          room_id: room_id,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      )
+      .put(`http://localhost:8000/api/assignRoom/${id}`, {
+        room_id: room_id,
+      })
       .then((res) => {
         Swal.fire({
           icon: "success",
@@ -55,17 +43,9 @@ const BookingEdit = () => {
 
   const updateStatus = async (id, status) => {
     await axios
-      .put(
-        `http://localhost:8000/api/changestatus/${id}`,
-        {
-          status: status,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      )
+      .put(`http://localhost:8000/api/changestatus/${id}`, {
+        status: status,
+      })
       .then((res) => {
         // setChangeStatusMsg(res.data.message);
         Swal.fire({
@@ -94,11 +74,7 @@ const BookingEdit = () => {
 
     if (isConfirmed) {
       await axios
-        .delete(`http://localhost:8000/api/bookings/${id}`, {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        })
+        .delete(`http://localhost:8000/api/bookings/${id}`)
         .then((res) => {
           Swal.fire({
             icon: "success",

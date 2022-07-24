@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "axios";
+import axios from "../../../helpers/instance";
 
 const RoomCreate = () => {
   const [validationErr, setValidationErr] = useState({});
@@ -20,26 +20,14 @@ const RoomCreate = () => {
   };
 
   const getFloors = async () => {
-    await axios
-      .get("http://localhost:8000/api/floors", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setFloors(res.data);
-      });
+    await axios.get("http://localhost:8000/api/floors").then((res) => {
+      setFloors(res.data);
+    });
   };
   const getRoomTypes = async () => {
-    await axios
-      .get("http://localhost:8000/api/roomtypes", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setRoomTypes(res.data);
-      });
+    await axios.get("http://localhost:8000/api/roomtypes").then((res) => {
+      setRoomTypes(res.data);
+    });
   };
 
   useEffect(() => {
@@ -57,11 +45,7 @@ const RoomCreate = () => {
     fd.append("roomtype_id", roomData.roomtype_id);
 
     await axios
-      .post("http://localhost:8000/api/rooms", fd, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .post("http://localhost:8000/api/rooms", fd)
       .then((res) => {
         Swal.fire({
           position: "center",

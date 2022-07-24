@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../helpers/instance";
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
@@ -18,15 +18,9 @@ const RoomDetail = () => {
 
   const fetchRoomDetails = async () => {
     setloading(true);
-    await axios
-      .get(`http://localhost:8000/api/type/${id}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setRoomDetail(res.data);
-      });
+    await axios.get(`http://localhost:8000/api/type/${id}`).then((res) => {
+      setRoomDetail(res.data);
+    });
     setloading(false);
   };
 

@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "axios";
+import axios from "../../../helpers/instance";
 
 const RoleCreate = () => {
   const [validationErr, setValidationErr] = useState({
@@ -26,11 +26,7 @@ const RoleCreate = () => {
     // fd.append("name", roleData.name);
 
     await axios
-      .post("http://localhost:8000/api/roles", roleData, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .post("http://localhost:8000/api/roles", roleData)
       .then((res) => {
         Swal.fire({
           position: "center",

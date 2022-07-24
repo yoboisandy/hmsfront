@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../helpers/instance";
 import React, { useEffect, useState, useContext } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import Spinner from "./components/Spinner";
@@ -14,15 +14,9 @@ const Food = () => {
 
   const fetchFoods = async () => {
     setLoading(true);
-    await axios
-      .get(`http://localhost:8000/api/foodavailable`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setFoods(res.data);
-      });
+    await axios.get(`http://localhost:8000/api/foodavailable`).then((res) => {
+      setFoods(res.data);
+    });
     setLoading(false);
   };
 
@@ -40,19 +34,11 @@ const Food = () => {
     });
     if (isConfirmed) {
       await axios
-        .post(
-          `http://localhost:8000/api/order-food`,
-          {
-            food_id: id,
-            quantity,
-            quantity,
-          },
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-            },
-          }
-        )
+        .post(`http://localhost:8000/api/order-food`, {
+          food_id: id,
+          quantity,
+          quantity,
+        })
         .then((res) => {
           if (res.data.messagetitle) {
             Swal.fire({

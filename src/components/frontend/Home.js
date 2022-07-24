@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../helpers/instance";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import Fade from "react-reveal/Fade";

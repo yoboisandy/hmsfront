@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import Select from "react-select";
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import Spinner from "../../frontend/components/Spinner";
 
 const RoomTypeCreate = () => {
@@ -27,31 +27,19 @@ const RoomTypeCreate = () => {
   let { id } = useParams();
   const fecthRoomTypeData = () => {
     setLoading(true);
-    axios
-      .get(`http://localhost:8000/api/roomtypes/${id}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setroomTypeData(res.data);
-        setSelectedAmenities(res.data.amenities);
-      });
+    axios.get(`http://localhost:8000/api/roomtypes/${id}`).then((res) => {
+      setroomTypeData(res.data);
+      setSelectedAmenities(res.data.amenities);
+    });
     setLoading(false);
   };
 
   const getAmenities = async () => {
     setLoading(true);
 
-    axios
-      .get(`http://localhost:8000/api/amenities`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setAmenities(res.data);
-      });
+    axios.get(`http://localhost:8000/api/amenities`).then((res) => {
+      setAmenities(res.data);
+    });
     setLoading(false);
   };
 
@@ -106,11 +94,7 @@ const RoomTypeCreate = () => {
     console.log(fd.get("amenities"));
 
     await axios
-      .post(`http://localhost:8000/api/roomtypes/${id}`, fd, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .post(`http://localhost:8000/api/roomtypes/${id}`, fd)
       .then((res) => {
         Swal.fire({
           position: "center",

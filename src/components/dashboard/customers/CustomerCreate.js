@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -17,11 +17,7 @@ const CustomerCreate = () => {
     e.preventDefault();
     setLoading(true);
     await axios
-      .post("http://localhost:8000/api/customers", customerData, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .post("http://localhost:8000/api/customers", customerData)
       .then((res) => {
         Swal.fire({
           position: "center",

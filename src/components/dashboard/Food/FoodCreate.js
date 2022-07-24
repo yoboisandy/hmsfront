@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import Select from "react-select";
 
 const FoodCreate = () => {
@@ -31,11 +31,7 @@ const FoodCreate = () => {
     fd.append("status", availability);
     fd.append("image", image);
     await axios
-      .post("http://localhost:8000/api/foods", fd, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .post("http://localhost:8000/api/foods", fd)
       .then((res) => {
         Swal.fire({
           position: "center",

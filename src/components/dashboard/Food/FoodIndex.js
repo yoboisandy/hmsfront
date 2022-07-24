@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -10,15 +10,9 @@ const FoodIndex = () => {
 
   const fetchFoods = async () => {
     setLoading(true);
-    await axios
-      .get(`http://localhost:8000/api/foods`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setFoods(res.data);
-      });
+    await axios.get(`http://localhost:8000/api/foods`).then((res) => {
+      setFoods(res.data);
+    });
     setLoading(false);
   };
 
@@ -37,11 +31,7 @@ const FoodIndex = () => {
 
     if (isConfirmed) {
       await axios
-        .delete(`http://localhost:8000/api/foods/${id}`, {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        })
+        .delete(`http://localhost:8000/api/foods/${id}`)
         .then((res) => {
           Swal.fire({
             icon: "success",
@@ -67,17 +57,9 @@ const FoodIndex = () => {
 
   const changeAvailabilty = async (id, status) => {
     await axios
-      .put(
-        `http://localhost:8000/api/changeavailability/${id}`,
-        {
-          status: status,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      )
+      .put(`http://localhost:8000/api/changeavailability/${id}`, {
+        status: status,
+      })
       .then((res) => {
         Swal.fire({
           icon: "success",

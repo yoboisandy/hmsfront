@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import React from "react";
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
@@ -21,40 +21,22 @@ const EmployeeEdit = () => {
 
   const getEmployee = async () => {
     setLoading(true);
-    await axios
-      .get(`http://localhost:8000/api/employees/${id}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setEmployeeData(res.data);
-        console.log(employeeData);
-      });
+    await axios.get(`http://localhost:8000/api/employees/${id}`).then((res) => {
+      setEmployeeData(res.data);
+      console.log(employeeData);
+    });
     setLoading(false);
   };
 
   const getDepartments = async () => {
-    await axios
-      .get("http://localhost:8000/api/departments", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setDepartments(res.data);
-      });
+    await axios.get("http://localhost:8000/api/departments").then((res) => {
+      setDepartments(res.data);
+    });
   };
   const getShifts = async () => {
-    await axios
-      .get("http://localhost:8000/api/shifts", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setShifts(res.data);
-      });
+    await axios.get("http://localhost:8000/api/shifts").then((res) => {
+      setShifts(res.data);
+    });
   };
   // const getRoles = async () => {
   //   await axios
@@ -106,11 +88,7 @@ const EmployeeEdit = () => {
     console.log(fd.get("firstname"));
     // return fd;
     await axios
-      .post(`http://localhost:8000/api/employees/${id}`, fd, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .post(`http://localhost:8000/api/employees/${id}`, fd)
       .then((res) => {
         Swal.fire({
           position: "center",
@@ -130,12 +108,7 @@ const EmployeeEdit = () => {
   const loadRolesFromDepartment = () => {
     axios
       .get(
-        `http://localhost:8000/api/departments/${employeeData.department_id}`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
+        `http://localhost:8000/api/departments/${employeeData.department_id}`
       )
       .then((res) => {
         setRoles(res.data.roles);
