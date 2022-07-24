@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import Select from "react-select";
 
 const FoodCreate = () => {
@@ -30,7 +30,7 @@ const FoodCreate = () => {
     fd.append("price", foodData.price);
     fd.append("status", availability);
     fd.append("image", image);
-    await axios
+    await axiosInstance
       .post("http://localhost:8000/api/foods", fd)
       .then((res) => {
         Swal.fire({

@@ -1,4 +1,4 @@
-import axios from "../../helpers/instance";
+import axiosInstance from "../../helpers/instance";
 import React, { useEffect, useState } from "react";
 import RoomCard from "./components/RoomCard";
 import Spinner from "./components/Spinner";
@@ -32,7 +32,7 @@ const Rooms = () => {
     setLoading(true);
     e.preventDefault();
     setValidationErr({});
-    await axios
+    await axiosInstance
       .post(`/viewavailable`, searchData)
       .then((res) => {
         if (res.data.message) {
@@ -53,14 +53,14 @@ const Rooms = () => {
 
   const fetchRoomType = async () => {
     setLoading(true);
-    await axios.get(`/viewroomtypes`).then((res) => {
+    await axiosInstance.get(`/viewroomtypes`).then((res) => {
       setRoomTypes(res.data);
     });
     setLoading(false);
   };
   const ddRoomType = async () => {
     setLoading(true);
-    await axios.get(`/viewroomtypes`).then((res) => {
+    await axiosInstance.get(`/viewroomtypes`).then((res) => {
       setDDRoomTypes(res.data);
     });
     setLoading(false);

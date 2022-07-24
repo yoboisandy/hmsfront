@@ -1,4 +1,4 @@
-import axios from "../../helpers/instance";
+import axiosInstance from "../../helpers/instance";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import Fade from "react-reveal/Fade";
@@ -13,7 +13,7 @@ const Home = () => {
   const [count, setCount] = useState({});
 
   const fetchCount = async () => {
-    await axios.get(`http://localhost:8000/api/count`).then((res) => {
+    await axiosInstance.get(`http://localhost:8000/api/count`).then((res) => {
       setCount(res.data);
     });
   };

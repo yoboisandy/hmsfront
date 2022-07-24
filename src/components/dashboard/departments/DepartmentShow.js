@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -13,7 +13,7 @@ const DepartmentShow = () => {
 
   const fetchDepartment = async () => {
     setLoading(true);
-    await axios
+    await axiosInstance
       .get(`http://localhost:8000/api/departments/${id}`)
       .then((res) => {
         setDepartmentData(res.data);

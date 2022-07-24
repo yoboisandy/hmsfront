@@ -1,4 +1,4 @@
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import React from "react";
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
@@ -21,25 +21,29 @@ const EmployeeEdit = () => {
 
   const getEmployee = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/employees/${id}`).then((res) => {
-      setEmployeeData(res.data);
-      console.log(employeeData);
-    });
+    await axiosInstance
+      .get(`http://localhost:8000/api/employees/${id}`)
+      .then((res) => {
+        setEmployeeData(res.data);
+        console.log(employeeData);
+      });
     setLoading(false);
   };
 
   const getDepartments = async () => {
-    await axios.get("http://localhost:8000/api/departments").then((res) => {
-      setDepartments(res.data);
-    });
+    await axiosInstance
+      .get("http://localhost:8000/api/departments")
+      .then((res) => {
+        setDepartments(res.data);
+      });
   };
   const getShifts = async () => {
-    await axios.get("http://localhost:8000/api/shifts").then((res) => {
+    await axiosInstance.get("http://localhost:8000/api/shifts").then((res) => {
       setShifts(res.data);
     });
   };
   // const getRoles = async () => {
-  //   await axios
+  //   await axiosInstance
   //     .get("http://localhost:8000/api/roles", {
   //       headers: {
   //         Authorization: "Bearer " + token,
@@ -87,7 +91,7 @@ const EmployeeEdit = () => {
     fd.append("_method", "PATCH");
     console.log(fd.get("firstname"));
     // return fd;
-    await axios
+    await axiosInstance
       .post(`http://localhost:8000/api/employees/${id}`, fd)
       .then((res) => {
         Swal.fire({
@@ -106,7 +110,7 @@ const EmployeeEdit = () => {
   };
 
   const loadRolesFromDepartment = () => {
-    axios
+    axiosInstance
       .get(
         `http://localhost:8000/api/departments/${employeeData.department_id}`
       )

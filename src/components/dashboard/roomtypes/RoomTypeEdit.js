@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import Select from "react-select";
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import Spinner from "../../frontend/components/Spinner";
 
 const RoomTypeCreate = () => {
@@ -27,17 +27,19 @@ const RoomTypeCreate = () => {
   let { id } = useParams();
   const fecthRoomTypeData = () => {
     setLoading(true);
-    axios.get(`http://localhost:8000/api/roomtypes/${id}`).then((res) => {
-      setroomTypeData(res.data);
-      setSelectedAmenities(res.data.amenities);
-    });
+    axiosInstance
+      .get(`http://localhost:8000/api/roomtypes/${id}`)
+      .then((res) => {
+        setroomTypeData(res.data);
+        setSelectedAmenities(res.data.amenities);
+      });
     setLoading(false);
   };
 
   const getAmenities = async () => {
     setLoading(true);
 
-    axios.get(`http://localhost:8000/api/amenities`).then((res) => {
+    axiosInstance.get(`http://localhost:8000/api/amenities`).then((res) => {
       setAmenities(res.data);
     });
     setLoading(false);
@@ -93,7 +95,7 @@ const RoomTypeCreate = () => {
     fd.append("image", image);
     console.log(fd.get("amenities"));
 
-    await axios
+    await axiosInstance
       .post(`http://localhost:8000/api/roomtypes/${id}`, fd)
       .then((res) => {
         Swal.fire({

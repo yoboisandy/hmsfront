@@ -1,4 +1,4 @@
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CanOrderFood from "../../../contexts/CanOrderFood";
@@ -27,7 +27,7 @@ const Login = () => {
     if (loginDetails.password == "" || loginDetails.email == "") {
       setError("All fields are required");
     }
-    axios
+    axiosInstance
       .post("http://localhost:8000/api/login", loginDetails)
       .then((res) => {
         localStorage.setItem("token", res.data.access_token);
@@ -53,7 +53,7 @@ const Login = () => {
   useEffect(() => {
     setFullLoading(true);
     if (localStorage.getItem("token")) {
-      axios
+      axiosInstance
         .get("http://localhost:8000/api/user")
         .then((res) => {
           if (res.data.role === "Admin") {

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 const HallBookingIndex = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -13,7 +13,7 @@ const HallBookingIndex = () => {
 
   const fetchBookings = async () => {
     setLoading(true);
-    await axios
+    await axiosInstance
       .get("http://localhost:8000/api/hallbooks")
       .then((res) => {
         setBookings(res.data);
@@ -29,7 +29,7 @@ const HallBookingIndex = () => {
   // };
 
   const updateStatus = async (id, status, hall_id) => {
-    await axios
+    await axiosInstance
       .post(`http://localhost:8000/api/changehallbookstatus/${id}`, {
         status: status,
         _method: "PUT",

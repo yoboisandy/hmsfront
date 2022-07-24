@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 
 const RoomCreate = () => {
   const [validationErr, setValidationErr] = useState({});
@@ -20,14 +20,16 @@ const RoomCreate = () => {
   };
 
   const getFloors = async () => {
-    await axios.get("http://localhost:8000/api/floors").then((res) => {
+    await axiosInstance.get("http://localhost:8000/api/floors").then((res) => {
       setFloors(res.data);
     });
   };
   const getRoomTypes = async () => {
-    await axios.get("http://localhost:8000/api/roomtypes").then((res) => {
-      setRoomTypes(res.data);
-    });
+    await axiosInstance
+      .get("http://localhost:8000/api/roomtypes")
+      .then((res) => {
+        setRoomTypes(res.data);
+      });
   };
 
   useEffect(() => {
@@ -44,7 +46,7 @@ const RoomCreate = () => {
     fd.append("floor_id", roomData.floor_id);
     fd.append("roomtype_id", roomData.roomtype_id);
 
-    await axios
+    await axiosInstance
       .post("http://localhost:8000/api/rooms", fd)
       .then((res) => {
         Swal.fire({

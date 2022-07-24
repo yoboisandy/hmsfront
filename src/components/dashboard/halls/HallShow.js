@@ -1,4 +1,4 @@
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import { React, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
@@ -10,10 +10,12 @@ const HallShow = () => {
 
   const fetchHall = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/halls/${id}`).then((res) => {
-      setHall(res.data);
-      console.log(hall);
-    });
+    await axiosInstance
+      .get(`http://localhost:8000/api/halls/${id}`)
+      .then((res) => {
+        setHall(res.data);
+        console.log(hall);
+      });
     setLoading(false);
   };
 

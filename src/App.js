@@ -1,4 +1,4 @@
-import axios from "./helpers/instance";
+import axiosInstance from "./helpers/instance";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./components/dashboard/Dashboard";
 import Frontend from "./components/frontend/Frontend";
@@ -23,18 +23,20 @@ function App() {
 
   const checkUnread = async () => {
     setFullLoading(true);
-    await axios.get(`http://localhost:8000/api/hasunread`).then((res) => {
-      if (res.data.message) {
-        setHasUnread(true);
-      } else {
-        setHasUnread(false);
-      }
-    });
+    await axiosInstance
+      .get(`http://localhost:8000/api/hasunread`)
+      .then((res) => {
+        if (res.data.message) {
+          setHasUnread(true);
+        } else {
+          setHasUnread(false);
+        }
+      });
     setFullLoading(false);
   };
   const countNotifications = async () => {
     setFullLoading(true);
-    await axios
+    await axiosInstance
       .get(`http://localhost:8000/api/countnotifications`)
       .then((res) => {
         setNotificationCount(res.data.count);
@@ -45,7 +47,7 @@ function App() {
 
   const checkNotification = async () => {
     setFullLoading(true);
-    await axios
+    await axiosInstance
       .get(`http://localhost:8000/api/hasnotifications`)
       .then((res) => {
         if (res.data.message) {
@@ -58,16 +60,18 @@ function App() {
   };
   const getNotifications = async () => {
     setFullLoading(true);
-    await axios.get(`http://localhost:8000/api/notifications`).then((res) => {
-      setNotifications(res.data);
-    });
+    await axiosInstance
+      .get(`http://localhost:8000/api/notifications`)
+      .then((res) => {
+        setNotifications(res.data);
+      });
     setFullLoading(false);
   };
 
   const fetchUser = async () => {
     setFullLoading(true);
     let token = localStorage.getItem("token");
-    await axios
+    await axiosInstance
       .get("http://localhost:8000/api/user")
       .then((res) => {
         setUser(res.data);
@@ -80,7 +84,7 @@ function App() {
   };
 
   const canOrderFood = async () => {
-    await axios
+    await axiosInstance
       .get(`http://localhost:8000/api/canorderfood`)
       .then((res) => {
         if (res.data > 0) {

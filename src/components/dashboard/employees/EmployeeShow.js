@@ -1,4 +1,4 @@
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import { React, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
@@ -10,10 +10,12 @@ const EmployeeShow = () => {
 
   const fetchEmployee = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/employees/${id}`).then((res) => {
-      setEmployee(res.data);
-      console.log(employee);
-    });
+    await axiosInstance
+      .get(`http://localhost:8000/api/employees/${id}`)
+      .then((res) => {
+        setEmployee(res.data);
+        console.log(employee);
+      });
     setLoading(false);
   };
 

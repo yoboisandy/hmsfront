@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import Swal from "sweetalert2";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
@@ -20,9 +20,11 @@ const FloorEdit = () => {
 
   const getFloor = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/floors/${id}`).then((res) => {
-      setfloorData(res.data);
-    });
+    await axiosInstance
+      .get(`http://localhost:8000/api/floors/${id}`)
+      .then((res) => {
+        setfloorData(res.data);
+      });
     setLoading(false);
   };
 
@@ -31,7 +33,7 @@ const FloorEdit = () => {
   const updateFloor = async (e) => {
     e.preventDefault();
     setBtnLoading(true);
-    await axios
+    await axiosInstance
       .put(`http://localhost:8000/api/floors/${id}`, floorData)
       .then((res) => {
         Swal.fire({

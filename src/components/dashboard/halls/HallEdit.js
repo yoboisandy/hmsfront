@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import Select from "react-select";
 import AsyncSelect from "react-select/async";
 
@@ -37,7 +37,7 @@ const HallCreate = () => {
   };
 
   const getFloors = async () => {
-    await axios.get("http://localhost:8000/api/floors").then((res) => {
+    await axiosInstance.get("http://localhost:8000/api/floors").then((res) => {
       setFloors(res.data);
     });
   };
@@ -47,9 +47,11 @@ const HallCreate = () => {
 
   const getAmenities = async () => {
     setLoading(true);
-    await axios.get("http://localhost:8000/api/amenities").then((res) => {
-      setAmenities(res.data);
-    });
+    await axiosInstance
+      .get("http://localhost:8000/api/amenities")
+      .then((res) => {
+        setAmenities(res.data);
+      });
     setLoading(false);
   };
 
@@ -84,7 +86,7 @@ const HallCreate = () => {
     // values.forEach((item) => {
     //   fd.append("amenities[]", item);
     // });
-    await axios
+    await axiosInstance
       .post(`http://localhost:8000/api/halls/${id}`, fd)
       .then((res) => {
         Swal.fire({
@@ -104,12 +106,14 @@ const HallCreate = () => {
 
   const getHallData = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/halls/${id}`).then((res) => {
-      setSelectedAmenities(res.data.amenities);
-      sethallData(res.data);
-      // console.log(hallData);
-      // console.log(res.data.amenities);
-    });
+    await axiosInstance
+      .get(`http://localhost:8000/api/halls/${id}`)
+      .then((res) => {
+        setSelectedAmenities(res.data.amenities);
+        sethallData(res.data);
+        // console.log(hallData);
+        // console.log(res.data.amenities);
+      });
     setLoading(false);
   };
 

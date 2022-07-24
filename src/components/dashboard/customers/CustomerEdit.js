@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import Swal from "sweetalert2";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
@@ -22,7 +22,7 @@ const CustomerEdit = () => {
   const updateCustomer = async (e) => {
     e.preventDefault();
     setBtnLoading(true);
-    await axios
+    await axiosInstance
       .put(`http://localhost:8000/api/customers/${id}`, customerData)
       .then((res) => {
         Swal.fire({
@@ -42,16 +42,18 @@ const CustomerEdit = () => {
 
   const fetchCustomer = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/customers/${id}`).then((res) => {
-      setCustomerData({
-        firstname: res.data.firstname,
-        lastname: res.data.lastname,
-        email: res.data.email,
-        phone: res.data.phone,
-        address: res.data.address,
-        citizenship_number: res.data.citizenship_number,
+    await axiosInstance
+      .get(`http://localhost:8000/api/customers/${id}`)
+      .then((res) => {
+        setCustomerData({
+          firstname: res.data.firstname,
+          lastname: res.data.lastname,
+          email: res.data.email,
+          phone: res.data.phone,
+          address: res.data.address,
+          citizenship_number: res.data.citizenship_number,
+        });
       });
-    });
     setLoading(false);
     console.log(customerData);
   };

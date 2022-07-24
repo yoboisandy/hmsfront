@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 const FoodOrderIndex = () => {
   const [foodOrders, setFoodOrders] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -13,7 +13,7 @@ const FoodOrderIndex = () => {
 
   const fetchOrders = async () => {
     setLoading(true);
-    await axios
+    await axiosInstance
       .get("http://localhost:8000/api/orders")
       .then((res) => {
         setFoodOrders(res.data);
@@ -29,7 +29,7 @@ const FoodOrderIndex = () => {
   // };
 
   const updateStatus = async (id, status) => {
-    await axios
+    await axiosInstance
       .put(`http://localhost:8000/api/changeorderstatus/${id}`, {
         status: status,
       })
@@ -60,7 +60,7 @@ const FoodOrderIndex = () => {
   //     });
 
   //     if (isConfirmed) {
-  //       await axios
+  //       await axiosInstance
   //         .delete(`http://localhost:8000/api/foodOrders/${id}`, {
   //           headers: {
   //             Authorization: "Bearer " + token,

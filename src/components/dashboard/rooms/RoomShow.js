@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -13,9 +13,11 @@ const RoomShow = () => {
 
   const fetchRoom = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/rooms/${id}`).then((res) => {
-      setRoomData(res.data);
-    });
+    await axiosInstance
+      .get(`http://localhost:8000/api/rooms/${id}`)
+      .then((res) => {
+        setRoomData(res.data);
+      });
     setLoading(false);
     console.log(roomData);
   };

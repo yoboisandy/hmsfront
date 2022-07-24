@@ -1,4 +1,4 @@
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FullLoadingContext from "../../../contexts/FullLoadingContext";
@@ -9,7 +9,7 @@ const OTPVerification = () => {
   const navigate = useNavigate();
   const submitOTP = async (e) => {
     e.preventDefault();
-    await axios
+    await axiosInstance
       .post(`http://localhost:8000/api/token`, {
         token,
         user_id: sessionStorage.getItem("forgotpassword_userid"),

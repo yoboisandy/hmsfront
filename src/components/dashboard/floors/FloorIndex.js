@@ -1,4 +1,4 @@
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import { useState, useEffect } from "react";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -11,7 +11,7 @@ const FloorIndex = () => {
 
   const getFloors = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/floors`).then((res) => {
+    await axiosInstance.get(`http://localhost:8000/api/floors`).then((res) => {
       setFloors(res.data);
       console.log(floors);
     });
@@ -32,7 +32,7 @@ const FloorIndex = () => {
     });
 
     if (isConfirmed) {
-      await axios
+      await axiosInstance
         .delete(`http://localhost:8000/api/floors/${id}`)
         .then((res) => {
           Swal.fire({

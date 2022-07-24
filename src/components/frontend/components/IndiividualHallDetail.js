@@ -1,4 +1,4 @@
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -34,7 +34,7 @@ const IndividualHallDetail = ({
     setValidationErr({});
     setAvailability(false);
     setNotAvailableMsg("");
-    await axios
+    await axiosInstance
       .post(`http://localhost:8000/api/hallavailability`, {
         ...checkAvailabilityData,
         hall_id: id,
@@ -60,7 +60,7 @@ const IndividualHallDetail = ({
     } else if (user.role && user.role !== "Customer") {
       navigate("/");
     } else {
-      await axios
+      await axiosInstance
         .post(`http://localhost:8000/api/book-hall`, {
           ...checkAvailabilityData,
           hall_id: id,

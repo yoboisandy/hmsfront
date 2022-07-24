@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 
 const ShiftCreate = () => {
   const [validationErr, setValidationErr] = useState({});
@@ -23,7 +23,7 @@ const ShiftCreate = () => {
     const fd = new FormData();
     fd.append("name", shiftData.name);
 
-    await axios
+    await axiosInstance
       .post("http://localhost:8000/api/shifts", fd)
       .then((res) => {
         Swal.fire({
