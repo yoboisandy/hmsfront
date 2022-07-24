@@ -24,6 +24,9 @@ const Login = () => {
     e.preventDefault();
     setFullLoading(true);
     setError("");
+    if (loginDetails.password == "" || loginDetails.email == "") {
+      setError("All fields are required");
+    }
     axios
       .post("http://localhost:8000/api/login", loginDetails)
       .then((res) => {
@@ -38,7 +41,9 @@ const Login = () => {
       })
       .catch((err) => {
         console.log(err);
-        setError(err.response.data.message);
+        if (loginDetails.password !== "" || loginDetails.email !== "") {
+          setError(err.response.data.message);
+        }
         console.log(err.response.data.message);
       });
     canOrderFood();

@@ -139,12 +139,12 @@ const HallIndex = () => {
                           >
                             <i className=" fas fa-edit"> </i>
                           </Link>
-                          <span
+                          {/* <span
                             onClick={() => handleDelete(hall.id)}
                             className="btn-sm bg-danger mr-1"
                           >
                             <i className="fas fa-trash-alt"> </i>
-                          </span>
+                          </span> */}
                         </td>
                       </tr>
                     );

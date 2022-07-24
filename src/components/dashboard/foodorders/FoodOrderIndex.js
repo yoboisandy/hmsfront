@@ -108,14 +108,6 @@ const FoodOrderIndex = () => {
           <div className="card">
             <div className="card-header">
               <div className="card-title text-lg">Food Orders</div>
-              <div className="card-tools">
-                <Link
-                  to="/dashboard/foodOrders/create"
-                  className="btn-sm bg-indigo"
-                >
-                  <i className="fas fa-plus-circle mr-1"></i> Add New
-                </Link>
-              </div>
             </div>
             <div className="card-body p-0" style={{ overflowX: "auto" }}>
               <table className="table table-hover table-bordered">
