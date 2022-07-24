@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import Swal from "sweetalert2";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
@@ -22,7 +22,7 @@ const DepartmentEdit = () => {
   };
 
   const getRoles = async () => {
-    await axios.get("http://localhost:8000/api/roles").then((res) => {
+    await axiosInstance.get("http://localhost:8000/api/roles").then((res) => {
       setRoles(res.data);
     });
   };
@@ -55,7 +55,7 @@ const DepartmentEdit = () => {
       }
     });
     console.log(values);
-    await axios
+    await axiosInstance
       .put(`http://localhost:8000/api/departments/${id}`, {
         ...departmentData,
         roles: values,
@@ -78,7 +78,7 @@ const DepartmentEdit = () => {
 
   const fetchDepartment = async () => {
     setLoading(true);
-    await axios
+    await axiosInstance
       .get(`http://localhost:8000/api/departments/${id}`)
       .then((res) => {
         setDepartmentData({

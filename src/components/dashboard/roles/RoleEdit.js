@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import Swal from "sweetalert2";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
@@ -22,7 +22,7 @@ const RoleEdit = () => {
   const updateRole = async (e) => {
     e.preventDefault();
     setBtnLoading(true);
-    await axios
+    await axiosInstance
       .put(`http://localhost:8000/api/roles/${id}`, roleData)
       .then((res) => {
         Swal.fire({
@@ -42,11 +42,13 @@ const RoleEdit = () => {
 
   const fetchRole = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/roles/${id}`).then((res) => {
-      setRoleData({
-        name: res.data.name,
+    await axiosInstance
+      .get(`http://localhost:8000/api/roles/${id}`)
+      .then((res) => {
+        setRoleData({
+          name: res.data.name,
+        });
       });
-    });
     setLoading(false);
     console.log(roleData);
   };

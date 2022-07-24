@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import Select from "react-select";
 
 const HallCreate = () => {
@@ -29,7 +29,7 @@ const HallCreate = () => {
   };
 
   const getFloors = async () => {
-    await axios.get("http://localhost:8000/api/floors").then((res) => {
+    await axiosInstance.get("http://localhost:8000/api/floors").then((res) => {
       setFloors(res.data);
     });
   };
@@ -38,9 +38,11 @@ const HallCreate = () => {
   };
 
   const getAmenities = async () => {
-    await axios.get("http://localhost:8000/api/amenities").then((res) => {
-      setAmenities(res.data);
-    });
+    await axiosInstance
+      .get("http://localhost:8000/api/amenities")
+      .then((res) => {
+        setAmenities(res.data);
+      });
   };
 
   const handleRoleChange = (e, act) => {
@@ -76,7 +78,7 @@ const HallCreate = () => {
     values.forEach((item) => {
       fd.append("amenities[]", item);
     });
-    await axios
+    await axiosInstance
       .post("http://localhost:8000/api/halls", fd)
       .then((res) => {
         Swal.fire({

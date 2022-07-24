@@ -1,4 +1,4 @@
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,7 +9,7 @@ const ForgetPassword = () => {
 
   const sendOTP = async (e) => {
     e.preventDefault();
-    await axios
+    await axiosInstance
       .post(`http://localhost:8000/api/forgotpassword`, {
         email,
       })

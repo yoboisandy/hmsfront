@@ -1,4 +1,4 @@
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -26,7 +26,7 @@ const Register = () => {
 
   const saveCustomer = async (e) => {
     e.preventDefault();
-    await axios
+    await axiosInstance
       .post(`http://localhost:8000/api/register`, {
         firstname: customerData.firstname,
         lastname: customerData.lastname,
@@ -51,7 +51,7 @@ const Register = () => {
   useEffect(() => {
     setFullLoading(true);
     if (localStorage.getItem("token")) {
-      axios
+      axiosInstance
         .get("http://localhost:8000/api/user", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

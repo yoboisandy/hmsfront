@@ -1,4 +1,4 @@
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -10,7 +10,7 @@ const FoodIndex = () => {
 
   const fetchFoods = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/foods`).then((res) => {
+    await axiosInstance.get(`http://localhost:8000/api/foods`).then((res) => {
       setFoods(res.data);
     });
     setLoading(false);
@@ -30,7 +30,7 @@ const FoodIndex = () => {
     });
 
     if (isConfirmed) {
-      await axios
+      await axiosInstance
         .delete(`http://localhost:8000/api/foods/${id}`)
         .then((res) => {
           Swal.fire({
@@ -56,7 +56,7 @@ const FoodIndex = () => {
   };
 
   const changeAvailabilty = async (id, status) => {
-    await axios
+    await axiosInstance
       .put(`http://localhost:8000/api/changeavailability/${id}`, {
         status: status,
       })

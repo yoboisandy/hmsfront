@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import Select from "react-select";
 
 const AmenitiesCreate = () => {
@@ -27,7 +27,7 @@ const AmenitiesCreate = () => {
     fd.append("name", name);
     fd.append("icon", icon);
 
-    await axios
+    await axiosInstance
       .post("http://localhost:8000/api/amenities", fd)
       .then((res) => {
         Swal.fire({

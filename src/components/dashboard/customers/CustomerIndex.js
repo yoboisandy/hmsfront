@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 const CustomerIndex = () => {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -10,7 +10,7 @@ const CustomerIndex = () => {
 
   const fetchCustomers = async () => {
     setLoading(true);
-    await axios
+    await axiosInstance
       .get("http://localhost:8000/api/customers")
       .then((res) => {
         setCustomers(res.data);
@@ -40,7 +40,7 @@ const CustomerIndex = () => {
     });
 
     if (isConfirmed) {
-      await axios
+      await axiosInstance
         .delete(`http://localhost:8000/api/customers/${id}`)
         .then((res) => {
           Swal.fire({

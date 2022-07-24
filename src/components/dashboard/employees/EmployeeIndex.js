@@ -1,4 +1,4 @@
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import React from "react";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -11,9 +11,11 @@ const EmployeeIndex = () => {
 
   const fetchEmployees = async () => {
     setLoading(true);
-    await axios.get("http://localhost:8000/api/employees").then((res) => {
-      setEmployees(res.data);
-    });
+    await axiosInstance
+      .get("http://localhost:8000/api/employees")
+      .then((res) => {
+        setEmployees(res.data);
+      });
     setLoading(false);
   };
 
@@ -31,7 +33,7 @@ const EmployeeIndex = () => {
     });
 
     if (isConfirmed) {
-      await axios
+      await axiosInstance
         .delete(`http://localhost:8000/api/employees/${id}`)
         .then((res) => {
           Swal.fire({

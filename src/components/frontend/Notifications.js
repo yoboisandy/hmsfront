@@ -1,4 +1,4 @@
-import axios from "../../helpers/instance";
+import axiosInstance from "../../helpers/instance";
 import React, { useContext, useEffect, useState } from "react";
 import NotificationCheck from "../../contexts/NotificationCheck";
 import NotificationCard from "./components/NotificationCard";
@@ -11,7 +11,7 @@ const Notifications = () => {
 
   const fetchNotifications = async () => {
     setLoading(true);
-    await axios
+    await axiosInstance
       .get(`http://localhost:8000/api/notifications`)
       .then((res) => {
         setNotifications(res.data);
@@ -23,7 +23,7 @@ const Notifications = () => {
   };
 
   const markAllAsRead = async () => {
-    await axios
+    await axiosInstance
       .get(`http://localhost:8000/api/notifications/markallasread`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,

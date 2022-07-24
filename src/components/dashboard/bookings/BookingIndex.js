@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 const BookingIndex = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -13,7 +13,7 @@ const BookingIndex = () => {
 
   const fetchBookings = async () => {
     setLoading(true);
-    await axios
+    await axiosInstance
       .get("http://localhost:8000/api/viewbookings")
       .then((res) => {
         setBookings(res.data);
@@ -37,7 +37,7 @@ const BookingIndex = () => {
       });
       fetchBookings();
     } else {
-      await axios
+      await axiosInstance
         .put(`http://localhost:8000/api/changestatus/${id}`, {
           status: status,
         })
@@ -69,7 +69,7 @@ const BookingIndex = () => {
     });
 
     if (isConfirmed) {
-      await axios
+      await axiosInstance
         .delete(`http://localhost:8000/api/bookings/${id}`)
         .then((res) => {
           Swal.fire({

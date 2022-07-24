@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 const RoomIndex = () => {
   const [roomTypes, setRoomsTypes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -11,7 +11,7 @@ const RoomIndex = () => {
 
   const fetchRoomTypes = async () => {
     setLoading(true);
-    await axios
+    await axiosInstance
       .get("http://localhost:8000/api/viewroomtypes")
       .then((res) => {
         setRoomsTypes(res.data);
@@ -41,7 +41,7 @@ const RoomIndex = () => {
     });
 
     if (isConfirmed) {
-      await axios
+      await axiosInstance
         .delete(`http://localhost:8000/api/roomtypes/${id}`)
         .then((res) => {
           Swal.fire({

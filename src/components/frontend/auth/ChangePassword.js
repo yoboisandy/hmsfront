@@ -1,4 +1,4 @@
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import React, { useContext, useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -13,7 +13,7 @@ const ChangePassword = () => {
   const navigate = useNavigate();
   const changePassword = async (e) => {
     e.preventDefault();
-    await axios
+    await axiosInstance
       .put(
         `http://localhost:8000/api/updatepassword/${sessionStorage.getItem(
           "forgotpassword_userid"
@@ -37,7 +37,7 @@ const ChangePassword = () => {
   };
 
   const deleteToken = async () => {
-    await axios.post(
+    await axiosInstance.post(
       `http://localhost:8000/api/deletetoken/${sessionStorage.getItem(
         "forgotpassword_userid"
       )}`

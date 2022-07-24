@@ -1,6 +1,6 @@
 import React from "react";
 
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -18,7 +18,7 @@ const FloorCreate = () => {
   const saveFloor = async (e) => {
     e.preventDefault();
     setBtnLoading(true);
-    await axios
+    await axiosInstance
       .post(`http://localhost:8000/api/floors`, floorData)
       .then((res) => {
         Swal.fire({

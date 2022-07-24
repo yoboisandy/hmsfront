@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import Select from "react-select";
 
 const DepartmentCreate = () => {
@@ -22,13 +22,15 @@ const DepartmentCreate = () => {
   };
 
   const getRoomtypes = async () => {
-    await axios.get(`http://localhost:8000/api/roomtypes`).then((res) => {
-      setRoomTypes(res.data);
-    });
+    await axiosInstance
+      .get(`http://localhost:8000/api/roomtypes`)
+      .then((res) => {
+        setRoomTypes(res.data);
+      });
   };
 
   const getRooms = async () => {
-    await axios
+    await axiosInstance
       .get(`http://localhost:8000/api/roomtypes/${bookingData.roomtype_id}`)
       .then((res) => {
         setRooms(res.data.rooms);
@@ -39,7 +41,7 @@ const DepartmentCreate = () => {
   const saveBooking = async (e) => {
     e.preventDefault();
     setLoading(true);
-    await axios
+    await axiosInstance
       .post("http://localhost:8000/api/bookings")
       .then((res) => {
         Swal.fire({

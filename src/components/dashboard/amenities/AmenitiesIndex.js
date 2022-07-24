@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 const AmenitiesIndex = () => {
   const [amenities, setAmenities] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -11,7 +11,7 @@ const AmenitiesIndex = () => {
 
   const fetchAmenities = async () => {
     setLoading(true);
-    await axios
+    await axiosInstance
       .get("http://localhost:8000/api/amenities")
       .then((res) => {
         setAmenities(res.data);
@@ -41,7 +41,7 @@ const AmenitiesIndex = () => {
     });
 
     if (isConfirmed) {
-      await axios
+      await axiosInstance
         .delete(`http://localhost:8000/api/amenities/${id}`)
         .then((res) => {
           Swal.fire({

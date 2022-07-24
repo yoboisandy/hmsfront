@@ -1,4 +1,4 @@
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -35,7 +35,7 @@ const IndividualRoomDetail = ({
     setValidationErr({});
     setAvailability(false);
     setNotAvailableMsg("");
-    await axios
+    await axiosInstance
       .post(`http://localhost:8000/api/viewavailable`, {
         ...checkAvailabilityData,
         roomtype_id: id,
@@ -62,7 +62,7 @@ const IndividualRoomDetail = ({
     } else if (user.role && user.role !== "Customer") {
       navigate("/");
     } else {
-      await axios
+      await axiosInstance
         .post(
           `http://localhost:8000/api/book-room`,
           {

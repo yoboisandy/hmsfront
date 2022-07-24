@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 
 const EmployeeCreate = () => {
   const [validationErr, setValidationErr] = useState({});
@@ -37,23 +37,25 @@ const EmployeeCreate = () => {
   };
 
   const getDepartments = async () => {
-    await axios.get("http://localhost:8000/api/departments").then((res) => {
-      setDepartments(res.data);
-    });
+    await axiosInstance
+      .get("http://localhost:8000/api/departments")
+      .then((res) => {
+        setDepartments(res.data);
+      });
   };
   const getShifts = async () => {
-    await axios.get("http://localhost:8000/api/shifts").then((res) => {
+    await axiosInstance.get("http://localhost:8000/api/shifts").then((res) => {
       setShifts(res.data);
     });
   };
   const getRoles = async () => {
-    await axios.get("http://localhost:8000/api/roles").then((res) => {
+    await axiosInstance.get("http://localhost:8000/api/roles").then((res) => {
       setRoles(res.data);
     });
   };
 
   const loadRolesFromDepartment = () => {
-    axios
+    axiosInstance
       .get(
         `http://localhost:8000/api/departments/${employeeData.department_id}`
       )
@@ -99,7 +101,7 @@ const EmployeeCreate = () => {
     fd.append("salary", employeeData.salary);
     fd.append("joining_date", employeeData.joining_date);
     fd.append("image", image);
-    await axios
+    await axiosInstance
       .post("http://localhost:8000/api/employees", fd)
       .then((res) => {
         Swal.fire({

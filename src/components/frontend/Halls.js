@@ -1,4 +1,4 @@
-import axios from "../../helpers/instance";
+import axiosInstance from "../../helpers/instance";
 import React, { useEffect, useState } from "react";
 import HallCard from "./components/HallCard";
 import RoomCard from "./components/RoomCard";
@@ -16,10 +16,12 @@ const Halls = () => {
 
   const fetchHallType = async () => {
     setLoading(true);
-    await axios.get(`http://localhost:8000/api/viewhalls`).then((res) => {
-      setHalls(res.data);
-      console.log(halls);
-    });
+    await axiosInstance
+      .get(`http://localhost:8000/api/viewhalls`)
+      .then((res) => {
+        setHalls(res.data);
+        console.log(halls);
+      });
     setLoading(false);
   };
   useEffect(() => {

@@ -1,4 +1,4 @@
-import axios from "../../../helpers/instance";
+import axiosInstance from "../../../helpers/instance";
 import React, { useContext, useEffect, useState } from "react";
 import { button, Link, useNavigate } from "react-router-dom";
 import CanOrderFood from "../../../contexts/CanOrderFood";
@@ -24,7 +24,7 @@ const Layout = ({ children }) => {
   }
   // const fetchRoomType = async () => {
   //   setFullLoading(true);
-  //   await axios.get(`http://localhost:8000/api/viewroomtypes`).then((res) => {
+  //   await axiosInstance.get(`http://localhost:8000/api/viewroomtypes`).then((res) => {
   //     setRoomTypes(res.data);
   //   });
   //   setFullLoading(false);
