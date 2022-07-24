@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "axios";
+import axios from "../../../helpers/instance";
 
 const ShiftCreate = () => {
   const [validationErr, setValidationErr] = useState({});
@@ -24,11 +24,7 @@ const ShiftCreate = () => {
     fd.append("name", shiftData.name);
 
     await axios
-      .post("http://localhost:8000/api/shifts", fd, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .post("http://localhost:8000/api/shifts", fd)
       .then((res) => {
         Swal.fire({
           position: "center",

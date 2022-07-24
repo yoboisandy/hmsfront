@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -11,15 +11,9 @@ const ShiftShow = () => {
 
   const fetchShift = async () => {
     setLoading(true);
-    await axios
-      .get(`http://localhost:8000/api/shifts/${id}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setShiftData(res.data);
-      });
+    await axios.get(`http://localhost:8000/api/shifts/${id}`).then((res) => {
+      setShiftData(res.data);
+    });
     setLoading(false);
     console.log(shiftData);
   };

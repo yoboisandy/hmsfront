@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../helpers/instance";
 import React, { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import UserContext from "../../contexts/UserContext";
@@ -14,11 +14,7 @@ const MyOrders = () => {
   const fetchBooking = async () => {
     setLoading(true);
     await axios
-      .get(`http://localhost:8000/api/myorders`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
+      .get(`http://localhost:8000/api/myorders`)
       .then((res) => {
         setOrders(res.data);
       })
@@ -30,17 +26,9 @@ const MyOrders = () => {
 
   const updateStatus = async (id, status) => {
     await axios
-      .put(
-        `http://localhost:8000/api/changestatus/${id}`,
-        {
-          status: status,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      )
+      .put(`http://localhost:8000/api/changestatus/${id}`, {
+        status: status,
+      })
       .then((res) => {
         Swal.fire({
           icon: "success",

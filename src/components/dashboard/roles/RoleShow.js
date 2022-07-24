@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -11,15 +11,9 @@ const RoleShow = () => {
 
   const fetchRole = async () => {
     setLoading(true);
-    await axios
-      .get(`http://localhost:8000/api/roles/${id}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setRoleData(res.data);
-      });
+    await axios.get(`http://localhost:8000/api/roles/${id}`).then((res) => {
+      setRoleData(res.data);
+    });
     setLoading(false);
     console.log(roleData);
   };

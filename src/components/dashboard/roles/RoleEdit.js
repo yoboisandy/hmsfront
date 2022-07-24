@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import Swal from "sweetalert2";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
@@ -23,11 +23,7 @@ const RoleEdit = () => {
     e.preventDefault();
     setBtnLoading(true);
     await axios
-      .put(`http://localhost:8000/api/roles/${id}`, roleData, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .put(`http://localhost:8000/api/roles/${id}`, roleData)
       .then((res) => {
         Swal.fire({
           position: "center",
@@ -46,17 +42,11 @@ const RoleEdit = () => {
 
   const fetchRole = async () => {
     setLoading(true);
-    await axios
-      .get(`http://localhost:8000/api/roles/${id}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setRoleData({
-          name: res.data.name,
-        });
+    await axios.get(`http://localhost:8000/api/roles/${id}`).then((res) => {
+      setRoleData({
+        name: res.data.name,
       });
+    });
     setLoading(false);
     console.log(roleData);
   };

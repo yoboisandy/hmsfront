@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-import axios from "axios";
+import axios from "../../../helpers/instance";
 const BookingIndex = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -14,11 +14,7 @@ const BookingIndex = () => {
   const fetchBookings = async () => {
     setLoading(true);
     await axios
-      .get("http://localhost:8000/api/viewbookings", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .get("http://localhost:8000/api/viewbookings")
       .then((res) => {
         setBookings(res.data);
       })
@@ -42,17 +38,9 @@ const BookingIndex = () => {
       fetchBookings();
     } else {
       await axios
-        .put(
-          `http://localhost:8000/api/changestatus/${id}`,
-          {
-            status: status,
-          },
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-            },
-          }
-        )
+        .put(`http://localhost:8000/api/changestatus/${id}`, {
+          status: status,
+        })
         .then((res) => {
           Swal.fire({
             icon: "success",
@@ -82,11 +70,7 @@ const BookingIndex = () => {
 
     if (isConfirmed) {
       await axios
-        .delete(`http://localhost:8000/api/bookings/${id}`, {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        })
+        .delete(`http://localhost:8000/api/bookings/${id}`)
         .then((res) => {
           Swal.fire({
             icon: "success",

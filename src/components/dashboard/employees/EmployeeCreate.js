@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "axios";
+import axios from "../../../helpers/instance";
 
 const EmployeeCreate = () => {
   const [validationErr, setValidationErr] = useState({});
@@ -37,48 +37,25 @@ const EmployeeCreate = () => {
   };
 
   const getDepartments = async () => {
-    await axios
-      .get("http://localhost:8000/api/departments", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setDepartments(res.data);
-      });
+    await axios.get("http://localhost:8000/api/departments").then((res) => {
+      setDepartments(res.data);
+    });
   };
   const getShifts = async () => {
-    await axios
-      .get("http://localhost:8000/api/shifts", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setShifts(res.data);
-      });
+    await axios.get("http://localhost:8000/api/shifts").then((res) => {
+      setShifts(res.data);
+    });
   };
   const getRoles = async () => {
-    await axios
-      .get("http://localhost:8000/api/roles", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setRoles(res.data);
-      });
+    await axios.get("http://localhost:8000/api/roles").then((res) => {
+      setRoles(res.data);
+    });
   };
 
   const loadRolesFromDepartment = () => {
     axios
       .get(
-        `http://localhost:8000/api/departments/${employeeData.department_id}`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
+        `http://localhost:8000/api/departments/${employeeData.department_id}`
       )
       .then((res) => {
         setRoles(res.data.roles);
@@ -123,11 +100,7 @@ const EmployeeCreate = () => {
     fd.append("joining_date", employeeData.joining_date);
     fd.append("image", image);
     await axios
-      .post("http://localhost:8000/api/employees", fd, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .post("http://localhost:8000/api/employees", fd)
       .then((res) => {
         Swal.fire({
           position: "center",

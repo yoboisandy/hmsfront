@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import Swal from "sweetalert2";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
@@ -20,15 +20,9 @@ const FloorEdit = () => {
 
   const getFloor = async () => {
     setLoading(true);
-    await axios
-      .get(`http://localhost:8000/api/floors/${id}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setfloorData(res.data);
-      });
+    await axios.get(`http://localhost:8000/api/floors/${id}`).then((res) => {
+      setfloorData(res.data);
+    });
     setLoading(false);
   };
 
@@ -38,11 +32,7 @@ const FloorEdit = () => {
     e.preventDefault();
     setBtnLoading(true);
     await axios
-      .put(`http://localhost:8000/api/floors/${id}`, floorData, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .put(`http://localhost:8000/api/floors/${id}`, floorData)
       .then((res) => {
         Swal.fire({
           position: "center",

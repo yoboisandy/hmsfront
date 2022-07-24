@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import { React, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
@@ -10,16 +10,10 @@ const RoomTypeShow = () => {
 
   const fetchRoOmType = async () => {
     setLoading(true);
-    await axios
-      .get(`http://localhost:8000/api/roomtypes/${id}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setRoomType(res.data);
-        console.log(roomType);
-      });
+    await axios.get(`http://localhost:8000/api/roomtypes/${id}`).then((res) => {
+      setRoomType(res.data);
+      console.log(roomType);
+    });
     setLoading(false);
   };
 

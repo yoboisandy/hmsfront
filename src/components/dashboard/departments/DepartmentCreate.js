@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import Select from "react-select";
 
 const DepartmentCreate = () => {
@@ -23,15 +23,9 @@ const DepartmentCreate = () => {
   };
 
   const getRoles = async () => {
-    await axios
-      .get("http://localhost:8000/api/roles", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setRoles(res.data);
-      });
+    await axios.get("http://localhost:8000/api/roles").then((res) => {
+      setRoles(res.data);
+    });
   };
   const rolesOptions = [];
   roles.map((role) => {
@@ -63,11 +57,6 @@ const DepartmentCreate = () => {
         {
           name: departmentData.name,
           roles: values,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
         }
       )
       .then((res) => {

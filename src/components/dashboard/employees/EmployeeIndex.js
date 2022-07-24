@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import React from "react";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -11,15 +11,9 @@ const EmployeeIndex = () => {
 
   const fetchEmployees = async () => {
     setLoading(true);
-    await axios
-      .get("http://localhost:8000/api/employees", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setEmployees(res.data);
-      });
+    await axios.get("http://localhost:8000/api/employees").then((res) => {
+      setEmployees(res.data);
+    });
     setLoading(false);
   };
 
@@ -38,11 +32,7 @@ const EmployeeIndex = () => {
 
     if (isConfirmed) {
       await axios
-        .delete(`http://localhost:8000/api/employees/${id}`, {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        })
+        .delete(`http://localhost:8000/api/employees/${id}`)
         .then((res) => {
           Swal.fire({
             icon: "success",

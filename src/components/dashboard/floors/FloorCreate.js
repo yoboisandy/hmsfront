@@ -1,6 +1,6 @@
 import React from "react";
 
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -19,15 +19,7 @@ const FloorCreate = () => {
     e.preventDefault();
     setBtnLoading(true);
     await axios
-      .post(
-        `http://localhost:8000/api/floors`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        },
-        floorData
-      )
+      .post(`http://localhost:8000/api/floors`, floorData)
       .then((res) => {
         Swal.fire({
           position: "center",

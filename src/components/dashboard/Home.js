@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../helpers/instance";
 import {
   ResponsiveContainer,
   LineChart,
@@ -31,20 +31,12 @@ const Dashboard = () => {
   const allTimeReport = async () => {
     setloading(true);
     await axios
-      .get(`http://localhost:8000/api/alltimeroomreport`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .get(`http://localhost:8000/api/alltimeroomreport`)
       .then((res) => {
         setAllTimeRoomReport(res.data);
       });
     await axios
-      .get(`http://localhost:8000/api/alltimehallreport`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .get(`http://localhost:8000/api/alltimehallreport`)
       .then((res) => {
         setAllTimeHallReport(res.data);
       });
@@ -53,20 +45,12 @@ const Dashboard = () => {
   const weekReport = async () => {
     setloading(true);
     await axios
-      .get(`http://localhost:8000/api/thisweekroomreport`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .get(`http://localhost:8000/api/thisweekroomreport`)
       .then((res) => {
         setThisWeekRoomReport(res.data);
       });
     await axios
-      .get(`http://localhost:8000/api/thisweekhallreport`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .get(`http://localhost:8000/api/thisweekhallreport`)
       .then((res) => {
         setThisWeekHallReport(res.data);
       });
@@ -75,15 +59,9 @@ const Dashboard = () => {
 
   const count = async () => {
     setloading(true);
-    await axios
-      .get(`http://localhost:8000/api/count`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setCounts(res.data);
-      });
+    await axios.get(`http://localhost:8000/api/count`).then((res) => {
+      setCounts(res.data);
+    });
     setloading(false);
   };
 

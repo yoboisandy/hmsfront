@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import React, { useContext, useEffect, useState } from "react";
 import { button, Link, useNavigate } from "react-router-dom";
 import CanOrderFood from "../../../contexts/CanOrderFood";

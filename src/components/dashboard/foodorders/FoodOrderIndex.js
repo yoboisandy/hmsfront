@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-import axios from "axios";
+import axios from "../../../helpers/instance";
 const FoodOrderIndex = () => {
   const [foodOrders, setFoodOrders] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -14,11 +14,7 @@ const FoodOrderIndex = () => {
   const fetchOrders = async () => {
     setLoading(true);
     await axios
-      .get("http://localhost:8000/api/orders", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .get("http://localhost:8000/api/orders")
       .then((res) => {
         setFoodOrders(res.data);
       })
@@ -34,17 +30,9 @@ const FoodOrderIndex = () => {
 
   const updateStatus = async (id, status) => {
     await axios
-      .put(
-        `http://localhost:8000/api/changeorderstatus/${id}`,
-        {
-          status: status,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      )
+      .put(`http://localhost:8000/api/changeorderstatus/${id}`, {
+        status: status,
+      })
       .then((res) => {
         Swal.fire({
           icon: "success",

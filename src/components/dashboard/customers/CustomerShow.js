@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import { useState, useEffect } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import canView from "../permissions";
@@ -12,15 +12,9 @@ const CustomerShow = () => {
 
   const fetchCustomer = async () => {
     setLoading(true);
-    await axios
-      .get(`http://localhost:8000/api/customers/${id}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setCustomerData(res.data);
-      });
+    await axios.get(`http://localhost:8000/api/customers/${id}`).then((res) => {
+      setCustomerData(res.data);
+    });
     setLoading(false);
     console.log(customerData);
   };

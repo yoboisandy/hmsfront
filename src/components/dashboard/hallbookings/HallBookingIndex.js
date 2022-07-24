@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-import axios from "axios";
+import axios from "../../../helpers/instance";
 const HallBookingIndex = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -14,11 +14,7 @@ const HallBookingIndex = () => {
   const fetchBookings = async () => {
     setLoading(true);
     await axios
-      .get("http://localhost:8000/api/hallbooks", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .get("http://localhost:8000/api/hallbooks")
       .then((res) => {
         setBookings(res.data);
       })
@@ -34,18 +30,10 @@ const HallBookingIndex = () => {
 
   const updateStatus = async (id, status, hall_id) => {
     await axios
-      .post(
-        `http://localhost:8000/api/changehallbookstatus/${id}`,
-        {
-          status: status,
-          _method: "PUT",
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      )
+      .post(`http://localhost:8000/api/changehallbookstatus/${id}`, {
+        status: status,
+        _method: "PUT",
+      })
       .then((res) => {
         Swal.fire({
           icon: "success",

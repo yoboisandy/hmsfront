@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import Select from "react-select";
 
 const FoodEdit = () => {
@@ -28,15 +28,9 @@ const FoodEdit = () => {
   const fetchFoodData = async () => {
     setLoading(true);
 
-    await axios
-      .get(`http://localhost:8000/api/foods/${id}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        setFoodData(res.data);
-      });
+    await axios.get(`http://localhost:8000/api/foods/${id}`).then((res) => {
+      setFoodData(res.data);
+    });
     setLoading(false);
   };
 
@@ -51,11 +45,7 @@ const FoodEdit = () => {
     fd.append("_method", "PUT");
     // console.log(fd.get("image"));
     await axios
-      .post(`http://localhost:8000/api/foods/${id}`, fd, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .post(`http://localhost:8000/api/foods/${id}`, fd)
       .then((res) => {
         Swal.fire({
           position: "center",

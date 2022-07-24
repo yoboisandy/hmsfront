@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-import axios from "axios";
+import axios from "../../../helpers/instance";
 const HallIndex = () => {
   const [halls, setHalls] = useState([]);
   const [loading, setLoading] = useState([]);
@@ -12,11 +12,7 @@ const HallIndex = () => {
   const fetchHalls = async () => {
     setLoading(true);
     await axios
-      .get("http://localhost:8000/api/halls", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .get("http://localhost:8000/api/halls")
       .then((res) => {
         setHalls(res.data);
         console.log(res.data);
@@ -46,11 +42,7 @@ const HallIndex = () => {
 
     if (isConfirmed) {
       await axios
-        .delete(`http://localhost:8000/api/halls/${id}`, {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        })
+        .delete(`http://localhost:8000/api/halls/${id}`)
         .then((res) => {
           Swal.fire({
             icon: "success",

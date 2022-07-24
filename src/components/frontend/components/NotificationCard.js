@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../../helpers/instance";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -13,11 +13,7 @@ const NotificationCard = ({
 
   const markAsRead = async (id) => {
     await axios
-      .get(`http://localhost:8000/api/notifications/markasread/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
+      .get(`http://localhost:8000/api/notifications/markasread/${id}`)
       .then((res) => {
         fetchNotifications();
       });
